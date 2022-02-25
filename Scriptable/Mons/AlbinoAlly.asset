@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defc1bdbe08d42246aa22d7f15688ef0, type: 3}
+  m_Name: AlbinoAlly
+  m_EditorClassIdentifier: 
+  currentHealth: 200
+  currentStamina: 0
+  attackBuff: 11.390625
+  defenseBuff: 1
+  speedBuff: 1
+  monADN: {fileID: 11400000, guid: 266e4ce5369dca9418a695780c476b8b, type: 2}
+  experiencePoints: 2615
+  level: 34
+  nickname: 
+  type: 2
+  maxHealth: 20
+  maxStamina: 20
+  SpeedCurrent: 39
+  AttackCurrent: 50
+  DefenseCurrent: 35
+  allSkills:
+  - {fileID: 11400000, guid: f23d80e3547944f498e44de239dd2f72, type: 2}
+  - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}
+  - {fileID: 11400000, guid: 75c386759129fc249a66e7f349336ac1, type: 2}
+  - {fileID: 11400000, guid: 90f65cdab85b9864cb843fb5c428581b, type: 2}

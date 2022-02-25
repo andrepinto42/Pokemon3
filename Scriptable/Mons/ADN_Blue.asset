@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4063ff3b0c51db54fbd402ba25ec003a, type: 3}
+  m_Name: ADN_Blue
+  m_EditorClassIdentifier: 
+  baseMaxHealth: 10
+  baseMaxStamina: 10
+  experienceBase: 100
+  nameMon: Draconis
+  Attack: 10
+  Defense: 10
+  Speed: 5
+  monGameObjectTransform: {fileID: -8975111618266202766, guid: c652503c52630c74291593bcfa02e6bd, type: 3}
+  allSkills:
+  - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e963bea38ac4342aea0f7de7c07e84, type: 3}
+  m_Name: Water Claw
+  m_EditorClassIdentifier: 
+  nameSkill: Hydro Claw
+  stamina: 10
+  description: Swipes with a mighty strength
+  type: 1
+  soundEffect: {fileID: 8300000, guid: 9d98e9a214524a743b5f8eac4973f6b2, type: 3}
+  damage: 25
