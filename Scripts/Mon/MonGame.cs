@@ -13,7 +13,8 @@ public class MonGame : ScriptableObject{
     public int experiencePoints = 0;
     public int level = 1;
     public string nickname;
-    public MonTypes.Type type;
+    //Primeira evolucao contem sempre o tipo secundario void, apenas na segunda evolucao o pokemon recebe novos tipos
+    public MonTypes.Type typeSecondary = MonTypes.Type.VOID;
     [Header("Stats")]
     public float maxHealth;
     public float maxStamina;
@@ -34,5 +35,11 @@ public class MonGame : ScriptableObject{
     }
     public int GetBaseExperience(){
         return monADN.experienceBase;
+    }
+
+    public MonTypes.Type[] GetTypeMon()
+    {
+
+        return new MonTypes.Type[]{typeSecondary,monADN.typeMain};
     }
 }

@@ -20,7 +20,7 @@ public class MonCalculateDamage{
         //Numero random [lowerboundRandom,upperboundRandom]
         float random  = (float) (new System.Random().NextDouble() * (upperBoundRandom - lowerBoundRandom) + lowerBoundRandom);
         
-        float advantage = MonTypes.GetAdvantage(skillDamage.type,enemy.type);
+        float advantage = MonTypes.GetAdvantage(skillDamage.type,enemy.GetTypeMon());
         
         return (int) ( damageBase * random * advantage);
     }

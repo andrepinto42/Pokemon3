@@ -5,9 +5,12 @@ using UnityEngine;
 public class SkillHandlerDamage : ISkillHandler 
 {
     static Dictionary<float,string> mapEffective = new Dictionary<float,string>(){
-        {0.5f,"It's not very effective..."},
-        {1f,"It's ok"},
-        {2f,"It's sooo effective !"}
+        {0f,"It looks like the mon is immune..."},
+        {0.25f,"It's barelly scratches..."},
+        {0.5f,"It's not very effective."},
+        {1f,"It's nice"},
+        {2f,"It's sooo effective !"},
+        {4f,"It's incredibly overwhelming !!!"}
     };
     static float damageStored;
     static MonManager enemyStored;
@@ -19,7 +22,7 @@ public class SkillHandlerDamage : ISkillHandler
         
         float damage =MonCalculateDamage.CalculateDamage(skillDamage,ally.MonMain,enemy.MonMain);
 
-        float advantage = MonTypes.GetAdvantage(skillDamage.type,enemy.MonMain.type);
+        float advantage = MonTypes.GetAdvantage(skillDamage.type,enemy.MonMain.GetTypeMon());
 
         
         float healthAfterDamage = enemy.GetCurrentHealthAfterDamage(damage);
@@ -45,6 +48,7 @@ public class SkillHandlerDamage : ISkillHandler
         //Play the audio before the frame Event is activated
         BattleAudioManager.Singleton.PlayAudio(soundEffectStored);
 
+        //TODO find better audio effects for 4x 0.25x and 0x
         //Play audio effect
         if (advantageStored > 1)
         BattleAudioManager.Singleton.PlayAudio(BattleAudioManager.Singleton.superEffectiveHit);

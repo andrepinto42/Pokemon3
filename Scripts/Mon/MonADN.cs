@@ -10,7 +10,7 @@ public class MonADN : ScriptableObject{
     public float Speed = 5f;
     public MonMeshManager monGameObjectTransform;
     
-
+    public MonTypes.Type typeMain ;
     public Skill[] allSkills = new Skill[4];
     
 }

@@ -19,7 +19,10 @@ public class HandleSkillButton
         {MonTypes.Type.LIGHTNING,new Color32(255,252,68,255)},
         {MonTypes.Type.FIRE,new Color32(255,0,0,255)},
         {MonTypes.Type.ICE,new Color32(161, 249, 255,255)},
-        {MonTypes.Type.WATER,new Color32(96,96,255,255)}
+        {MonTypes.Type.WATER,new Color32(96,96,255,255)},
+        {MonTypes.Type.COSMIC,new Color32(138,43,226,255)},//Purple
+        {MonTypes.Type.VOID,new Color32(255,255,255,255)},//White
+        {MonTypes.Type.DEMON,new Color32(191,72,21,255)}//Orange
 
         };
 
@@ -36,6 +39,10 @@ public class HandleSkillButton
         
         for (int i = 0; i < numChilds; i++)
         {
+            //Skill doesnt Exist
+            if (skills[i] == null)
+                continue;
+            
             //Set name Skill Text
             var text =allSkillsTransform[i].GetChild(positionChildHabilityText).GetComponent<TMP_Text>();
             text.SetText(skills[i].nameSkill);
@@ -48,6 +55,10 @@ public class HandleSkillButton
         //Set stamina Text
         for (int i = 0; i < numChilds; i++)
         {
+            //Skill doesnt Exist
+            if (skills[i] == null)
+                continue;
+            
             var text = allSkillsTransform[i].GetChild(positionChildStaminaText).GetComponent<TMP_Text>();
             int value = (int) skills[i].stamina;
 
