@@ -13,7 +13,9 @@ public class SkillHandlerDamage : ISkillHandler
         {4f,"It's incredibly overwhelming !!!"}
     };
     static float damageStored;
+    static BuffStatus[] statusStored;
     static MonManager enemyStored;
+    static MonManager allyStored;
     static float advantageStored;
     static AudioClip soundEffectStored; 
     public bool HandleSkill(Skill skill, MonManager ally, MonManager enemy){
@@ -26,10 +28,12 @@ public class SkillHandlerDamage : ISkillHandler
 
         
         float healthAfterDamage = enemy.GetCurrentHealthAfterDamage(damage);
-       
+
+        statusStored = skillDamage.buffStatus;
         advantageStored = advantage;
         damageStored = damage;
         enemyStored = enemy;
+        allyStored = ally;
         soundEffectStored = skill.soundEffect;
         
         //Return if the mon will be killed after taking damage
@@ -68,9 +72,19 @@ public class SkillHandlerDamage : ISkillHandler
         await Task.WhenAll(arr);
         GameVisualEffectsHandler.Singleton.StopEmittingDamageParticle();
         
+        //If there is status effects trigger then after dealing damage
+        if (statusStored != null)
+            for (int i = 0; i < statusStored.Length; i++)
+            {
+                string messageBuffSucess = SkillHandlerStatusBuff.HandleBuff(allyStored,enemyStored,statusStored[i]);
+                await TextDialogManager.Singleton.PushText(messageBuffSucess,500);
+            }
+        
         //Reset the static variables
+        statusStored = null;
         soundEffectStored = null;
         enemyStored = null;
+        allyStored = null;
         advantageStored = 0f;
         damageStored = 0f;
 

@@ -9,6 +9,7 @@ public class MonADN : ScriptableObject{
     public float Defense=20f;
     public float Speed = 5f;
     public MonMeshManager monGameObjectTransform;
+    public Genetic genetic;
     
     public MonTypes.Type typeMain ;
     public Skill[] allSkills = new Skill[4];

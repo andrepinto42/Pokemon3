@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseMaxHealth: 10
   baseMaxStamina: 10
+  experienceBase: 100
   nameMon: Idiota
   Attack: 30
   Defense: 20
   Speed: 5
   monGameObjectTransform: {fileID: 7838043035485035906, guid: 289c67f7860ad9b42aff0db8f4abd633, type: 3}
+  typeMain: 5
   allSkills:
   - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}
   - {fileID: 0}

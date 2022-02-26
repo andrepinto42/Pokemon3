@@ -17,6 +17,7 @@ MonoBehaviour:
   description: 
   type: 4
   soundEffect: {fileID: 8300000, guid: 7db265a67ef717048ab8d34dc1e8c016, type: 3}
-  increase: 0.75
-  ally: 0
-  effect: 1
+  buffStatus:
+    increase: 0.75
+    ally: 0
+    effect: 1

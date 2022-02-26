@@ -28,14 +28,14 @@ public class GameVisualEffectsHandler : MonoBehaviour
     }
 
 
-    public void AllyStartSpinning(SkillBuff skill,MonManager mon)
+    public void AllyStartSpinning(BuffStatus buffStatus,MonManager mon)
     {
-        StartSpinning(allyParticles,skill.effect,skill.ally,skill.increase,mon.transform.position);
+        StartSpinning(allyParticles,buffStatus.effect,buffStatus.ally,buffStatus.increase,mon.transform.position);
     }
 
-     public void EnemyStartSpinning(SkillBuff skill,MonManager mon)
+     public void EnemyStartSpinning(BuffStatus buffStatus,MonManager mon)
     {
-        StartSpinning(enemyParticles,skill.effect,skill.ally,skill.increase,mon.transform.position);
+        StartSpinning(enemyParticles,buffStatus.effect,buffStatus.ally,buffStatus.increase,mon.transform.position);
     }
 
     private async void StartSpinning(ParticleSystem particles,SkillBuff.Stat stat,bool isAlly,float increase,Vector3 startPosition)
