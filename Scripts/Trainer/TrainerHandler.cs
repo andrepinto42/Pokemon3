@@ -22,6 +22,7 @@ public class TrainerHandler
     {
         mon.currentHealth = mon.maxHealth;
         mon.currentStamina = mon.maxStamina;
+        mon.currentStance = mon.maxStance;
         mon.attackBuff = 1f;
         mon.defenseBuff = 1f;
         mon.speedBuff = 1f;

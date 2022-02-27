@@ -20,6 +20,7 @@ MonoBehaviour:
   Defense: 20
   Speed: 5
   monGameObjectTransform: {fileID: 7618382738367378917, guid: 68c0300163571f44e9c339ab3f3c06d5, type: 3}
+  genetic: {fileID: 11400000, guid: c66e7fd53a0ee3440a076c13e52568d7, type: 2}
   typeMain: 5
   allSkills:
   - {fileID: 11400000, guid: 75c386759129fc249a66e7f349336ac1, type: 2}

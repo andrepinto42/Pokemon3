@@ -7,6 +7,8 @@ public class MonGame : ScriptableObject{
     [HideInInspector]public float attackBuff = 1f;
     [HideInInspector]public float defenseBuff = 1f;
     [HideInInspector]public float speedBuff =1f;
+    public float currentStance;
+
 
     [Header("Atributes")]
     public MonADN monADN;
@@ -18,10 +20,11 @@ public class MonGame : ScriptableObject{
     [Header("Stats")]
     public float maxHealth;
     public float maxStamina;
-    public float SpeedCurrent;
-    
+    public float maxStance=5f;
+    public float SpeedCurrent = 10f;
     public float AttackCurrent=30f;
     public float DefenseCurrent=20f;
+
 
     [SerializeField]private Skill[] allSkills = new Skill[4];
      public string GetNameMon(){
@@ -41,5 +44,9 @@ public class MonGame : ScriptableObject{
     {
 
         return new MonTypes.Type[]{typeSecondary,monADN.typeMain};
+    }
+    public Genetic GetMonGenetic()
+    {
+        return monADN.genetic;
     }
 }

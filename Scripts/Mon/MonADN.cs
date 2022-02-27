@@ -5,9 +5,10 @@ public class MonADN : ScriptableObject{
     public float baseMaxStamina;
     public int experienceBase = 100;
     public string nameMon;
-    public float Attack=30f;
-    public float Defense=20f;
-    public float Speed = 5f;
+    public float baseAttack=30f;
+    public float baseDefense=20f;
+    public float baseSpeed = 5f;
+    public float baseStance = 5f;
     public MonMeshManager monGameObjectTransform;
     public Genetic genetic;
     

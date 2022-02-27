@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AlbinoAlly
   m_EditorClassIdentifier: 
   currentHealth: 20
-  currentStamina: 10
+  currentStamina: 20
   attackBuff: 1
   defenseBuff: 1
   speedBuff: 1
@@ -21,7 +21,7 @@ MonoBehaviour:
   experiencePoints: 2615
   level: 34
   nickname: 
-  type: 2
+  typeSecondary: 6
   maxHealth: 20
   maxStamina: 20
   SpeedCurrent: 39
@@ -30,5 +30,5 @@ MonoBehaviour:
   allSkills:
   - {fileID: 11400000, guid: 1fc349222d0268445b5d3d7f6fe21fcb, type: 2}
   - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}
-  - {fileID: 11400000, guid: 6e91d7211fc85ec4ab9d19132df6821a, type: 2}
-  - {fileID: 11400000, guid: 3cd58274a4543a5429f31ae12a4ef3ee, type: 2}
+  - {fileID: 11400000, guid: 90f65cdab85b9864cb843fb5c428581b, type: 2}
+  - {fileID: 11400000, guid: 9da22406dda98af4a9bdbfd5c2e6886e, type: 2}
