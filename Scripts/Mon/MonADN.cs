@@ -3,6 +3,7 @@ using UnityEngine;
 public class MonADN : ScriptableObject{
     public float baseMaxHealth;
     public float baseMaxStamina;
+    [Tooltip("Experience value between 50 and 150.")]
     public int experienceBase = 100;
     public string nameMon;
     public float baseAttack=30f;
@@ -13,6 +14,10 @@ public class MonADN : ScriptableObject{
     public Genetic genetic;
     
     public MonTypes.Type typeMain ;
+    public float attackGrow = 2f;
+    public float defenseGrow = 1f;
+    public float speedGrow = 1f;
+    public float healthGrow = 1f;
     public Skill[] allSkills = new Skill[4];
     
 }

@@ -17,7 +17,7 @@ public class ExperienceManager
 
         //https://bulbapedia.bulbagarden.net/wiki/Experience
         //BaseXP 110 yields the same base XP as Charizard
-        double xpGainedFromVictim =  (baseVictim * 2.42) * levelVictim / ( 5f * 1);
+        double xpGainedFromVictim =  ConvertBaseExperience(baseVictim) * levelVictim / ( 5f * 1);
         double xpGainedFromKiller = Math.Pow((2 * levelVictim + 10) / (levelVictim + levelKiller + 10f),2.5f);
         
       
@@ -53,5 +53,13 @@ public class ExperienceManager
     public static int GetTotalExperience(MonGame mon,int currentLevel)
     {
         return GetTotalExperience(mon.GetBaseExperience(),currentLevel);
+    }
+
+    // Para baseExperience = 50 -> 39
+    // Para baseExperience = 150 -> 315
+    // Descreve uma curva exponencial
+    public static float ConvertBaseExperience(float baseExperience)
+    {
+        return  0.0184f * Mathf.Pow(baseExperience,2) - 0.92f * baseExperience + 39f;
     }
 }
