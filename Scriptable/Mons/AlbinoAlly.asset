@@ -17,6 +17,7 @@ MonoBehaviour:
   attackBuff: 1
   defenseBuff: 1
   speedBuff: 1
+  currentStance: 50
   monADN: {fileID: 11400000, guid: 266e4ce5369dca9418a695780c476b8b, type: 2}
   experiencePoints: 2615
   level: 34
@@ -24,6 +25,7 @@ MonoBehaviour:
   typeSecondary: 6
   maxHealth: 20
   maxStamina: 20
+  maxStance: 50
   SpeedCurrent: 39
   AttackCurrent: 50
   DefenseCurrent: 35

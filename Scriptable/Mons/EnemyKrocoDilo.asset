@@ -12,18 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: defc1bdbe08d42246aa22d7f15688ef0, type: 3}
   m_Name: EnemyKrocoDilo
   m_EditorClassIdentifier: 
-  currentHealth: -73
+  currentHealth: 200
   currentStamina: 25
-  attackBuff: 17.085938
+  attackBuff: 1
   defenseBuff: 1
   speedBuff: 1
+  currentStance: 25
   monADN: {fileID: 11400000, guid: 4590b895e56842948ac54ec1bab3c007, type: 2}
   experiencePoints: 397
   level: 10
   nickname: 
-  type: 2
+  typeSecondary: 6
   maxHealth: 200
   maxStamina: 25
+  maxStance: 25
   SpeedCurrent: 9
   AttackCurrent: 20
   DefenseCurrent: 26
