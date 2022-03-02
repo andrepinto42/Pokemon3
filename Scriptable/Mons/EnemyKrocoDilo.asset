@@ -23,7 +23,7 @@ MonoBehaviour:
   level: 10
   nickname: 
   typeSecondary: 6
-  maxHealth: 200
+  maxHealth: 50
   maxStamina: 25
   maxStance: 25
   SpeedCurrent: 9

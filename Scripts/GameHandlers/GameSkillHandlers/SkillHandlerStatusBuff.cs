@@ -25,11 +25,6 @@ public class SkillHandlerStatusBuff
         switch(buffStatus.effect)
         {
             case SkillBuff.Stat.ATTACK:
-                
-                //If the genetic of the mon doesnt allow for the ATK to be lowered
-                if (buffStatus.increase < 1f && changingMon.MonMain.GetMonGenetic().name == "Fierce" )
-                    return "Attack can't be lowered because of Fierce Genetic !";
-                
                 changingMon.ChangeBaseDamage(buffStatus.increase);
                 return MessageToDisplay(changingMon,"attack",buffStatus.increase);
     

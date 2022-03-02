@@ -53,6 +53,8 @@ public class ButtonFlash
             i = (increase) ? (byte) (i+1) : (byte) (i -1);
             byte nc = (byte) ( MIN_VALUE_COLOR + i);
             
+            if (button == null)
+                return;
             var colors =button.colors;
             colors.highlightedColor = new Color32(nc,nc,nc,255);
             button.colors = colors;

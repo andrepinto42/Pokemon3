@@ -60,6 +60,6 @@ public class ExperienceManager
     // Descreve uma curva exponencial
     public static float ConvertBaseExperience(float baseExperience)
     {
-        return  0.0184f * Mathf.Pow(baseExperience,2) - 0.92f * baseExperience + 39f;
+        return   0.0184f * (float) Math.Pow(baseExperience,2) - 0.92f * baseExperience + 39f;
     }
 }

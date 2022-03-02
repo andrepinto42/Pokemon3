@@ -23,7 +23,7 @@ MonoBehaviour:
   level: 34
   nickname: 
   typeSecondary: 6
-  maxHealth: 20
+  maxHealth: 100
   maxStamina: 20
   maxStance: 50
   SpeedCurrent: 39
@@ -33,4 +33,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1fc349222d0268445b5d3d7f6fe21fcb, type: 2}
   - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}
   - {fileID: 11400000, guid: 90f65cdab85b9864cb843fb5c428581b, type: 2}
-  - {fileID: 11400000, guid: 9da22406dda98af4a9bdbfd5c2e6886e, type: 2}
+  - {fileID: 11400000, guid: 75c386759129fc249a66e7f349336ac1, type: 2}

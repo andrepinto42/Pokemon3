@@ -67,27 +67,35 @@ public class MonManager : MonoBehaviour
         //If doenst have enought Stance then just apply the normal debuff
         if (MonMain.currentStance <= 2f)
             return buff;
-        
-        float newbuff;
-        if (buff< 1f)
-        {
-            //with a buff of 0.75 it transform it into 0.875 if the stance is 50
-            float buffMitigation = (1f-buff) * MonMain.currentStance * 0.01f;
-            newbuff = buff + buffMitigation;
-        }
-        else
-        {
-            newbuff = buff * (1f+ MonMain.currentStance * 0.01f);
-        }
+
+        float newbuff = CalculateNewBuff(buff);
         //Halve the current Stance if the debuff is < 1;
         // -Log(0,75f,2f) = 0.4150 
         // Log(1,5f,2f) = 0.58496250072116
 
-        MonMain.currentStance /= ( Mathf.Abs( Mathf.Log( Mathf.Abs(1f-buff) ,2f) ) + 1f);
+        MonMain.currentStance /= (Mathf.Abs(Mathf.Log(Mathf.Abs(1f - buff), 2f)) + 1f);
 
-        Debug.Log("Current Stance " +MonMain.currentStance + " and the new debuf" + newbuff + " old:" + buff);
+        Debug.Log("Current Stance " + MonMain.currentStance + " and the new debuf" + newbuff + " old:" + buff);
         return newbuff;
     }
+
+    public float CalculateNewBuff(float buff)
+    {
+        float newbuff;
+        if (buff < 1f)
+        {
+            //with a buff of 0.75 it transform it into 0.875 if the stance is 50
+            float buffMitigation = (1f - buff) * MonMain.currentStance * 0.01f;
+            newbuff = buff + buffMitigation;
+        }
+        else
+        {
+            newbuff = buff * (1f + MonMain.currentStance * 0.01f);
+        }
+
+        return newbuff;
+    }
+
     public void ChangeBaseDamage(float buff)
     {   
         MonMain.attackBuff *= ApplyStanceModifier(buff);
