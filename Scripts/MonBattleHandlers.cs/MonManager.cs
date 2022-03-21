@@ -95,19 +95,28 @@ public class MonManager : MonoBehaviour
 
         return newbuff;
     }
+    public delegate void DelegateStatusChange(string value);
 
+    public  DelegateStatusChange delegateDamageChange;
     public void ChangeBaseDamage(float buff)
     {   
         MonMain.attackBuff *= ApplyStanceModifier(buff);
+        delegateDamageChange?.Invoke(MonMain.attackBuff.ToString());
     }
 
+    public  DelegateStatusChange delegateSpeedChange;
     public void ChangeBaseSpeed(float speedbuff)
     {
         MonMain.speedBuff *= ApplyStanceModifier(speedbuff);
+        delegateSpeedChange?.Invoke(MonMain.attackBuff.ToString());
     }
+
+    public  DelegateStatusChange delegateDefenseChange;
     public void ChangeBaseDefense(float defenseBuff)
     {
         MonMain.defenseBuff *= ApplyStanceModifier(defenseBuff);
+        delegateDefenseChange?.Invoke(MonMain.attackBuff.ToString());
+
     }
 
     public float GetCurrentSpeed()
