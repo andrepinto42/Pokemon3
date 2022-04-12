@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: defc1bdbe08d42246aa22d7f15688ef0, type: 3}
+  m_Name: FoxxyAlly
+  m_EditorClassIdentifier: 
+  currentHealth: 77
+  currentStamina: 25
+  attackBuff: 1
+  defenseBuff: 1
+  speedBuff: 1
+  currentStance: 0
+  monADN: {fileID: 11400000, guid: 4624adb7b1802004ab3812c2bdadf5c8, type: 2}
+  experiencePoints: 0
+  level: 40
+  nickname: 
+  typeSecondary: 6
+  maxHealth: 100
+  maxStamina: 20
+  maxStance: 5
+  SpeedCurrent: 1
+  AttackCurrent: 30
+  DefenseCurrent: 20
+  allSkills:
+  - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}
+  - {fileID: 11400000, guid: f23d80e3547944f498e44de239dd2f72, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}

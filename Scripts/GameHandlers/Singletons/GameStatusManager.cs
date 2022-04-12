@@ -14,6 +14,7 @@ public class GameStatusManager : MonoBehaviour
 	public GameObject allOptionsButtons;
 	public GameObject allSkills;
 	public GameObject PopUpMonButton;
+	public GameObject PopUpSwitchInMenu;
 	[SerializeField] TextDialogManager textDialogManager;
 	GameTurnChangeMon gameTurnChangeMon;
 	public static GameStatusManager Singleton;
@@ -23,10 +24,12 @@ public class GameStatusManager : MonoBehaviour
 			Singleton = this;
 
 		gameTurnChangeMon = GetComponent<GameTurnChangeMon>();
-
+		//Load the mons to the display
+		
 		allOptionsButtons.SetActive(false);
 		allSkills.SetActive(false);
 		PopUpMonButton.SetActive(false);
+		PopUpSwitchInMenu.SetActive(false);
 
 		TrainerHandler.ResetMonTrainer(enemyTrainer);
 		HandleSkillButton.Initialize(allSkills,ally.MonMain);
@@ -49,7 +52,7 @@ public class GameStatusManager : MonoBehaviour
 		allSkills.SetActive(false);
    }
 
-	 //MOST IMPORTANT FUNCTION
+	//MOST IMPORTANT FUNCTION
    public async void OnSkillButtonClicked(int i)
 	{
 		allSkills.SetActive(false);
@@ -105,6 +108,6 @@ public class GameStatusManager : MonoBehaviour
 		}
 		else
 			hasNextMon = gameTurnChangeMon.HandleNextAllyMon(ally,allyTrainer);
-
     }
+
 }

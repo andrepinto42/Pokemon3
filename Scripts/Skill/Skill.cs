@@ -9,4 +9,7 @@ public abstract class Skill : ScriptableObject{
     public String description;
     public MonTypes.Type type;
     public AudioClip soundEffect;
+
+    public abstract bool HandleSkill(Skill skill, MonManager ally, MonManager enemy);
+    public abstract void HandleAnimation(HandleAnimations handleAnimation);
 }

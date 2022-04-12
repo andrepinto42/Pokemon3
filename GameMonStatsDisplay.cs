@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -31,35 +29,52 @@ public class GameMonStatsDisplay : MonoBehaviour
         
         // Initialize the value of the text of display of the Mon status
         var mon = ally.MonMain;
-        HandleChange(mon.AttackCurrent.ToString(),_textAttack);
-        HandleChange(mon.DefenseCurrent.ToString(),_textDefense);
-        HandleChange(mon.SpeedCurrent.ToString(),_textSpeed);
-        HandleChange(mon.maxStance.ToString(),_textStance);
-        HandleChange(mon.currentHealth.ToString(),_textHealth);
-        HandleChange(mon.currentStamina.ToString(),_textStamina);
+        UpdateVisualMon(mon);
 
+        // Setup the delegates Functions
+        ally.delegateDamageChange = (string value) =>ChangeTextIncreaseDisplay(storedAttack,value,_textAttack,_textIncreaseAttack);
+        ally.delegateDefenseChange = (string value) =>ChangeTextIncreaseDisplay(storedDefense,value,_textDefense,_textIncreaseDefense);
+        ally.delegateSpeedChange = (string value) =>ChangeTextIncreaseDisplay(storedSpeed,value,_textSpeed,_textIncreaseSpeed);
+    }
+
+    void ChangeTextIncreaseDisplay(float previousValue,string newValue,TMP_Text textoMain,TMP_Text increaseText)
+    {
+        float increase = float.Parse(newValue);
+
+        // Round the number 
+        float value = Mathf.Round(increase * previousValue );
+        
+        // Round the number up to 2 decimal places
+        increase = Mathf.Round(increase * 100f) / 100f;
+        
+        //x0.125
+        increaseText.gameObject.SetActive(true);
+        increaseText.SetText("x"+increase);
+
+        textoMain.SetText( value.ToString());
+    }
+    void ChangeTextDisplay(string newValue,TMP_Text texto)
+    {
+        texto.SetText(newValue);
+    }
+
+    public void UpdateVisualMon(MonGame mon){
+        ChangeTextDisplay(mon.AttackCurrent.ToString(),_textAttack);
+        ChangeTextDisplay(mon.DefenseCurrent.ToString(),_textDefense);
+        ChangeTextDisplay(mon.SpeedCurrent.ToString(),_textSpeed);
+        ChangeTextDisplay(mon.maxStance.ToString(),_textStance);
+        ChangeTextDisplay(mon.currentHealth.ToString(),_textHealth);
+        ChangeTextDisplay(mon.currentStamina.ToString(),_textStamina);
+        
+        //Disable the text of increasing Status
+        _textIncreaseAttack.gameObject.SetActive(false);
+        _textIncreaseDefense.gameObject.SetActive(false);
+        _textIncreaseSpeed.gameObject.SetActive(false);
+
+        //Store it locally the initial values of the mon Stats
         storedAttack = mon.AttackCurrent;
         storedDefense = mon.DefenseCurrent;
         storedSpeed = mon.SpeedCurrent;
-
-        // Setup the delegates Functions
-        ally.delegateDamageChange = (string value) =>HandleChange(storedAttack,value,_textAttack,_textIncreaseAttack);
-        ally.delegateDefenseChange = (string value) =>HandleChange(storedDefense,value,_textDefense,_textIncreaseDefense);
-        ally.delegateSpeedChange = (string value) =>HandleChange(storedSpeed,value,_textSpeed,_textIncreaseSpeed);
-    }
-
-    void HandleChange(float previousValue,string newValue,TMP_Text textoMain,TMP_Text increaseText)
-    {
-        // Round the number up to 2 decimal places 
-        float value = Mathf.Round(float.Parse(newValue) * previousValue * 100f) / 100f;
-        
-        //x0.125
-        increaseText.SetText("x"+newValue);
-        textoMain.SetText( value.ToString());
-    }
-    void HandleChange(string newValue,TMP_Text texto)
-    {
-        texto.SetText(newValue);
     }
 
 }

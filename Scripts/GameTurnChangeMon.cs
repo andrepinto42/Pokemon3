@@ -16,9 +16,8 @@ public class GameTurnChangeMon : MonoBehaviour
         MonGame nextMon = allValidMons[0];
 
         enemy.KillGameObject();
-        enemy.MonMain = nextMon;
         TrainerHandler.RestartStatsMon(nextMon);
-        enemy.InitializeMeshMon();
+        enemy.InitializeMeshMon(nextMon);
         GameHUDStatusManager.Singleton.ToggleDisplay(false);
 
         await TextDialogManager.Singleton.PushText(enemyTrainer.nameTrainer + " sent "

@@ -14,15 +14,16 @@ public class MonManager : MonoBehaviour
     {
         TrainerHandler.RestartStatsMon(MonMain);
 
-        InitializeMeshMon();
+        InitializeMeshMon(MonMain);
     }
 
-    public void InitializeMeshMon()
+    public void InitializeMeshMon(MonGame currentMon)
     {
+        MonMain = currentMon;
+     
         //Dont do this
-        //monMeshManager = MonMain.GetMonMeshManager();
-
-        var monGameObject = Instantiate(MonMain.GetMonMeshManager().gameObject,this.transform.position,
+        //monMeshManager = currentMon.GetMonMeshManager();   
+        var monGameObject = Instantiate(currentMon.GetMonMeshManager().gameObject,this.transform.position,
         Quaternion.Euler(0,rotationY,0),this.transform);
 
         //Store the value of Handle animations and MonMeshManager in other scripts
@@ -30,13 +31,19 @@ public class MonManager : MonoBehaviour
         this.monMeshManager = monGameObject.GetComponent<MonMeshManager>();
 
         //Update the HUD of the Mon
-        string nameMon =MonMain.GetNameMon();
+        string nameMon =currentMon.GetNameMon();
         monMeshManager.textNameMon.SetText(nameMon);
         
-        monMeshManager.levelText.SetText(MonMain.level.ToString());
+        monMeshManager.levelText.SetText(currentMon.level.ToString());
          
-        monMeshManager.UpdateHealth(MonMain.currentHealth,MonMain.maxHealth);
-        monMeshManager.UpdateStamina(MonMain.currentStamina,MonMain.maxStamina);
+        monMeshManager.UpdateHealth(currentMon.currentHealth,currentMon.maxHealth);
+        monMeshManager.UpdateStamina(currentMon.currentStamina,currentMon.maxStamina);
+    }
+
+    public void SwapMon(MonGame mon)
+    {
+        KillGameObject();
+        InitializeMeshMon(mon);
     }
     
     public void TakeDamage(float damage)
