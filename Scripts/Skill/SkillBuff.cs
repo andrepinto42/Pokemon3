@@ -29,21 +29,26 @@ public class SkillBuff : Skill{
     {
         handleAnimation.ChangeAnimationState(handleAnimation.MON_BOOST);
     }
-    public static string messageBuffSucess;
+    [HideInInspector]public  string messageBuffSucess;
     public override bool HandleSkill(Skill skill, MonManager ally, MonManager enemy){
         //Play the audio when the skill is loaded
         BattleAudioManager.Singleton.PlayAudio(skill.soundEffect);
 
+        //Store the value in the MonManagerForNow
+
         SkillBuff buffskill = (SkillBuff) skill;
         BuffStatus buffStatus = buffskill.buffStatus;
-    
+
+        //Store it Temporarly for later when the attack is over the message will be displayed to the player
         messageBuffSucess = SkillHandlerStatusBuff.HandleBuff(ally,enemy,buffStatus);
+        
         return false;
     }
 
-    internal async static Task DealBuffAnimationTrigger()
+    public async override Task ApplyAnimationTrigger()
     {
         await TextDialogManager.Singleton.PushText(messageBuffSucess,500);
         messageBuffSucess = null;
     }    
+
 }

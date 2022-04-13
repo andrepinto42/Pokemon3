@@ -7,6 +7,8 @@ using System.Threading;
 public class HandleAnimations : MonoBehaviour
 {
    Animation animationMain;
+    public Transform HeadTransform;
+   
    [SerializeField]public  AnimationClip clipAttack;
    [SerializeField]public AnimationClip clipIdle;
    [SerializeField]public AnimationClip clipGettingHit;
@@ -43,6 +45,12 @@ public class HandleAnimations : MonoBehaviour
         
         animationMain.Play(state);
         currentState = state;
+   }
+
+   void LateUpdate()
+   {
+       if (HeadTransform)
+            HeadTransform.RotateAround(this.transform.position,Vector3.up,1f);
    }
 
 }

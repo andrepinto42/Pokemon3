@@ -6,6 +6,9 @@ public class GameSkillManager
 {    
     internal static bool HandleSkill(Skill skill, MonManager ally, MonManager enemy,HandleAnimations allyAnimation)
     { 
+        //Store the value in the MonManagerForNow
+        ally.lastSkillUsed = skill;
+
         bool killed = skill.HandleSkill(skill,ally,enemy);
 
         skill.HandleAnimation(allyAnimation);

@@ -1,7 +1,5 @@
-using System;
-using System.Threading;
-using UnityEditor;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class TurnMechanicMon : MonoBehaviour
 {
@@ -34,13 +32,25 @@ public class TurnMechanicMon : MonoBehaviour
         clip.AddEvent(myEvent);
     }
 
+    public delegate Task onAttackAnimationOver();
+    public event onAttackAnimationOver eventOnAttackAnimationOver;
     //Function called from the animation attack
     async void  AttackOver(string type)
    {
-        if (type == "damage")
-            await SkillHandlerDamage.DealDamageAnimationTrigger();
-        if (type == "boost")
-            await SkillHandlerBuff.DealBuffAnimationTrigger();
+        //Get the last skill used by the player and triggers its effect
+        /*
+            Maybe the parent doesnt have a MonManager ?
+            Normally just displays some text 
+            In case of damage this is here the damage effects particles are activated
+        */
+        Skill skill = GetComponentInParent<MonManager>().lastSkillUsed;
+            await skill.ApplyAnimationTrigger();
+
+        //Might need to be recommented in the future
+        // if (type == "damage")
+        //     await SkillHandlerDamage.DealDamageAnimationTrigger();
+        // else if (type == "boost")
+        //     await SkillHandlerBuff.DealBuffAnimationTrigger();
         IncrementTurnStage();
    }
 

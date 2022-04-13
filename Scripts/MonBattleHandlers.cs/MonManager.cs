@@ -8,6 +8,7 @@ public class MonManager : MonoBehaviour
 {
     [SerializeField]public MonGame MonMain;
     public float rotationY = 0f;
+    [HideInInspector]public Skill lastSkillUsed = null;
     HandleAnimations handleAnimations;
     MonMeshManager monMeshManager;
     void Start()

@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,4 +12,5 @@ public abstract class Skill : ScriptableObject{
 
     public abstract bool HandleSkill(Skill skill, MonManager ally, MonManager enemy);
     public abstract void HandleAnimation(HandleAnimations handleAnimation);
+    public  abstract  Task ApplyAnimationTrigger();
 }

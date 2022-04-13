@@ -36,7 +36,6 @@ public class SkillDamage : Skill{
         handleAnimation.ChangeAnimationState(handleAnimation.MON_ATTACK);
     }
     public override bool HandleSkill(Skill skill, MonManager ally, MonManager enemy){
-      
         SkillDamage skillDamage = (SkillDamage) skill;
         
         float damage =MonCalculateDamage.CalculateDamage(skillDamage,ally.MonMain,enemy.MonMain);
@@ -59,7 +58,7 @@ public class SkillDamage : Skill{
 
 
     //Called when the attack animation is over
-    public static async Task DealDamageAnimationTrigger()
+    public override async Task ApplyAnimationTrigger()
     {
         
         //Play the audio before the frame Event is activated
