@@ -39,9 +39,12 @@ public class HandleSkillButton
         
         for (int i = 0; i < numChilds; i++)
         {
-            //Skill doesnt Exist
+            //Skill doesnt Exist then set the button to invisible
             if (skills[i] == null)
+            {
+                allSkillsTransform[i].gameObject.SetActive(false);
                 continue;
+            }
             
             //Set name Skill Text
             var text =allSkillsTransform[i].GetChild(positionChildHabilityText).GetComponent<TMP_Text>();

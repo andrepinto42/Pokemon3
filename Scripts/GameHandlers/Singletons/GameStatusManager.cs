@@ -66,22 +66,8 @@ public class GameStatusManager : MonoBehaviour
 			return;
 		}
 
-		//TODO
-		Skill skillEnemy = SkillBotManager.FindBestSkill(enemy.MonMain,ally.MonMain,
-		enemy.MonMain.GetSkills(),SkillBotManager.DIFFICULTY.AWARE);
-		
-		
-		GameTurnHandler turnHandler;
-		if (ally.GetCurrentSpeed() >= enemy.GetCurrentSpeed())
-		   turnHandler = new GameTurnHandler(ally,enemy,skillAlly,skillEnemy);
-		else
-		   turnHandler = new GameTurnHandler(enemy,ally,skillEnemy,skillAlly);
-		  
-
-		turnHandler.StartFirstMonMove();
-
-		//Register the event turnOver so it can be called from turnHandler
-		TurnMechanicMon.onTurnOver += turnHandler.HandleOnTurnOver;
+		//Transfer the controll here because this function will be reused
+		SendPlayerSkill_Beginning(skillAlly);
 	}
 
 	private async Task<bool> CheckValidSkill(Skill skill)
@@ -109,5 +95,32 @@ public class GameStatusManager : MonoBehaviour
 		else
 			hasNextMon = gameTurnChangeMon.HandleNextAllyMon(ally,allyTrainer);
     }
+	
+	public GameTurnHandler SendPlayerSkill_Beginning(Skill skillAlly){
+		//TODO Add the possibilty that the enemy can swap out pokemon
+		Skill skillEnemy = SkillBotManager.FindBestSkill(enemy.MonMain,ally.MonMain,
+		enemy.MonMain.GetSkills(),SkillBotManager.DIFFICULTY.AWARE);
+		
+		GameTurnHandler turnHandler;
+		
+		//Checks for Swaps
+		if (skillAlly is SkillSwapMon)
+			turnHandler = new GameTurnHandler(ally,enemy,skillAlly,skillEnemy);
+		else if(skillEnemy is SkillSwapMon)
+			turnHandler = new GameTurnHandler(enemy,ally,skillEnemy,skillAlly);
+		
+		//Normal behaviour, faster pokemon starts the combat fight
+		else if (ally.GetCurrentSpeed() >= enemy.GetCurrentSpeed())
+			turnHandler = new GameTurnHandler(ally,enemy,skillAlly,skillEnemy);
+		else
+			turnHandler = new GameTurnHandler(enemy,ally,skillEnemy,skillAlly);
+		  
+
+		turnHandler.StartFirstMonMove();
+
+		//Register the event turnOver so it can be called from turnHandler
+		TurnMechanicMon.onTurnOver += turnHandler.HandleOnTurnOver;
+		return turnHandler;
+	}
 
 }

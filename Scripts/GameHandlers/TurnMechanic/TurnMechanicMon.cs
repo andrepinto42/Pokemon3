@@ -46,11 +46,6 @@ public class TurnMechanicMon : MonoBehaviour
         Skill skill = GetComponentInParent<MonManager>().lastSkillUsed;
             await skill.ApplyAnimationTrigger();
 
-        //Might need to be recommented in the future
-        // if (type == "damage")
-        //     await SkillHandlerDamage.DealDamageAnimationTrigger();
-        // else if (type == "boost")
-        //     await SkillHandlerBuff.DealBuffAnimationTrigger();
         IncrementTurnStage();
    }
 

@@ -2,12 +2,15 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Threading.Tasks;
 
 [RequireComponent(typeof(GameMonStatsDisplay))]
 public class GameHandlerSwapMon : MonoBehaviour
 {
     public GameObject PopUpSwapDisplayMon;
     public GameObject allMonsTextDisplay;
+    public SkillSwapMon swapSkillAlly;
+    public SkillSwapMon swapSkillEnemy;
     GameMonStatsDisplay gameMonStatsDisplay;
     GameObject[] arrMonsText;
     void Awake() 
@@ -29,20 +32,40 @@ public class GameHandlerSwapMon : MonoBehaviour
     }
 
     //TODO REALLY MESSING IMPLEMENTATION
-    public void OnButtonClickSwapMon(int i)
+    public async void OnButtonClickSwapMon(int i)
     {
         var trainer = GameStatusManager.Singleton.allyTrainer;
-        var mon = trainer.allMons[i];
-        Debug.Log("Swapping to this mon ->" + mon);
+        var monEntering = trainer.allMons[i];
+        var monExiting = GameStatusManager.Singleton.ally.MonMain;        
+        
+        //Do not swap if the mon is the same
+        if (monEntering == monExiting)
+            return;
 
-        //Swap the mon
-        GameStatusManager.Singleton.ally.SwapMon(mon);
+        Debug.Log("Swapping to this mon ->" + monEntering);
+        PopUpSwapDisplayMon.SetActive(false);
+        
+        //Swap the mon and handles the mesh and more UI coordenitaion
+        GameStatusManager.Singleton.ally.SwapMon(monEntering);
 
-        //Consume the players turn
-
+        //Creates a new SwapAbility to be sent to the GameStatusManager
+        swapSkillAlly.monExiting = monExiting.GetNameMon();
+        swapSkillAlly.monEntering = monEntering.GetNameMon();
+        
+        //Consume the players turn and return the object that is holds the logic for the turns
+        var gameTurnHandler = GameStatusManager.Singleton.SendPlayerSkill_Beginning(swapSkillAlly);
+        
+        Debug.Log("Should Sleep now for a 3s");
+        await Task.Delay(3000);
+        Debug.Log("Awake now");
+        
         //Change all of the buttons to match the mon abilities
-		HandleSkillButton.Initialize(GameStatusManager.Singleton.allSkills,mon);
+		HandleSkillButton.Initialize(GameStatusManager.Singleton.allSkills,monEntering);
+        
+        TurnMechanicMon.IncrementTurnStage();
 
+        //Enemy can resume their actions...
+        gameTurnHandler.StartSecondMonMove();
     }
 
     private void HandleHoverButton(Button button,MonGame mon){

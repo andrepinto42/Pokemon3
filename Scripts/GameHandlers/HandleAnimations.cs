@@ -47,10 +47,11 @@ public class HandleAnimations : MonoBehaviour
         currentState = state;
    }
 
-   void LateUpdate()
-   {
-       if (HeadTransform)
-            HeadTransform.RotateAround(this.transform.position,Vector3.up,1f);
-   }
+    //TODO
+//    void LateUpdate()
+//    {
+//        if (HeadTransform)
+//             HeadTransform.RotateAround(this.transform.position,Vector3.up,1f);
+//    }
 
 }

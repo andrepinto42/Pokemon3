@@ -83,7 +83,7 @@ public class MonManager : MonoBehaviour
 
         MonMain.currentStance /= (Mathf.Abs(Mathf.Log(Mathf.Abs(1f - buff), 2f)) + 1f);
 
-        Debug.Log("Current Stance " + MonMain.currentStance + " and the new debuf" + newbuff + " old:" + buff);
+        // Debug.Log("Current Stance " + MonMain.currentStance + " and the new debuf" + newbuff + " old:" + buff);
         return newbuff;
     }
 

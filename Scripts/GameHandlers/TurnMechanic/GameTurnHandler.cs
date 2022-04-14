@@ -54,12 +54,13 @@ public class GameTurnHandler
             battleEnded = true;
             return;
         }
+        
         firstTurnMechanic.onAttackOver += StartSecondMonMove;        
     }
 
  
     //This method gets called when the AttackAnimation is done
-    private async void StartSecondMonMove()
+    public async void StartSecondMonMove()
     {
         //Unsubscribe the method for no memory leak
         firstTurnMechanic.onAttackOver -= StartSecondMonMove;

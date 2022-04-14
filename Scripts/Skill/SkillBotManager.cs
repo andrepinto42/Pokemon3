@@ -66,7 +66,7 @@ public class SkillBotManager
             if (buff.buffStatus.effect == SkillBuff.Stat.ATTACK && buff.buffStatus.increase > 1f)
             {
                 int numberNewTurns = 1 + (int) (userMon.currentHealth / (maxDamage* buff.buffStatus.increase* botMon.attackBuff ));
-                Debug.Log("with buffing "+numberNewTurns + " | without " + numberTurns);
+                // Debug.Log("with buffing "+numberNewTurns + " | without " + numberTurns);
                 //Found that its worth to use Attack buff to diminish the number of turns needed
                 if (numberNewTurns < numberTurns)
                 {
