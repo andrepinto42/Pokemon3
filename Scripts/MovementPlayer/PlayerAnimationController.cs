@@ -2,47 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animation))]
+[RequireComponent(typeof(Animator))]
 public class PlayerAnimationController : MonoBehaviour
-{
-    Animation animationMain;
+{   
+    public PlayerMovement playerMovement;
+   public AnimatorOverrideController overriderController;
+   [HideInInspector]public static int PLAYER_RUN =Animator.StringToHash("Running");
+   [HideInInspector]public static int PLAYER_IDDLE=Animator.StringToHash("Iddle");
    
-   [SerializeField]public  AnimationClip clipRun;
-   [SerializeField]public AnimationClip clipIdle;
-   [HideInInspector]public string PLAYER_RUN;
-   [HideInInspector]public string PLAYER_IDDLE;
-   string currentState = "";
+   int currentState = PLAYER_IDDLE;
+   Animator anim;
   
    void Awake()
    {
-       animationMain = GetComponent<Animation>();
+        anim = GetComponent<Animator>();
+        
+        if (playerMovement == null)
+            playerMovement = GetComponentInParent<PlayerMovement>();
+
+        playerMovement.onRunEvent += SetRunState;
+        playerMovement.onStopEvent += SetIddleState;
+
+   }
+    private void OnDisable() {
+        playerMovement.onRunEvent -= SetRunState;
+        playerMovement.onStopEvent -= SetIddleState;
    }
    void Start()
    {
-        PLAYER_RUN = AddClip(clipRun);
-        PLAYER_IDDLE = AddClip(clipIdle);
-        
+       anim.runtimeAnimatorController = overriderController; 
+   }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Space))
+            SetRunState();
+    }
+    private void SetRunState()
+    {
         ChangeAnimationState(PLAYER_RUN);
-   }
+    }
 
-   void Update()
-   {
-       if (Input.GetKeyDown(KeyCode.Space)){
-           animationMain.Play(PLAYER_IDDLE);
-       }
-   }
-   private string AddClip(AnimationClip clip)
-   {
-       animationMain.AddClip(clip,clip.name);
-       return clip.name;
-   }
-
-   public void ChangeAnimationState(string state)
+    private void SetIddleState()
+    {
+        ChangeAnimationState(PLAYER_IDDLE);
+    }
+   public void ChangeAnimationState(int state)
    {
         if (currentState.Equals(state))
             return;
         Debug.Log("Switched to this new state " + state);
-        animationMain.Play(state);
+        anim.Play(state);
         currentState = state;
    }
 }

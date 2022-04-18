@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
     bool canMove = true;
     float offsetPlayerFeet;
 
+    public delegate void ListenerActions();
+    public event ListenerActions onRunEvent;
+    public event ListenerActions onStopEvent;
     private void Awake()
     {
         PlayerMainCamera = Camera.main.transform;
@@ -37,11 +40,17 @@ public class PlayerMovement : MonoBehaviour
         
         if (direction.magnitude < 0.1f)
         {
+            //Raise event for listeners
+            onStopEvent();
+
             if ( playerGravity.isGrounded)
             _rigidbody.velocity = new Vector3(0f,_rigidbody.velocity.y,0f);
             
             return;
         }
+        
+        //Raise Event for listeners
+        onRunEvent();
 
         float targetAngle = FindNewRotationAngle(direction);
         
