@@ -45,24 +45,40 @@ public class GameHandlerSwapMon : MonoBehaviour
         Debug.Log("Swapping to this mon ->" + monEntering);
         PopUpSwapDisplayMon.SetActive(false);
         
-        //Swap the mon and handles the mesh and more UI coordenitaion
-        GameStatusManager.Singleton.ally.SwapMon(monEntering);
-
         //Creates a new SwapAbility to be sent to the GameStatusManager
         swapSkillAlly.monExiting = monExiting.GetNameMon();
         swapSkillAlly.monEntering = monEntering.GetNameMon();
         
+        //During 100 frames the pokemon will decrease in size
+        var objectAllyMon = GameStatusManager.Singleton.ally.gameObject.transform;
+        for (float j = 1f; j > 0f; j-=0.01f)
+        {
+            objectAllyMon.localScale = new Vector3(j,j,j);
+            await Task.Yield();
+        }
+
+        //Swap the mon and handles the mesh and more UI coordenitaion
+        GameStatusManager.Singleton.ally.SwapMon(monEntering);
+
         //Consume the players turn and return the object that is holds the logic for the turns
         var gameTurnHandler = GameStatusManager.Singleton.SendPlayerSkill_Beginning(swapSkillAlly);
         
+        //During 100 frames the pokemon will increase in size
+        for (float j = 0f; j < 1f; j+=0.01f)
+        {
+            objectAllyMon.localScale = new Vector3(j,j,j);
+            await Task.Yield();
+        }
+
         Debug.Log("Should Sleep now for a 3s");
         await Task.Delay(3000);
         Debug.Log("Awake now");
         
         //Change all of the buttons to match the mon abilities
-		HandleSkillButton.Initialize(GameStatusManager.Singleton.allSkills,monEntering);
+		HandleSkillButton.InitializeButtonsSkills(GameStatusManager.Singleton.allSkills,monEntering);
         
-        TurnMechanicMon.IncrementTurnStage();
+        //Turn has ended so warn global variavel
+        GameStatusManager.Singleton.ally.GetComponentInChildren<TurnMechanicMon>().IncrementTurnStage();
 
         //Enemy can resume their actions...
         gameTurnHandler.StartSecondMonMove();

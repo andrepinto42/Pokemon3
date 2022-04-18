@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class TrainerHandler
 {
-    internal static void ResetMonTrainer(Trainer enemyTrainer)
+    internal static void ResetMonTrainer(Trainer trainer)
     {
-        for (int i = 0; i < enemyTrainer.allMons.Length; i++)
+        for (int i = 0; i < trainer.allMons.Length; i++)
         {
-            MonGame mon = enemyTrainer.allMons[i];
+            MonGame mon = trainer.allMons[i];
             
             if (mon == null) return;
 

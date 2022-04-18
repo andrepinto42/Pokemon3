@@ -37,20 +37,22 @@ public class ButtonFlash
     }
 
     const byte MIN_VALUE_COLOR = 150;
+    const int STEPS = 255-MIN_VALUE_COLOR;
+
+    const int DELAY = 20;
     static bool keepFlashing = true;
     private static async void Flash(Button button)
     {
         byte i = 0;
-        int steps = 255-MIN_VALUE_COLOR;
         bool increase = true;
         while(keepFlashing)
         {
-            if (i >= steps)
+            if (i >= STEPS)
                 increase = false;
             else if (i <= 0)
                 increase = true;
 
-            i = (increase) ? (byte) (i+1) : (byte) (i -1);
+            i = (increase) ? (byte) (i+5) : (byte) (i -5);
             byte nc = (byte) ( MIN_VALUE_COLOR + i);
             
             if (button == null)
@@ -59,7 +61,7 @@ public class ButtonFlash
             colors.highlightedColor = new Color32(nc,nc,nc,255);
             button.colors = colors;
 
-            await Task.Delay( (int) (Time.deltaTime * 1000) );
+            await Task.Delay( DELAY );
         }
     } 
 

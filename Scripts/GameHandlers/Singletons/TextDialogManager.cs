@@ -6,7 +6,6 @@ using System.Threading;
 
 public class TextDialogManager : MonoBehaviour
 {
-    private readonly object textLock = new object();
     TMP_Text textoDialogo;
     [SerializeField] GameObject completedMessageImage;
     SemaphoreSlim mySemaphoreSlim = new SemaphoreSlim(1);

@@ -13,9 +13,10 @@ public class MonManager : MonoBehaviour
     MonMeshManager monMeshManager;
     void Start()
     {
-        TrainerHandler.RestartStatsMon(MonMain);
+        //DISABLED FOR TESTING
+    //     TrainerHandler.RestartStatsMon(MonMain);
 
-        InitializeMeshMon(MonMain);
+    //     InitializeMeshMon(MonMain);
     }
 
     public void InitializeMeshMon(MonGame currentMon)

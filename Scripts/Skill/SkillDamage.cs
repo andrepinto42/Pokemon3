@@ -42,6 +42,7 @@ public class SkillDamage : Skill{
 
         float advantage = MonTypes.GetAdvantage(skillDamage.type,enemy.MonMain.GetTypeMon());
 
+        HelperMonNear.StartGettingNearEnemy(ally,enemy);
         
         float healthAfterDamage = enemy.GetCurrentHealthAfterDamage(damage);
 
@@ -82,7 +83,12 @@ public class SkillDamage : Skill{
         enemyStored.TakeDamage(damageStored);
         
         await Task.WhenAll(arr);
+
+        //Mon goes back to its original place
+
         GameVisualEffectsHandler.Singleton.StopEmittingDamageParticle();
+        
+        await HelperMonNear.GoAwayFromEnemy();
         
         //If there is status effects trigger then after dealing damage
         if (statusStored != null)
