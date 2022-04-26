@@ -4,9 +4,6 @@ using UnityEngine;
 public class MonGame : ScriptableObject{
     public float currentHealth;
     [HideInInspector]public float currentStamina;
-    [HideInInspector]public float attackBuff = 1f;
-    [HideInInspector]public float defenseBuff = 1f;
-    [HideInInspector]public float speedBuff =1f;
     public float currentStance;
 
 

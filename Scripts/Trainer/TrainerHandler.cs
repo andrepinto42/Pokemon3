@@ -17,14 +17,15 @@ public class TrainerHandler
             RestartStatsMon(mon);
         }
     }
-
+    //TODO IMPORTANT
+    //, FIND A BETTER WAY TO RESTART STATS OF THE MON
     public static void RestartStatsMon(MonGame mon)
     {
-        mon.currentHealth = mon.maxHealth;
-        mon.currentStamina = mon.maxStamina;
-        mon.currentStance = mon.maxStance;
-        mon.attackBuff = 1f;
-        mon.defenseBuff = 1f;
-        mon.speedBuff = 1f;
+        //mon.currentHealth = mon.maxHealth;
+       //mon.currentStamina = mon.maxStamina;
+        //mon.currentStance = mon.maxStance;
+        //mon.attackBuff = 1f;
+        //defenseBuff = 1f;
+        //speedBuff = 1f;
     }
 }

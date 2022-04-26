@@ -8,6 +8,13 @@ public class MonManager : MonoBehaviour
 {
     [SerializeField]public MonGame MonMain;
     public float rotationY = 0f;
+    public float currentHealth = 100f;
+    public float currentStamina = 100f;
+    public float attackBuff = 1f;
+    public float defenseBuff = 1f;
+    public float speedBuff =1f;
+    public float currentStance=100f;
+
     [HideInInspector]public Skill lastSkillUsed = null;
     HandleAnimations handleAnimations;
     MonMeshManager monMeshManager;
@@ -38,8 +45,8 @@ public class MonManager : MonoBehaviour
         
         monMeshManager.levelText.SetText(currentMon.level.ToString());
          
-        monMeshManager.UpdateHealth(currentMon.currentHealth,currentMon.maxHealth);
-        monMeshManager.UpdateStamina(currentMon.currentStamina,currentMon.maxStamina);
+        monMeshManager.UpdateHealth(currentHealth,currentMon.maxHealth);
+        monMeshManager.UpdateStamina(currentStamina,currentMon.maxStamina);
     }
 
     public void SwapMon(MonGame mon)
@@ -50,13 +57,13 @@ public class MonManager : MonoBehaviour
     
     public void TakeDamage(float damage)
     {
-        MonMain.currentHealth = GetCurrentHealthAfterDamage(damage);
+        currentHealth = GetCurrentHealthAfterDamage(damage);
         monMeshManager.StartDamagePopUpText(damage);
         handleAnimations.ChangeAnimationState(handleAnimations.MON_GET_HIT);
     }
     public float GetCurrentHealthAfterDamage(float damage)
     {
-        return MonMain.currentHealth - damage;
+        return currentHealth - damage;
     } 
     public void KillGameObject()
     {
@@ -64,17 +71,17 @@ public class MonManager : MonoBehaviour
     }
     internal bool HandleStaminaManagement(Skill skill)
     {
-        if (MonMain.currentStamina < skill.stamina)
+        if (currentStamina < skill.stamina)
             return false;
         
-        MonMain.currentStamina -= skill.stamina;
-        monMeshManager.UpdateStamina(MonMain.currentStamina,MonMain.maxStamina);
+        currentStamina -= skill.stamina;
+        monMeshManager.UpdateStamina(currentStamina,MonMain.maxStamina);
         return true;
     }
     public float ApplyStanceModifier(float buff)
     {
         //If doenst have enought Stance then just apply the normal debuff
-        if (MonMain.currentStance <= 2f)
+        if (currentStance <= 2f)
             return buff;
 
         float newbuff = CalculateNewBuff(buff);
@@ -82,7 +89,7 @@ public class MonManager : MonoBehaviour
         // -Log(0,75f,2f) = 0.4150 
         // Log(1,5f,2f) = 0.58496250072116
 
-        MonMain.currentStance /= (Mathf.Abs(Mathf.Log(Mathf.Abs(1f - buff), 2f)) + 1f);
+        currentStance /= (Mathf.Abs(Mathf.Log(Mathf.Abs(1f - buff), 2f)) + 1f);
 
         // Debug.Log("Current Stance " + MonMain.currentStance + " and the new debuf" + newbuff + " old:" + buff);
         return newbuff;
@@ -94,12 +101,12 @@ public class MonManager : MonoBehaviour
         if (buff < 1f)
         {
             //with a buff of 0.75 it transform it into 0.875 if the stance is 50
-            float buffMitigation = (1f - buff) * MonMain.currentStance * 0.01f;
+            float buffMitigation = (1f - buff) * currentStance * 0.01f;
             newbuff = buff + buffMitigation;
         }
         else
         {
-            newbuff = buff * (1f + MonMain.currentStance * 0.01f);
+            newbuff = buff * (1f + currentStance * 0.01f);
         }
 
         return newbuff;
@@ -109,28 +116,28 @@ public class MonManager : MonoBehaviour
     public  DelegateStatusChange delegateDamageChange;
     public void ChangeBaseDamage(float buff)
     {   
-        MonMain.attackBuff *= ApplyStanceModifier(buff);
-        delegateDamageChange?.Invoke(MonMain.attackBuff.ToString());
+        attackBuff *= ApplyStanceModifier(buff);
+        delegateDamageChange?.Invoke(attackBuff.ToString());
     }
 
     public  DelegateStatusChange delegateSpeedChange;
     public void ChangeBaseSpeed(float speedbuff)
     {
-        MonMain.speedBuff *= ApplyStanceModifier(speedbuff);
-        delegateSpeedChange?.Invoke(MonMain.attackBuff.ToString());
+        speedBuff *= ApplyStanceModifier(speedbuff);
+        delegateSpeedChange?.Invoke(speedBuff.ToString());
     }
 
     public  DelegateStatusChange delegateDefenseChange;
-    public void ChangeBaseDefense(float defenseBuff)
+    public void ChangeBaseDefense(float defensebuff)
     {
-        MonMain.defenseBuff *= ApplyStanceModifier(defenseBuff);
-        delegateDefenseChange?.Invoke(MonMain.attackBuff.ToString());
+        defenseBuff *= ApplyStanceModifier(defensebuff);
+        delegateDefenseChange?.Invoke(defenseBuff.ToString());
 
     }
 
     public float GetCurrentSpeed()
     {
-        return MonMain.SpeedCurrent * MonMain.speedBuff;
+        return MonMain.SpeedCurrent * speedBuff;
     }
     public MonMeshManager GetMonMeshManager()
     {

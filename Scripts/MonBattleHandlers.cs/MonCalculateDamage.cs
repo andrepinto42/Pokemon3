@@ -11,10 +11,19 @@ public class MonCalculateDamage{
     Damage calculated from here
     https://bulbapedia.bulbagarden.net/wiki/Damage
     */
-    public static int CalculateDamage(SkillDamage skillDamage,MonGame ally,MonGame enemy){
+    public static int CalculateDamage(SkillDamage skillDamage,MonGame ally,MonGame enemy,
+                                      MonManager allyManager,MonManager enemyManager)
+    {
         float level = (2*ally.level / 5f) + 2;
-        //defenseBuff and attackBuff varies between ]0,2] normally
-        float powerDamage = skillDamage.damage * ally.attackBuff  * ally.AttackCurrent / (enemy.DefenseCurrent *  enemy.defenseBuff)  ;
+        
+        //defenseBuff varies between ]0,2] normally
+        float defenseEnemy = (enemy.DefenseCurrent *  enemyManager.defenseBuff);
+
+        //attackBuff varies between ]0,2] normally
+        float attackAlly = skillDamage.damage * ally.AttackCurrent *  allyManager.attackBuff;
+        
+        float powerDamage = attackAlly / defenseEnemy  ;
+        
         float damageBase = ((level * powerDamage)/25f) +2;
         
         //Numero random [lowerboundRandom,upperboundRandom]

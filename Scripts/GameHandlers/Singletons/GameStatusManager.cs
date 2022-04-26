@@ -101,8 +101,9 @@ public class GameStatusManager : MonoBehaviour
     }
 	
 	public GameTurnHandler SendPlayerSkill_Beginning(Skill skillAlly){
+		
 		//TODO Add the possibilty that the enemy can swap out pokemon
-		Skill skillEnemy = SkillBotManager.FindBestSkill(enemy.MonMain,ally.MonMain,
+		Skill skillEnemy = SkillBotManager.FindBestSkill(enemy,ally,
 		enemy.MonMain.GetSkills(),SkillBotManager.DIFFICULTY.AWARE);
 		
 		GameTurnHandler turnHandler;

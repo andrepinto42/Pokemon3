@@ -12,6 +12,8 @@ public class PlayerGravity : MonoBehaviour
     public float DragGround = 4.5f;
     public float DragAir = 1f;
     [SerializeField] LayerMask LayerToCollide;
+    [Header("Player Configurations")]
+    public float paddingYBox = 0.75f;
     float SphereRadiusCollision;
     Rigidbody _rigidbody;
     CapsuleCollider capsuleCollider;
@@ -27,7 +29,7 @@ public class PlayerGravity : MonoBehaviour
         // 0.1f is the padding so it doenst line perfectly with the mesh
         offsetPlayerFeet = capsuleCollider.height / 2f - capsuleCollider.radius + 0.1f; 
     }
-    void Update()
+    public virtual void Update()
     {
         ManageGravity();
     }
@@ -46,7 +48,7 @@ public class PlayerGravity : MonoBehaviour
 
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
-            _rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
+            AddJumpForce();
             isGrounded = false;
         }
     }
@@ -59,11 +61,16 @@ public class PlayerGravity : MonoBehaviour
     {
         return new Vector3
                 (transform.position.x,
-                transform.position.y - offsetPlayerFeet,
+                transform.position.y - offsetPlayerFeet + paddingYBox,
                 transform.position.z);
     }
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(FindFeetPlayer(),SphereRadiusCollision);
+    }
+
+    protected virtual void AddJumpForce()
+    {
+        _rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
     }
 }

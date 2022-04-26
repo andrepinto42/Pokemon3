@@ -38,7 +38,7 @@ public class SkillDamage : Skill{
     public override bool HandleSkill(Skill skill, MonManager ally, MonManager enemy){
         SkillDamage skillDamage = (SkillDamage) skill;
         
-        float damage =MonCalculateDamage.CalculateDamage(skillDamage,ally.MonMain,enemy.MonMain);
+        float damage =MonCalculateDamage.CalculateDamage(skillDamage,ally.MonMain,enemy.MonMain,ally,enemy);
 
         float advantage = MonTypes.GetAdvantage(skillDamage.type,enemy.MonMain.GetTypeMon());
 
@@ -111,7 +111,7 @@ public class SkillDamage : Skill{
     private static async Task LowerHealthBar(MonManager enemy,float damageTaken)
     {
         var manager = enemy.GetMonMeshManager();
-        float currentHP = enemy.MonMain.currentHealth;
+        float currentHP = enemy.currentHealth;
         float maxHP = enemy.MonMain.maxHealth;
         if (damageTaken> currentHP)
         {

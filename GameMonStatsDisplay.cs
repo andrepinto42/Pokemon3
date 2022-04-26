@@ -29,7 +29,7 @@ public class GameMonStatsDisplay : MonoBehaviour
         
         // Initialize the value of the text of display of the Mon status
         var mon = ally.MonMain;
-        UpdateVisualMon(mon);
+        UpdateVisualMon(mon,ally);
 
         // Setup the delegates Functions
         ally.delegateDamageChange = (string value) =>ChangeTextIncreaseDisplay(storedAttack,value,_textAttack,_textIncreaseAttack);
@@ -58,13 +58,13 @@ public class GameMonStatsDisplay : MonoBehaviour
         texto.SetText(newValue);
     }
 
-    public void UpdateVisualMon(MonGame mon){
+    public void UpdateVisualMon(MonGame mon,MonManager monManager){
         ChangeTextDisplay(mon.AttackCurrent.ToString(),_textAttack);
         ChangeTextDisplay(mon.DefenseCurrent.ToString(),_textDefense);
         ChangeTextDisplay(mon.SpeedCurrent.ToString(),_textSpeed);
         ChangeTextDisplay(mon.maxStance.ToString(),_textStance);
-        ChangeTextDisplay(mon.currentHealth.ToString(),_textHealth);
-        ChangeTextDisplay(mon.currentStamina.ToString(),_textStamina);
+        ChangeTextDisplay(monManager.currentHealth.ToString(),_textHealth);
+        ChangeTextDisplay(monManager.currentStamina.ToString(),_textStamina);
         
         //Disable the text of increasing Status
         _textIncreaseAttack.gameObject.SetActive(false);

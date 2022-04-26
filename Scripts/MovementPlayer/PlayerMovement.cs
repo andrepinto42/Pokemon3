@@ -43,8 +43,9 @@ public class PlayerMovement : MonoBehaviour
             //Raise event for listeners
             onStopEvent();
 
-            if ( playerGravity.isGrounded)
-            _rigidbody.velocity = new Vector3(0f,_rigidbody.velocity.y,0f);
+            //???
+            // if ( playerGravity.isGrounded)
+            // _rigidbody.velocity = new Vector3(0f,_rigidbody.velocity.y,0f);
             
             return;
         }

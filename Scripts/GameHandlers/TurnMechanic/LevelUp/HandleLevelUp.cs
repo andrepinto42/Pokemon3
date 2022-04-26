@@ -38,7 +38,9 @@ public class HandleLevelUp
         
         int hpIncrease =(int) GetRandomNormalDistribution(HP_MEAN,HP_MEAN,rand);
         UpdateText(healthText,hpIncrease,allGains[3]);
-        mon.currentHealth += hpIncrease;
+        //TODO
+        //A bit dangerous to do this i Guess
+        mon.maxHealth += hpIncrease;
         
         UpdateText(levelText,1,null);
         mon.level += 1;

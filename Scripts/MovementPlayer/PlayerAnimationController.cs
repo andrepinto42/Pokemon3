@@ -5,12 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class PlayerAnimationController : MonoBehaviour
 {   
+    
     public PlayerGravity playerGravity;
     public PlayerMovement playerMovement;
     public AnimatorOverrideController overriderController;
     [HideInInspector]public static int PLAYER_RUN =Animator.StringToHash("Running");
     [HideInInspector]public static int PLAYER_IDDLE=Animator.StringToHash("Iddle");
+    [HideInInspector]public static int PLAYER_JUMP=Animator.StringToHash("JumpUp_Start");
+    [HideInInspector]public static int PLAYER_FALL_LOOP=Animator.StringToHash("JumpUp_Loop");
    
+
     int currentState = PLAYER_IDDLE;
     Animator anim;
     void Awake()
@@ -35,11 +39,6 @@ public class PlayerAnimationController : MonoBehaviour
     {
         anim.runtimeAnimatorController = overriderController; 
     }
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.Space))
-            SetRunState();
-    }
     private void SetRunState()
     {
         ChangeAnimationState(PLAYER_RUN);
@@ -52,10 +51,33 @@ public class PlayerAnimationController : MonoBehaviour
 
     public void ChangeAnimationState(int state)
     {
-        if (currentState.Equals(state))
+        if (currentState == state)
              return;
-        Debug.Log("Switched to this new state " + state);
-        anim.Play(state);
+
+        // If the player is currently jumping no other change can affect this behaviour
+        if (currentState == PLAYER_JUMP)
+            return;
+
+        anim.CrossFade(state,0.1f);
+        //Interpolate Instantaneous
+        // anim.Play(state);
         currentState = state;
+    }
+
+    public void StopFalling()
+    {
+        if (currentState != PLAYER_JUMP)
+        {
+            //If the player is not jumping then there is no need to stop it jumping
+            return;
+        }
+        anim.CrossFade(PLAYER_IDDLE,0.05f);
+        currentState = PLAYER_IDDLE;
+    }
+
+    public void StartJumping()
+    {
+        anim.Play(PLAYER_JUMP);
+        currentState = PLAYER_JUMP;
     }
 }
