@@ -36,7 +36,7 @@ public class SkillBotManager
         MonGame botMon = botMonManager.MonMain;
         MonGame userMon = userMonManager.MonMain;
 
-        List<Skill> validSkills = GetValidSkills(botMon, allSkills);
+        List<Skill> validSkills = GetValidSkills(botMonManager, allSkills);
         int maxDamage = 0;
         Skill bestSkill = null;
         for (int i = 0; i < validSkills.Count; i++)
@@ -88,7 +88,7 @@ public class SkillBotManager
         MonGame botMon = botMonManager.MonMain;
         MonGame userMon = userMonManager.MonMain;
 
-        List<Skill> validSkills = GetValidSkills(botMon, allSkills);
+        List<Skill> validSkills = GetValidSkills(botMonManager, allSkills);
         System.Random r = new System.Random();
         int randomPosition = (int)( r.Next(validSkills.Count -1) );
         
@@ -96,7 +96,7 @@ public class SkillBotManager
     }
 
     //Currently if the pokemon must have at least one valid move
-    private static List<Skill> GetValidSkills(MonGame botMon, Skill[] allSkills)
+    private static List<Skill> GetValidSkills(MonManager botMonManager, Skill[] allSkills)
     {
         List<Skill> validSkills = new List<Skill>();
         for (int i = 0; i < allSkills.Length; i++)
@@ -106,7 +106,7 @@ public class SkillBotManager
                 continue;
 
             //If the mon doesnt have enough stamina to perform a skill then discard it
-            if (s.stamina > botMon.currentStamina)
+            if (s.stamina > botMonManager.currentStamina)
             {
                 continue;
             }

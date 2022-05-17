@@ -21,6 +21,10 @@ public class GameBattleLoader : MonoBehaviour
             Singleton = this;
     }
 
+    public void StartBattleLoadEnemyMon()
+    {
+        
+    }
     public async void StartBattleLoader(MonManager enemy,Trainer enemyTrainer) 
     {
         //Store global variables

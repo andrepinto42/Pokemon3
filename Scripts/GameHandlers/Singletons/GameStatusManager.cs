@@ -24,8 +24,7 @@ public class GameStatusManager : MonoBehaviour
 	}
 	void Start()
 	{
-		//Load Singleton here?
-		if (Singleton == null)
+		if(Singleton == null)
 			Singleton = this;
 	
 		allOptionsButtons.SetActive(false);

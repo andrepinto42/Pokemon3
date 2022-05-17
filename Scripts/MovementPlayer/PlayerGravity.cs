@@ -60,6 +60,7 @@ public class PlayerGravity : MonoBehaviour
         if (isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             AddJumpForce();
+            isGrounded = false;
         }
     }
     private void ControllDrag()
@@ -86,4 +87,5 @@ public class PlayerGravity : MonoBehaviour
     {
         _rigidbody.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
     }
+
 }

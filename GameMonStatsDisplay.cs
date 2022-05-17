@@ -63,6 +63,8 @@ public class GameMonStatsDisplay : MonoBehaviour
         ChangeTextDisplay(mon.DefenseCurrent.ToString(),_textDefense);
         ChangeTextDisplay(mon.SpeedCurrent.ToString(),_textSpeed);
         ChangeTextDisplay(mon.maxStance.ToString(),_textStance);
+        
+        //BUG might be here
         ChangeTextDisplay(mon.currentHealth.ToString(),_textHealth);
         ChangeTextDisplay(mon.currentStamina.ToString(),_textStamina);
         
