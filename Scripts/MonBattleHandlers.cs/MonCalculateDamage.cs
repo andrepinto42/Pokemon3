@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class MonCalculateDamage{
 
     static float lowerBoundRandom = 0.9f;
@@ -11,10 +6,12 @@ public class MonCalculateDamage{
     Damage calculated from here
     https://bulbapedia.bulbagarden.net/wiki/Damage
     */
-    public static int CalculateDamage(SkillDamage skillDamage,MonGame ally,MonGame enemy){
+    public static int CalculateDamage(SkillDamage skillDamage,MonGame ally,MonGame enemy,
+                                      MonManager allyManager,MonManager enemyManager)
+    {
+        float powerDamage = CalculatePowerDamage(skillDamage, ally, enemy,allyManager, enemyManager);
+
         float level = (2*ally.level / 5f) + 2;
-        //defenseBuff and attackBuff varies between ]0,2] normally
-        float powerDamage = skillDamage.damage * ally.attackBuff  * ally.AttackCurrent / (enemy.DefenseCurrent *  enemy.defenseBuff)  ;
         float damageBase = ((level * powerDamage)/25f) +2;
         
         //Numero random [lowerboundRandom,upperboundRandom]
@@ -23,5 +20,25 @@ public class MonCalculateDamage{
         float advantage = MonTypes.GetAdvantage(skillDamage.type,enemy.GetTypeMon());
         
         return (int) ( damageBase * random * advantage);
+    }
+
+    public static float CalculatePowerDamage(SkillDamage skillDamage,MonGame ally,MonGame enemy,
+                                      MonManager allyManager,MonManager enemyManager)
+    {
+        //Find the type of the damage
+        //Ex: PIERCE OR WARCRY
+        int typeDamage = (int)skillDamage.typeOfDamage;
+
+        //buffDefenseType varies between ]0,2] normally
+        float defenseEnemy = 
+        enemy.baseDefenseType.arrayAtributtes[typeDamage] *  enemyManager.buffDefenseType.arrayAtributtes[typeDamage];
+
+        //attackBuff varies between ]0,2] normally
+        float attackAlly = 
+        skillDamage.damage * 
+        ally.baseAttackType.arrayAtributtes[typeDamage] * allyManager.buffAttackType.arrayAtributtes[typeDamage];
+
+        return  attackAlly / defenseEnemy;
+
     }
 }

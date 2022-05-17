@@ -53,11 +53,12 @@ public class TurnMechanicMon : MonoBehaviour
    void ResetToIdle()
    {
        handleAnimations.ChangeAnimationState(handleAnimations.MON_IDDLE);
-       if (onAttackOver != null)
-            onAttackOver();
+    //Not a good ideia that when a animations stops it should decide that the turn has ended
+    //    if (onAttackOver != null)
+    //         onAttackOver();
    }
 
-   public static void IncrementTurnStage()
+   public void IncrementTurnStage()
    {
        turnStage++;
        if (turnStage == 2)
@@ -68,6 +69,12 @@ public class TurnMechanicMon : MonoBehaviour
             {
                 onTurnOver();
             }
+       }
+       else
+       {
+           //Signal that the turn has ended
+            if (onAttackOver != null) 
+                onAttackOver();
        }
    }
 }

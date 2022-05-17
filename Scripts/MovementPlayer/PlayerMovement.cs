@@ -10,15 +10,20 @@ public class PlayerMovement : MonoBehaviour
     public float GroundSpeed = 30f;
     public float MaxSpeed = 30f;
     public float turnSmoothTime = 10f;    
-    Transform PlayerMainCamera;
+    public Transform PlayerMainCamera;
     PlayerGravity playerGravity;
     Rigidbody _rigidbody;
     bool canMove = true;
     float offsetPlayerFeet;
 
+    public delegate void ListenerActions();
+    public event ListenerActions onRunEvent;
+    public event ListenerActions onStopEvent;
     private void Awake()
     {
-        PlayerMainCamera = Camera.main.transform;
+        if (PlayerMainCamera == null)
+            PlayerMainCamera = Camera.main.transform;
+    
         _rigidbody = GetComponent<Rigidbody>();
         playerGravity = GetComponent<PlayerGravity>();
     }
@@ -30,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         
         SpeedPlayer();
     }
+    Vector3 moveDir;
     private void MovePlayer()
     {
         //Reading from the keyboard where to go
@@ -37,15 +43,20 @@ public class PlayerMovement : MonoBehaviour
         
         if (direction.magnitude < 0.1f)
         {
-            if ( playerGravity.isGrounded)
-            _rigidbody.velocity = new Vector3(0f,_rigidbody.velocity.y,0f);
-            
+            //Raise event for listeners
+            onStopEvent();
             return;
         }
+        
+        //Raise Event for listeners
+        onRunEvent();
 
         float targetAngle = FindNewRotationAngle(direction);
         
-        Vector3 moveDir = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized *  Time.deltaTime;
+        //TODO
+        //Find the normal of the ground below and add the force in the corresponding vector
+        moveDir = (Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward).normalized *  Time.deltaTime;
+        
         if (playerGravity.isGrounded)
             moveDir *= GroundSpeed;
 
@@ -70,5 +81,10 @@ public class PlayerMovement : MonoBehaviour
             GroundSpeed /= 3;
         if (_rigidbody.velocity.magnitude > MaxSpeed)
             _rigidbody.velocity = _rigidbody.velocity.normalized* MaxSpeed;
+    }
+    
+     private void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(transform.position,moveDir*10);
     }
 }

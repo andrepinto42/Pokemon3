@@ -10,13 +10,16 @@ public class PlayerCameraFollow : MonoBehaviour
     public float sensitivy = 1f;
     public bool invertX = true;
 
-    Transform playerMainCamera;
+    public Transform playerMainCamera;
     private float invert = -1f;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerMainCamera = Camera.main.transform;
+        //Not working currently TODOs
+        // playerMainCamera = GetComponent<PlayerCameraFollow>().playerMainCamera;
+        if (playerMainCamera == null)
+            playerMainCamera = Camera.main.transform;
         //Ensure that if mouse goes from window start to finish then 1 lap will be made
         sensitivy *= (float) ((2f * Math.PI)/ (float) Screen.width);
         

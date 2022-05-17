@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 [CreateAssetMenu(fileName = "MonADN", menuName = "Mon/Mon ADN", order = 1)]
 public class MonADN : ScriptableObject{
     public float baseMaxHealth;
@@ -6,6 +7,9 @@ public class MonADN : ScriptableObject{
     [Tooltip("Experience value between 50 and 150.")]
     public int experienceBase = 100;
     public string nameMon;
+    [Header("Characteristics")]
+    public MonTypesCombat baseAttackType = new MonTypesCombat(1,1,1,1);
+    public MonTypesCombat baseDefenseType = new MonTypesCombat(1,1,1,1);
     public float baseAttack=30f;
     public float baseDefense=20f;
     public float baseSpeed = 5f;

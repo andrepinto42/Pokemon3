@@ -10,6 +10,9 @@ public class SkillDamage : Skill{
     public float damage;
 
     public BuffStatus[] buffStatus;
+    
+    //Initialize the type of damage by being the most basic one
+    public TypeOfDamage typeOfDamage = TypeOfDamage.PIERCE;
 
 
     /*
@@ -38,10 +41,11 @@ public class SkillDamage : Skill{
     public override bool HandleSkill(Skill skill, MonManager ally, MonManager enemy){
         SkillDamage skillDamage = (SkillDamage) skill;
         
-        float damage =MonCalculateDamage.CalculateDamage(skillDamage,ally.MonMain,enemy.MonMain);
+        float damage =MonCalculateDamage.CalculateDamage(skillDamage,ally.MonMain,enemy.MonMain,ally,enemy);
 
         float advantage = MonTypes.GetAdvantage(skillDamage.type,enemy.MonMain.GetTypeMon());
 
+        HelperMonNear.StartGettingNearEnemy(ally,enemy);
         
         float healthAfterDamage = enemy.GetCurrentHealthAfterDamage(damage);
 
@@ -82,7 +86,12 @@ public class SkillDamage : Skill{
         enemyStored.TakeDamage(damageStored);
         
         await Task.WhenAll(arr);
+
+        //Mon goes back to its original place
+
         GameVisualEffectsHandler.Singleton.StopEmittingDamageParticle();
+        
+        await HelperMonNear.GoAwayFromEnemy();
         
         //If there is status effects trigger then after dealing damage
         if (statusStored != null)

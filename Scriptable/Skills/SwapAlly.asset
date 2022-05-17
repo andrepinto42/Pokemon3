@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 665225e639f70d14182fbef5d392b8b4, type: 3}
   m_Name: SwapAlly
   m_EditorClassIdentifier: 
-  nameSkill: 
+  nameSkill: Swap
   stamina: 0
   description: 
   type: 0
   soundEffect: {fileID: 0}
+  monExiting: Draconis
+  monEntering: Foxxy

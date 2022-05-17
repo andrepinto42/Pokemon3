@@ -18,24 +18,28 @@ public class GameStatusManager : MonoBehaviour
 	[SerializeField] TextDialogManager textDialogManager;
 	GameTurnChangeMon gameTurnChangeMon;
 	public static GameStatusManager Singleton;
-	async void Start()
+	void Awake()
 	{
+		gameTurnChangeMon = GetComponent<GameTurnChangeMon>();
+	}
+	void Start()
+	{
+		//Load Singleton here?
 		if (Singleton == null)
 			Singleton = this;
-
-		gameTurnChangeMon = GetComponent<GameTurnChangeMon>();
-		//Load the mons to the display
-		
+	
 		allOptionsButtons.SetActive(false);
 		allSkills.SetActive(false);
 		PopUpMonButton.SetActive(false);
 		PopUpSwitchInMenu.SetActive(false);
 
-		TrainerHandler.ResetMonTrainer(enemyTrainer);
-		HandleSkillButton.Initialize(allSkills,ally.MonMain);
+		//TODO - Send this logic to a new class
+		//Assumes that the combat started
+		// TrainerHandler.ResetMonTrainer(enemyTrainer);
+		// HandleSkillButton.InitializeButtonsSkills(allSkills,ally.MonMain);
 		
-		await textDialogManager.PushText("A wild "+ enemy.MonMain.GetNameMon()+ " has appeared!");
-		allOptionsButtons.SetActive(true);
+		// await textDialogManager.PushText("A wild "+ enemy.MonMain.GetNameMon()+ " has appeared!");
+		// allOptionsButtons.SetActive(true);
 
 	}
 
@@ -97,8 +101,9 @@ public class GameStatusManager : MonoBehaviour
     }
 	
 	public GameTurnHandler SendPlayerSkill_Beginning(Skill skillAlly){
+		
 		//TODO Add the possibilty that the enemy can swap out pokemon
-		Skill skillEnemy = SkillBotManager.FindBestSkill(enemy.MonMain,ally.MonMain,
+		Skill skillEnemy = SkillBotManager.FindBestSkill(enemy,ally,
 		enemy.MonMain.GetSkills(),SkillBotManager.DIFFICULTY.AWARE);
 		
 		GameTurnHandler turnHandler;

@@ -11,7 +11,7 @@ public class HandleSkillButton
     private const  int positionChildHabilityText = 2;
     private const int positionChildStaminaText = 3;
 
-    public static void Initialize(GameObject allSkills,MonGame monMain)
+    public static void InitializeButtonsSkills(GameObject allSkills,MonGame monMain)
     {
         Dictionary<MonTypes.Type,Color32> mapColor = new Dictionary<MonTypes.Type, Color32>(){
         

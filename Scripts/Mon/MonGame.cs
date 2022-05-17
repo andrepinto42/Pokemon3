@@ -4,9 +4,6 @@ using UnityEngine;
 public class MonGame : ScriptableObject{
     public float currentHealth;
     [HideInInspector]public float currentStamina;
-    [HideInInspector]public float attackBuff = 1f;
-    [HideInInspector]public float defenseBuff = 1f;
-    [HideInInspector]public float speedBuff =1f;
     public float currentStance;
 
 
@@ -20,6 +17,9 @@ public class MonGame : ScriptableObject{
     [Header("Stats")]
     public float maxHealth;
     public float maxStamina;
+    public MonTypesCombat baseAttackType = new MonTypesCombat(30,1,1,1);
+    public MonTypesCombat baseDefenseType = new MonTypesCombat(20,1,1,1);
+
     public float maxStance=5f;
     public float SpeedCurrent = 10f;
     public float AttackCurrent=30f;

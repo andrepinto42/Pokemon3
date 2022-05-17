@@ -8,14 +8,22 @@ public class MonManager : MonoBehaviour
 {
     [SerializeField]public MonGame MonMain;
     public float rotationY = 0f;
+    public MonTypesCombat buffAttackType = new MonTypesCombat(1,1,1,1);
+    public MonTypesCombat buffDefenseType = new MonTypesCombat(1,1,1,1);
+
+    public float attackBuff = 1f;
+    public float defenseBuff = 1f;
+    public float speedBuff =1f;
+
     [HideInInspector]public Skill lastSkillUsed = null;
     HandleAnimations handleAnimations;
     MonMeshManager monMeshManager;
     void Start()
     {
-        TrainerHandler.RestartStatsMon(MonMain);
+        //DISABLED FOR TESTING
+    //     TrainerHandler.RestartStatsMon(MonMain);
 
-        InitializeMeshMon(MonMain);
+    //     InitializeMeshMon(MonMain);
     }
 
     public void InitializeMeshMon(MonGame currentMon)
@@ -108,28 +116,28 @@ public class MonManager : MonoBehaviour
     public  DelegateStatusChange delegateDamageChange;
     public void ChangeBaseDamage(float buff)
     {   
-        MonMain.attackBuff *= ApplyStanceModifier(buff);
-        delegateDamageChange?.Invoke(MonMain.attackBuff.ToString());
+        attackBuff *= ApplyStanceModifier(buff);
+        delegateDamageChange?.Invoke(attackBuff.ToString());
     }
 
     public  DelegateStatusChange delegateSpeedChange;
     public void ChangeBaseSpeed(float speedbuff)
     {
-        MonMain.speedBuff *= ApplyStanceModifier(speedbuff);
-        delegateSpeedChange?.Invoke(MonMain.attackBuff.ToString());
+        speedBuff *= ApplyStanceModifier(speedbuff);
+        delegateSpeedChange?.Invoke(speedBuff.ToString());
     }
 
     public  DelegateStatusChange delegateDefenseChange;
-    public void ChangeBaseDefense(float defenseBuff)
+    public void ChangeBaseDefense(float defensebuff)
     {
-        MonMain.defenseBuff *= ApplyStanceModifier(defenseBuff);
-        delegateDefenseChange?.Invoke(MonMain.attackBuff.ToString());
+        defenseBuff *= ApplyStanceModifier(defensebuff);
+        delegateDefenseChange?.Invoke(defenseBuff.ToString());
 
     }
 
     public float GetCurrentSpeed()
     {
-        return MonMain.SpeedCurrent * MonMain.speedBuff;
+        return MonMain.SpeedCurrent * speedBuff;
     }
     public MonMeshManager GetMonMeshManager()
     {
