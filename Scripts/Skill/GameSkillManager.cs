@@ -11,6 +11,8 @@ public class GameSkillManager
 
         bool killed = skill.HandleSkill(skill,ally,enemy);
 
+        if (allyAnimation == null)
+        Debug.Log("here is null");
         skill.HandleAnimation(allyAnimation);
 
         return killed;

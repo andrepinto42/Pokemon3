@@ -21,20 +21,22 @@ public class GameBattleLoader : MonoBehaviour
             Singleton = this;
     }
 
-    public void StartBattleLoadEnemyMon()
+    public void StartBattleWildEnemy(MonManager enemy1,MonGame monGame,GameObject monGameObject)
     {
-        
+        //Load into the enemy1 MonManager so it can handle it's health and UI
+        enemy1.LoadNewMon(monGame,monGameObject);
+
+        this.enemy = enemy1;
+
+        StartBattleAlly();
+
     }
-    public async void StartBattleLoader(MonManager enemy,Trainer enemyTrainer) 
+
+    public async void StartBattleTrainerEnemy(MonManager enemy1,Trainer enemyTrainer1)
     {
-        //Store global variables
-        ally = gameStatusManager.ally;
-        // enemy = gameStatusManager.enemy;
-        allyTrainer = gameStatusManager.allyTrainer;
-        // enemyTrainer = gameStatusManager.enemyTrainer;
-
-
-        //Initialize the ally
+        this.enemy = enemy1;
+        this.enemyTrainer = enemyTrainer1;
+        
         TrainerHandler.RestartStatsMon(ally.MonMain);
 
         //Debug
@@ -49,11 +51,20 @@ public class GameBattleLoader : MonoBehaviour
         //Reset the stats of all mons on the enemy trainer
         TrainerHandler.ResetMonTrainer(enemyTrainer);
 
+        StartBattleAlly();
+
+    }
+    public async void StartBattleAlly() 
+    {
+        //Store global variables
+        this.ally = gameStatusManager.ally;
+        this.allyTrainer = gameStatusManager.allyTrainer;
+
     
         await Task.Delay(1000);
     
-    //TODO
-    //add animations to look better the spawning
+        //TODO
+        //add animations to look better the spawning
         ally.InitializeMeshMon(ally.MonMain);
 
         allyParticlesSpawning.gameObject.SetActive(true);

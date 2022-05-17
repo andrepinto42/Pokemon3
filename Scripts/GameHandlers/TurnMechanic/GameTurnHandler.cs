@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 public class GameTurnHandler
 {
     private List<string> messagesEndTurn = new List<string>(){
@@ -28,6 +29,9 @@ public class GameTurnHandler
         this.firstSkill = firstSkill;
         this.secondSkill = secondSkill;
 
+        /*
+        GetComponent inChildren are a little bit dangerous
+        */
         firstAnimations = firstManager.gameObject.GetComponentInChildren<HandleAnimations>();
         secondAnimations = secondManager.gameObject.GetComponentInChildren<HandleAnimations>();
         
@@ -66,6 +70,9 @@ public class GameTurnHandler
         firstTurnMechanic.onAttackOver -= StartSecondMonMove;
 
         await TextDialogManager.Singleton.PushText(secondSkill,secondMonManager,firstMonManager);
+        if (secondAnimations == null)
+            Debug.Log("null here too");
+        
         bool killed = GameSkillManager.HandleSkill(secondSkill,secondMonManager,firstMonManager,secondAnimations);
         
         if (killed)
@@ -101,7 +108,7 @@ public class GameTurnHandler
 
     private string RandomMessageFinalTurn()
     {
-        Random r = new Random();
+        System.Random r = new System.Random();
         int pos = r.Next(0,messagesEndTurn.Count);
         return messagesEndTurn[pos];
     }

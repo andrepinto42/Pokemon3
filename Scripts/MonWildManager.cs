@@ -36,10 +36,8 @@ public class MonWildManager : MonoBehaviour
         //Display the HUD after the rotation is done
         monMeshManager.pivotHUD.gameObject.SetActive(true);
         
-        //This implementation may seem a little bit off maybe there is a better way
-        GameStatusManager.Singleton.enemy.MonMain = monGame;
-
-        GameBattleLoader.Singleton.StartBattleLoader(GameStatusManager.Singleton.enemy,GameStatusManager.Singleton.enemyTrainer);
+        //Offset the logic to another component
+        GameBattleLoader.Singleton.StartBattleWildEnemy(GameStatusManager.Singleton.enemy,monGame,this.gameObject);
     }
 
     public void DisengageBattle()

@@ -36,6 +36,8 @@ public class SkillDamage : Skill{
     
     public override void HandleAnimation(HandleAnimations handleAnimation)
     {
+        if (handleAnimation == null)
+            Debug.Log("Handle animation is null");
         handleAnimation.ChangeAnimationState(handleAnimation.MON_ATTACK);
     }
     public override bool HandleSkill(Skill skill, MonManager ally, MonManager enemy){

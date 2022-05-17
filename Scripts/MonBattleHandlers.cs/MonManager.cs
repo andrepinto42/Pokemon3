@@ -21,14 +21,13 @@ public class MonManager : MonoBehaviour
     [HideInInspector]public Skill lastSkillUsed = null;
     HandleAnimations handleAnimations;
     MonMeshManager monMeshManager;
-    void Start()
+    
+
+    public void SwapMon(MonGame mon)
     {
-        //DISABLED FOR TESTING
-    //     TrainerHandler.RestartStatsMon(MonMain);
-
-    //     InitializeMeshMon(MonMain);
+        KillGameObject();
+        InitializeMeshMon(mon);
     }
-
     public void InitializeMeshMon(MonGame currentMon)
     {
         MonMain = currentMon;
@@ -38,25 +37,35 @@ public class MonManager : MonoBehaviour
         var monGameObject = Instantiate(currentMon.GetMonMeshManager().gameObject,this.transform.position,
         Quaternion.Euler(0,rotationY,0),this.transform);
 
+       SetupConfigMon(monGameObject);
+    }
+    public void LoadNewMon(MonGame monGame,GameObject monGameObject)
+    {
+        MonMain = monGame;
+        this.transform.position = monGameObject.transform.position;
+        
+        //Need to set the parent to the MonManager otherwise the code wont work
+        monGameObject.transform.SetParent(this.transform);
+        
+        SetupConfigMon(monGameObject);
+    }
+    private void SetupConfigMon(GameObject monGameObject)
+    {
         //Store the value of Handle animations and MonMeshManager in other scripts
         this.handleAnimations = monGameObject.GetComponent<HandleAnimations>();
         this.monMeshManager = monGameObject.GetComponent<MonMeshManager>();
 
+        
         //Update the HUD of the Mon
-        string nameMon =currentMon.GetNameMon();
+        string nameMon =MonMain.GetNameMon();
         monMeshManager.textNameMon.SetText(nameMon);
         
-        monMeshManager.levelText.SetText(currentMon.level.ToString());
+        monMeshManager.levelText.SetText(MonMain.level.ToString());
          
-        monMeshManager.UpdateHealth(currentHealth,currentMon.maxHealth);
-        monMeshManager.UpdateStamina(currentStamina,currentMon.maxStamina);
+        monMeshManager.UpdateHealth(currentHealth,MonMain.maxHealth);
+        monMeshManager.UpdateStamina(currentStamina,MonMain.maxStamina);
     }
-
-    public void SwapMon(MonGame mon)
-    {
-        KillGameObject();
-        InitializeMeshMon(mon);
-    }
+  
     
     public void TakeDamage(float damage)
     {
