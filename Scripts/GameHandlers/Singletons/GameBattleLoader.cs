@@ -60,8 +60,28 @@ public class GameBattleLoader : MonoBehaviour
         this.ally = gameStatusManager.ally;
         this.allyTrainer = gameStatusManager.allyTrainer;
 
-    
+        var p_object = GamePlayerStatusHandler.Singleton.playerGameObject;
+        var pcam =p_object.GetComponent<PlayerCameraFollow>();
+        var pmove =p_object.GetComponent<PlayerMovement>();
+        
+        Debug.Log("Enemy position" +enemy.transform.position);
+        Debug.Log("Ally position" +p_object.transform.position);
+         
+        pmove.StopMoving();
+        pcam.canMove = false;
+        
+        var middle = (enemy.transform.position + p_object.transform.position) / 2f;
+        var forwardPlayer =Vector3.Normalize(enemy.transform.position - p_object.transform.position);
+
+        pcam.MoveCamera(middle);
+        pcam.LookCamera(enemy.transform.position);
+        pcam.MoveCamera(middle + Vector3.up * 2 + forwardPlayer * 2);
+        
         await Task.Delay(1000);
+
+        GameUILoader.Singleton.PushBattleBeginInterface();
+        await TextDialogManager.Singleton.PushText("A wild "+ enemy.MonMain.GetNameMon()+ " has appeared!");
+    
     
         //TODO
         //add animations to look better the spawning
@@ -69,21 +89,23 @@ public class GameBattleLoader : MonoBehaviour
 
         allyParticlesSpawning.gameObject.SetActive(true);
         allyParticlesSpawning.gameObject.transform.position = ally.gameObject.transform.position;
-
+        
 
         await Task.Delay(1000);
 
-        GameUILoader.Singleton.PushBattleBeginInterface();
         
         //Load buttons images
 		HandleSkillButton.InitializeButtonsSkills(gameStatusManager.allSkills,ally.MonMain);
         
         allyParticlesSpawning.gameObject.SetActive(false);
 		
-        await Task.Delay(500);
-        //Currently now it should wait for the reference to be loaded
-		await TextDialogManager.Singleton.PushText("A wild "+ enemy.MonMain.GetNameMon()+ " has appeared!");
-		gameStatusManager.allOptionsButtons.SetActive(true);   
+        await Task.Delay(1000);
+		gameStatusManager.allOptionsButtons.SetActive(true);
+        GameUILoader.Singleton.PushBattleStartEndingInterface();
+        
+        //Reset the player to its default Location
+        pcam.canMove = true;
+        pmove.canMove= true;
     }
     private void OnDisable() 
     {

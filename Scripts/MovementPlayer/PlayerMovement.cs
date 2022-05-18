@@ -10,10 +10,10 @@ public class PlayerMovement : MonoBehaviour
     public float GroundSpeed = 30f;
     public float MaxSpeed = 30f;
     public float turnSmoothTime = 10f;    
-    public Transform PlayerMainCamera;
+    Transform PlayerMainCamera;
     PlayerGravity playerGravity;
     Rigidbody _rigidbody;
-    bool canMove = true;
+    public bool canMove = true;
     float offsetPlayerFeet;
 
     public delegate void ListenerActions();
@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public event ListenerActions onStopEvent;
     private void Awake()
     {
+        PlayerMainCamera = GetComponentInChildren<Camera>().transform;
         if (PlayerMainCamera == null)
             PlayerMainCamera = Camera.main.transform;
     
@@ -91,5 +92,11 @@ public class PlayerMovement : MonoBehaviour
      private void OnDrawGizmos()
     {
         Gizmos.DrawRay(transform.position,moveDir*10);
+    }
+
+    public void StopMoving()
+    {
+        onStopEvent();
+        canMove = false;
     }
 }

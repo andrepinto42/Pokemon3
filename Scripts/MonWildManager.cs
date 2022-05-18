@@ -36,6 +36,12 @@ public class MonWildManager : MonoBehaviour
         //Display the HUD after the rotation is done
         monMeshManager.pivotHUD.gameObject.SetActive(true);
         
+        //Change the stats of the Wild Mon Here
+        monGame.currentHealth = monGame.maxHealth;
+        monGame.currentStance = monGame.maxStance;
+        monGame.currentStamina = monGame.maxStamina;
+
+
         //Offset the logic to another component
         GameBattleLoader.Singleton.StartBattleWildEnemy(GameStatusManager.Singleton.enemy,monGame,this.gameObject);
     }
@@ -58,7 +64,7 @@ public class MonWildManager : MonoBehaviour
     {
         while(!cancelToken.IsCancellationRequested)
         {
-            bool foundPlayer =Physics.CheckSphere(transform.position, 5f,layerToCollide );
+            bool foundPlayer =Physics.CheckSphere(transform.position, radiusOfCheckingPlayer,layerToCollide );
             
             if (foundPlayer)
                 break;

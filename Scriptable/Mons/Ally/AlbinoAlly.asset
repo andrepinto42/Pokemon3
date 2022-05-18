@@ -12,19 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: defc1bdbe08d42246aa22d7f15688ef0, type: 3}
   m_Name: AlbinoAlly
   m_EditorClassIdentifier: 
-  currentHealth: 20
+  currentHealth: 100
   currentStamina: 20
-  attackBuff: 1
-  defenseBuff: 1
-  speedBuff: 1
   currentStance: 50
   monADN: {fileID: 11400000, guid: 266e4ce5369dca9418a695780c476b8b, type: 2}
-  experiencePoints: 2615
+  experiencePoints: 2641
   level: 34
   nickname: 
   typeSecondary: 6
   maxHealth: 100
   maxStamina: 20
+  baseAttackType:
+    arrayAtributtes:
+    - 30
+    - 1
+    - 1
+    - 1
+  baseDefenseType:
+    arrayAtributtes:
+    - 20
+    - 1
+    - 1
+    - 1
   maxStance: 50
   SpeedCurrent: 39
   AttackCurrent: 50

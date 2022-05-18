@@ -37,7 +37,7 @@ public class MonManager : MonoBehaviour
         var monGameObject = Instantiate(currentMon.GetMonMeshManager().gameObject,this.transform.position,
         Quaternion.Euler(0,rotationY,0),this.transform);
 
-       SetupConfigMon(monGameObject);
+       SetupConfigMon(monGameObject,currentMon);
     }
     public void LoadNewMon(MonGame monGame,GameObject monGameObject)
     {
@@ -46,16 +46,21 @@ public class MonManager : MonoBehaviour
         
         //Need to set the parent to the MonManager otherwise the code wont work
         monGameObject.transform.SetParent(this.transform);
+        monGameObject.transform.localPosition = Vector3.zero;
         
-        SetupConfigMon(monGameObject);
+        SetupConfigMon(monGameObject,monGame);
     }
-    private void SetupConfigMon(GameObject monGameObject)
+    private void SetupConfigMon(GameObject monGameObject,MonGame monGame)
     {
         //Store the value of Handle animations and MonMeshManager in other scripts
         this.handleAnimations = monGameObject.GetComponent<HandleAnimations>();
         this.monMeshManager = monGameObject.GetComponent<MonMeshManager>();
 
-        
+        //Update the current Stats of the Mon
+        this.currentHealth = monGame.currentHealth;
+        this.currentStamina = monGame.maxStamina;
+        this.currentStance = monGame.maxStamina;
+
         //Update the HUD of the Mon
         string nameMon =MonMain.GetNameMon();
         monMeshManager.textNameMon.SetText(nameMon);

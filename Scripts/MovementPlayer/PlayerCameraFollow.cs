@@ -9,26 +9,34 @@ public class PlayerCameraFollow : MonoBehaviour
     public float offsetY = 0.5f;
     public float sensitivy = 1f;
     public bool invertX = true;
+    public bool canMove = true;
 
-    public Transform playerMainCamera;
+    Transform playerMainCamera;
     private float invert = -1f;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        //Not working currently TODOs
-        // playerMainCamera = GetComponent<PlayerCameraFollow>().playerMainCamera;
+        playerMainCamera = GetComponentInChildren<Camera>().transform;
+
         if (playerMainCamera == null)
             playerMainCamera = Camera.main.transform;
+    }
+    void Start()
+    {
+        playerMainCamera.SetParent(null);
         //Ensure that if mouse goes from window start to finish then 1 lap will be made
         sensitivy *= (float) ((2f * Math.PI)/ (float) Screen.width);
         
         invert = (invertX) ? -1f : 1f;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        //This public variable could be changed
+        if (!canMove)
+            return;
+
         float mouseX = Input.mousePosition.x * sensitivy;
         var mouseRotateOffset = GetCirclePosition(mouseX);
         playerMainCamera.position = transform.position +  mouseRotateOffset;
@@ -41,5 +49,15 @@ public class PlayerCameraFollow : MonoBehaviour
         float y =(float) Math.Sin(mouseX * invert) * radius;
         float x =(float) Math.Cos(mouseX * invert) * radius;
         return new Vector3(x,offsetY,y);
+    }
+
+    public void MoveCamera(Vector3 v)
+    {
+        playerMainCamera.position = v;
+    }
+
+    public void LookCamera(Vector3 v)
+    {
+        playerMainCamera.LookAt(v,Vector3.up);
     }
 }

@@ -32,6 +32,10 @@ public class GameUILoader : MonoBehaviour
     public void PushBattleBeginInterface()
     {
         TextoDialogoCombate.SetActive(true);
+    }
+
+    public void PushBattleStartEndingInterface()
+    {
         BordaButoes.SetActive(true);
     }
 }
