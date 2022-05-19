@@ -23,19 +23,46 @@ public class MonManager : MonoBehaviour
     MonMeshManager monMeshManager;
     
 
-    public void SwapMon(MonGame mon)
+    public async Task SwapMon(MonGame mon,ParticleSystem particles)
     {
+        //During some frames the pokemon will decrease in size
+        var objectAllyMon = monMeshManager.transform;
+        var startScale = objectAllyMon.localScale.x; 
+        for (float j = startScale; j > 0f; j-=0.01f)
+        {
+            objectAllyMon.localScale = new Vector3(j,j,j);
+            await Task.Delay(20);
+        }
+
         KillGameObject();
-        InitializeMeshMon(mon);
+        await InitializeMeshMon(mon,particles);
     }
-    public void InitializeMeshMon(MonGame currentMon)
+    //Need to add to all previous references the await callback and be carefull with the particle system
+    public async Task InitializeMeshMon(MonGame currentMon,ParticleSystem particles)
     {
         MonMain = currentMon;
      
+        //Start the vfx of the particle System
+        particles.gameObject.SetActive(true);
+        particles.gameObject.transform.position = this.gameObject.transform.position;
+
         //Dont do this
         //monMeshManager = currentMon.GetMonMeshManager();   
         var monGameObject = Instantiate(currentMon.GetMonMeshManager().gameObject,this.transform.position,
         Quaternion.Euler(0,rotationY,0),this.transform);
+
+        //Lets consider that x,z,y have all the same scale and store it
+        float maxScale =monGameObject.transform.localScale.x;
+
+        monGameObject.transform.localScale = Vector3.zero;
+        
+        for (float i = 0; i < maxScale; i+=0.01f)
+        {
+            monGameObject.transform.localScale = new Vector3(i,i,i);
+            await Task.Delay(20);
+        }
+
+        particles.gameObject.SetActive(false);
 
        SetupConfigMon(monGameObject,currentMon);
     }

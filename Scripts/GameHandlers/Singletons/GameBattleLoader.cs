@@ -5,6 +5,10 @@ public class GameBattleLoader : MonoBehaviour
 {
     public static GameBattleLoader Singleton = null;
     public ParticleSystem allyParticlesSpawning;
+    public LayerMask layerToCollide;
+    public float newDegreeLookAtPlayer = 80f;
+    public float increaseDistanceCam = 1f;
+    public float increaseHeightCam = 2f;
     [HideInInspector] public MonManager ally;
     [HideInInspector] public MonManager enemy;
     [HideInInspector] public Trainer allyTrainer;
@@ -45,7 +49,7 @@ public class GameBattleLoader : MonoBehaviour
      
         //Initialize the enemy
         TrainerHandler.RestartStatsMon(enemy.MonMain);
-        enemy.InitializeMeshMon(enemy.MonMain);
+        await enemy.InitializeMeshMon(enemy.MonMain,allyParticlesSpawning);
 
 
         //Reset the stats of all mons on the enemy trainer
@@ -64,41 +68,78 @@ public class GameBattleLoader : MonoBehaviour
         var pcam =p_object.GetComponent<PlayerCameraFollow>();
         var pmove =p_object.GetComponent<PlayerMovement>();
         
-        Debug.Log("Enemy position" +enemy.transform.position);
-        Debug.Log("Ally position" +p_object.transform.position);
-         
         pmove.StopMoving();
         pcam.canMove = false;
         
-        var middle = (enemy.transform.position + p_object.transform.position) / 2f;
-        var forwardPlayer =Vector3.Normalize(enemy.transform.position - p_object.transform.position);
+        Vector3 ePos = enemy.transform.position;
+        Vector3 playerPos = p_object.transform.position;
 
-        pcam.MoveCamera(middle);
-        pcam.LookCamera(enemy.transform.position);
-        pcam.MoveCamera(middle + Vector3.up * 2 + forwardPlayer * 2);
-        
-        await Task.Delay(1000);
+        var middle = (ePos + playerPos) / 2f;
+        var forwardPlayer =Vector3.Normalize(ePos - playerPos);
 
+        await pcam.MoveCamera(middle,ePos);
+
+        //Push dialog and at the same time move the camera around
         GameUILoader.Singleton.PushBattleBeginInterface();
-        await TextDialogManager.Singleton.PushText("A wild "+ enemy.MonMain.GetNameMon()+ " has appeared!");
-    
-    
+        var t1= TextDialogManager.Singleton.PushText("A wild "+ enemy.MonMain.GetNameMon()+ " has appeared!");
+        var t2 = pcam.MoveCamera(middle + Vector3.up * 2 + forwardPlayer * 2,ePos);
+        
+        await Task.WhenAll(t1,t2);
+
+        //Go up a little bit
+        // forwardPlayer.y = 1f;
+
+        // //Pan the camera away from the player in the direction of the enemy
+        // await pcam.MoveCamera(ePos+forwardPlayer*3,playerPos);
+
+        var v0 = middle -playerPos;
+
+        float distanceMiddle = Mathf.Sqrt(v0.x * v0.x + v0.z * v0.z);
+        var angleRad=        Mathf.Acos(v0.x / distanceMiddle);
+
+        var graus =  angleRad * Mathf.Rad2Deg;
+
+        var newAngle = (graus - newDegreeLookAtPlayer) * Mathf.Deg2Rad;
+
+        var newPosition = new Vector3(
+            (distanceMiddle+increaseDistanceCam) * Mathf.Cos(newAngle),
+            v0.y+increaseHeightCam,
+            (distanceMiddle+increaseDistanceCam) * Mathf.Sin(newAngle));
+        
+        Debug.Log("new cam position" + newPosition);
+        var middlemiddle = (middle + playerPos) / 2f;
+        
+        pcam.MoveCameraInstant(playerPos+ newPosition,middlemiddle);         
+
+
+        var t3 = TextDialogManager.Singleton.PushText("Let's fight "+ ally.MonMain.GetNameMon()+ " !!!");
+        
+        RaycastHit hit;
+        if (Physics.Raycast(middle+Vector3.up,Vector3.down,out hit,5f,layerToCollide))
+        {
+            Debug.Log("We hit something");
+            ally.transform.position = hit.point;
+        }
+        else ally.transform.position= middle;
+
+        ally.transform.LookAt(ePos);
+
         //TODO
         //add animations to look better the spawning
-        ally.InitializeMeshMon(ally.MonMain);
+        var t4 =ally.InitializeMeshMon(ally.MonMain,allyParticlesSpawning);
 
-        allyParticlesSpawning.gameObject.SetActive(true);
-        allyParticlesSpawning.gameObject.transform.position = ally.gameObject.transform.position;
-        
-
+        await Task.WhenAll(t3,t4);
         await Task.Delay(1000);
-
         
         //Load buttons images
 		HandleSkillButton.InitializeButtonsSkills(gameStatusManager.allSkills,ally.MonMain);
         
-        allyParticlesSpawning.gameObject.SetActive(false);
-		
+        var middleMons = (ally.transform.position + ePos)/2f;
+        //Move the camera for a better cinematic view
+		pcam.MoveCameraInstant(ally.transform.position + Vector3.back*5f + Vector3.up*increaseHeightCam,middleMons);
+
+        pcam.enabled = false;
+
         await Task.Delay(1000);
 		gameStatusManager.allOptionsButtons.SetActive(true);
         GameUILoader.Singleton.PushBattleStartEndingInterface();

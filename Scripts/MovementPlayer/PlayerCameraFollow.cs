@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class PlayerCameraFollow : MonoBehaviour
 {
@@ -51,13 +52,23 @@ public class PlayerCameraFollow : MonoBehaviour
         return new Vector3(x,offsetY,y);
     }
 
-    public void MoveCamera(Vector3 v)
+    public async Task MoveCamera(Vector3 v,Vector3 lookAt)
     {
-        playerMainCamera.position = v;
+        var start = playerMainCamera.position;
+        int frames = 100;
+        float increase = 1f/(float)frames;
+        for (float i = 0f; i < 1; i+= increase)
+        {
+            playerMainCamera.position = Vector3.Lerp(start,v,i);
+            playerMainCamera.LookAt(lookAt,Vector3.up);
+            await Task.Delay(20);
+        }
     }
 
-    public void LookCamera(Vector3 v)
+     public void MoveCameraInstant(Vector3 v,Vector3 lookAt)
     {
-        playerMainCamera.LookAt(v,Vector3.up);
+        playerMainCamera.position = v;
+        playerMainCamera.LookAt(lookAt,Vector3.up);
     }
+
 }

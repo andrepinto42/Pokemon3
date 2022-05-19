@@ -9,6 +9,8 @@ public class GameHandlerSwapMon : MonoBehaviour
 {
     public GameObject PopUpSwapDisplayMon;
     public GameObject allMonsTextDisplay;
+    public GameObject DisplayAllSkils;
+    public GameObject buttonHandlers;
     public SkillSwapMon swapSkillAlly;
     public SkillSwapMon swapSkillEnemy;
     GameMonStatsDisplay gameMonStatsDisplay;
@@ -47,36 +49,24 @@ public class GameHandlerSwapMon : MonoBehaviour
 
         Debug.Log("Swapping to this mon ->" + monEntering);
         PopUpSwapDisplayMon.SetActive(false);
+        DisplayAllSkils.SetActive(false);
+        buttonHandlers.SetActive(false);
         
         //Creates a new SwapAbility to be sent to the GameStatusManager
         swapSkillAlly.monExiting = monExiting.GetNameMon();
         swapSkillAlly.monEntering = monEntering.GetNameMon();
         
-        //During 100 frames the pokemon will decrease in size
-        var objectAllyMon = GameStatusManager.Singleton.ally.gameObject.transform;
-        for (float j = 1f; j > 0f; j-=0.01f)
-        {
-            objectAllyMon.localScale = new Vector3(j,j,j);
-            await Task.Yield();
-        }
-
-        //Swap the mon and handles the mesh and more UI coordenitaion
-        GameStatusManager.Singleton.ally.SwapMon(monEntering);
-
+        
         //Consume the players turn and return the object that is holds the logic for the turns
         var gameTurnHandler = GameStatusManager.Singleton.SendPlayerSkill_Beginning(swapSkillAlly);
         
-        //During 100 frames the pokemon will increase in size
-        for (float j = 0f; j < 1f; j+=0.01f)
-        {
-            objectAllyMon.localScale = new Vector3(j,j,j);
-            await Task.Yield();
-        }
-
         Debug.Log("Should Sleep now for a 3s");
         await Task.Delay(3000);
-        Debug.Log("Awake now");
         
+        
+        //Swap the mon and handles the mesh and more UI coordenitaion
+        await GameStatusManager.Singleton.ally.SwapMon(monEntering,GameBattleLoader.Singleton.allyParticlesSpawning);
+
         //Change all of the buttons to match the mon abilities
 		HandleSkillButton.InitializeButtonsSkills(GameStatusManager.Singleton.allSkills,monEntering);
         

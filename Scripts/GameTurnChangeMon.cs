@@ -17,7 +17,10 @@ public class GameTurnChangeMon : MonoBehaviour
 
         enemy.KillGameObject();
         TrainerHandler.RestartStatsMon(nextMon);
-        enemy.InitializeMeshMon(nextMon);
+
+        //Wait for the mon to appear in the screen
+        await enemy.InitializeMeshMon(nextMon,GameBattleLoader.Singleton.allyParticlesSpawning);
+        
         GameHUDStatusManager.Singleton.ToggleDisplay(false);
 
         await TextDialogManager.Singleton.PushText(enemyTrainer.nameTrainer + " sent "

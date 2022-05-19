@@ -39,7 +39,7 @@ public class HelperMonNear{
 
     public static async Task GoAwayFromEnemy()
     {
-
+        Debug.Log(allyIntermediatePosition +" "+initialPosition+ " "+ allyT.position);
         for (float i = 0; i <1f; i+=step)
         {
             allyT.position = Vector3.Lerp(allyIntermediatePosition,initialPosition,i);

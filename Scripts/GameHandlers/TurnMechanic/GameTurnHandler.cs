@@ -70,8 +70,6 @@ public class GameTurnHandler
         firstTurnMechanic.onAttackOver -= StartSecondMonMove;
 
         await TextDialogManager.Singleton.PushText(secondSkill,secondMonManager,firstMonManager);
-        if (secondAnimations == null)
-            Debug.Log("null here too");
         
         bool killed = GameSkillManager.HandleSkill(secondSkill,secondMonManager,firstMonManager,secondAnimations);
         
