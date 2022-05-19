@@ -26,24 +26,12 @@ public class GameStatusManager : MonoBehaviour
 	{
 		if(Singleton == null)
 			Singleton = this;
-	
-		allOptionsButtons.SetActive(false);
-		allSkills.SetActive(false);
-		PopUpMonButton.SetActive(false);
-		PopUpSwitchInMenu.SetActive(false);
-
-		//TODO - Send this logic to a new class
-		//Assumes that the combat started
-		// TrainerHandler.ResetMonTrainer(enemyTrainer);
-		// HandleSkillButton.InitializeButtonsSkills(allSkills,ally.MonMain);
-		
-		// await textDialogManager.PushText("A wild "+ enemy.MonMain.GetNameMon()+ " has appeared!");
-		// allOptionsButtons.SetActive(true);
-
 	}
 
-	//WHEN AN ALLY ATTACKS USING THE BUTTON
-	public void AllySelectsAttack()
+   
+
+    //WHEN AN ALLY ATTACKS USING THE BUTTON
+    public void AllySelectsAttack()
    {
 		allOptionsButtons.SetActive(false);
 		allSkills.SetActive(true);
@@ -86,11 +74,14 @@ public class GameStatusManager : MonoBehaviour
 
     internal async void SendNextMon(MonGame monVictorius)
     {
+		//Check to see if we are fighting a wild pokemon
+		if (enemyTrainer == null)
+		{
+			EndBattle();
+			return;
+		}
+
 		bool hasNextMon;
-		//This function behaves very weird
-		//For some reason you cant instantiate a object and assign it to the MonManager transform,
-		//For that we need to do a little cheating, 
-		// fixed-> LEANTWEEN.SCALE was making the mesh not render...
         if(ally.MonMain == monVictorius)
 		{
 			hasNextMon = await gameTurnChangeMon.HandleNextEnemyMon(enemy,enemyTrainer);
@@ -98,8 +89,10 @@ public class GameStatusManager : MonoBehaviour
 		else
 			hasNextMon = gameTurnChangeMon.HandleNextAllyMon(ally,allyTrainer);
     }
-	
-	public GameTurnHandler SendPlayerSkill_Beginning(Skill skillAlly){
+
+   
+
+    public GameTurnHandler SendPlayerSkill_Beginning(Skill skillAlly){
 		
 		//TODO Add the possibilty that the enemy can swap out pokemon
 		Skill skillEnemy = SkillBotManager.FindBestSkill(enemy,ally,
@@ -126,5 +119,19 @@ public class GameStatusManager : MonoBehaviour
 		TurnMechanicMon.onTurnOver += turnHandler.HandleOnTurnOver;
 		return turnHandler;
 	}
+	//TODO
+	 private async void EndBattle()
+    {
+		TurnOffUI();
+		
+		var pcam =  GamePlayerStatusHandler.Singleton.playerGameObject.GetComponent<PlayerCameraFollow>();		
+		pcam.enabled = true;
+		await Task.Delay(3000);
+		ally.KillGameObject();
+	}
+	private void TurnOffUI()
+    {
+		GameUILoader.Singleton.PopUserInterface();
+    }
 
 }

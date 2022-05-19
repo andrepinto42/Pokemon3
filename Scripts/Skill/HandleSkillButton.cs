@@ -45,6 +45,8 @@ public class HandleSkillButton
                 allSkillsTransform[i].gameObject.SetActive(false);
                 continue;
             }
+            //Force the ativation of the gameObject
+            allSkillsTransform[i].gameObject.SetActive(true);
             
             //Set name Skill Text
             var text =allSkillsTransform[i].GetChild(positionChildHabilityText).GetComponent<TMP_Text>();

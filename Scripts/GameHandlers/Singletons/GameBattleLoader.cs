@@ -31,6 +31,11 @@ public class GameBattleLoader : MonoBehaviour
         enemy1.LoadNewMon(monGame,monGameObject);
 
         this.enemy = enemy1;
+        this.enemyTrainer = null;
+        
+        GameStatusManager.Singleton.enemy = this.enemy;
+        GameStatusManager.Singleton.enemyTrainer = this.enemyTrainer;
+
 
         StartBattleAlly();
 
@@ -40,7 +45,9 @@ public class GameBattleLoader : MonoBehaviour
     {
         this.enemy = enemy1;
         this.enemyTrainer = enemyTrainer1;
-        
+        GameStatusManager.Singleton.enemy = this.enemy;
+        GameStatusManager.Singleton.enemyTrainer = this.enemyTrainer;
+
         TrainerHandler.RestartStatsMon(ally.MonMain);
 
         //Debug
@@ -92,24 +99,7 @@ public class GameBattleLoader : MonoBehaviour
         // //Pan the camera away from the player in the direction of the enemy
         // await pcam.MoveCamera(ePos+forwardPlayer*3,playerPos);
 
-        var v0 = middle -playerPos;
-
-        float distanceMiddle = Mathf.Sqrt(v0.x * v0.x + v0.z * v0.z);
-        var angleRad=        Mathf.Acos(v0.x / distanceMiddle);
-
-        var graus =  angleRad * Mathf.Rad2Deg;
-
-        var newAngle = (graus - newDegreeLookAtPlayer) * Mathf.Deg2Rad;
-
-        var newPosition = new Vector3(
-            (distanceMiddle+increaseDistanceCam) * Mathf.Cos(newAngle),
-            v0.y+increaseHeightCam,
-            (distanceMiddle+increaseDistanceCam) * Mathf.Sin(newAngle));
-        
-        Debug.Log("new cam position" + newPosition);
-        var middlemiddle = (middle + playerPos) / 2f;
-        
-        pcam.MoveCameraInstant(playerPos+ newPosition,middlemiddle);         
+       SetCameraToMiddle(middle,playerPos,newDegreeLookAtPlayer,increaseDistanceCam,pcam);        
 
 
         var t3 = TextDialogManager.Singleton.PushText("Let's fight "+ ally.MonMain.GetNameMon()+ " !!!");
@@ -122,11 +112,11 @@ public class GameBattleLoader : MonoBehaviour
         }
         else ally.transform.position= middle;
 
-        ally.transform.LookAt(ePos);
 
         //TODO
         //add animations to look better the spawning
         var t4 =ally.InitializeMeshMon(ally.MonMain,allyParticlesSpawning);
+        ally.transform.LookAt(ePos);
 
         await Task.WhenAll(t3,t4);
         await Task.Delay(1000);
@@ -134,9 +124,8 @@ public class GameBattleLoader : MonoBehaviour
         //Load buttons images
 		HandleSkillButton.InitializeButtonsSkills(gameStatusManager.allSkills,ally.MonMain);
         
-        var middleMons = (ally.transform.position + ePos)/2f;
-        //Move the camera for a better cinematic view
-		pcam.MoveCameraInstant(ally.transform.position + Vector3.back*5f + Vector3.up*increaseHeightCam,middleMons);
+        // //Move the camera for a better cinematic view
+       SetCameraToMiddle(ally.transform.position,ePos,-60f,3f,pcam);        
 
         pcam.enabled = false;
 
@@ -147,6 +136,27 @@ public class GameBattleLoader : MonoBehaviour
         //Reset the player to its default Location
         pcam.canMove = true;
         pmove.canMove= true;
+    }
+
+    private void SetCameraToMiddle(Vector3 startPoint,Vector3 endPoint,float angle,float increaseDistance,PlayerCameraFollow pcam)
+    {
+        var v0 = startPoint -endPoint;
+
+        float distanceMiddle = Mathf.Sqrt(v0.x * v0.x + v0.z * v0.z);
+        var angleRad=        Mathf.Acos(v0.x / distanceMiddle);
+
+        var graus =  angleRad * Mathf.Rad2Deg;
+
+        var newAngle = (graus - angle) * Mathf.Deg2Rad;
+
+        var newPosition = new Vector3(
+            (distanceMiddle+increaseDistance) * Mathf.Cos(newAngle),
+            v0.y+increaseHeightCam,
+            (distanceMiddle+increaseDistance) * Mathf.Sin(newAngle));
+        
+        var middle = (startPoint + endPoint) / 2f;
+        
+        pcam.MoveCameraInstant(endPoint+ newPosition,middle); 
     }
     private void OnDisable() 
     {

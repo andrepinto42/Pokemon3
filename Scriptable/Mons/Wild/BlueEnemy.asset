@@ -10,36 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: defc1bdbe08d42246aa22d7f15688ef0, type: 3}
-  m_Name: FoxxyEnemy
+  m_Name: BlueEnemy
   m_EditorClassIdentifier: 
-  currentHealth: 20
-  currentStamina: 20
-  currentStance: 5
-  monADN: {fileID: 11400000, guid: 4624adb7b1802004ab3812c2bdadf5c8, type: 2}
+  currentHealth: 10
+  currentStamina: 30
+  attackBuff: 1
+  defenseBuff: 1
+  speedBuff: 1
+  monADN: {fileID: 11400000, guid: abcda1bea314baf439bdd513c7e9af38, type: 2}
   experiencePoints: 0
-  level: 3
+  level: 10
   nickname: 
-  typeSecondary: 6
-  maxHealth: 20
-  maxStamina: 20
-  baseAttackType:
-    arrayAtributtes:
-    - 30
-    - 1
-    - 1
-    - 1
-  baseDefenseType:
-    arrayAtributtes:
-    - 20
-    - 1
-    - 1
-    - 1
-  maxStance: 5
-  SpeedCurrent: 1
+  type: 1
+  maxHealth: 10
+  maxStamina: 30
+  SpeedCurrent: 0
   AttackCurrent: 30
   DefenseCurrent: 20
   allSkills:
   - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}
   - {fileID: 11400000, guid: f23d80e3547944f498e44de239dd2f72, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 75c386759129fc249a66e7f349336ac1, type: 2}
+  - {fileID: 11400000, guid: 90f65cdab85b9864cb843fb5c428581b, type: 2}

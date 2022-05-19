@@ -10,7 +10,6 @@ public class MonManager : MonoBehaviour
     public MonTypesCombat buffAttackType = new MonTypesCombat(1f,1f,1f,1f);
     public MonTypesCombat buffDefenseType = new MonTypesCombat(1f,1f,1f,1f);
     
-    public float rotationY = 0f;
     public float currentHealth = 100f;
     public float currentStamina = 100f;
     public float attackBuff = 1f;
@@ -49,7 +48,7 @@ public class MonManager : MonoBehaviour
         //Dont do this
         //monMeshManager = currentMon.GetMonMeshManager();   
         var monGameObject = Instantiate(currentMon.GetMonMeshManager().gameObject,this.transform.position,
-        Quaternion.Euler(0,rotationY,0),this.transform);
+        Quaternion.Euler(0,0,0),this.transform);
 
         //Lets consider that x,z,y have all the same scale and store it
         float maxScale =monGameObject.transform.localScale.x;

@@ -2,19 +2,10 @@ using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using System.Threading;
+using System;
 
-
-[RequireComponent(typeof(MonMeshManager))]
 public class MonWildManager : MonoBehaviour
 {
-    void Awake()
-    {
-        monMeshManager = GetComponent<MonMeshManager>();
-    }
-    void Start()
-    {
-        DisengageBattle();
-    }
     //A little bit hacky implementation
     //This MONGAME should be linked somehow to the MonwilManager
     public MonGame monGame;
@@ -23,6 +14,26 @@ public class MonWildManager : MonoBehaviour
 
     const int frames = 60;
     const float interpolation = 1/(float)frames;
+
+    // void Awake()
+    // {
+    //     monMeshManager = GetComponent<MonMeshManager>();
+    // }
+    void Start()
+    {
+        InstantiateMon();
+
+        DisengageBattle();
+    }
+
+    private void InstantiateMon()
+    {
+        var monGameObject = Instantiate(monGame.GetMonMeshManager().gameObject,this.transform.position,
+        Quaternion.identity,this.transform);
+
+        monMeshManager = monGameObject.GetComponent<MonMeshManager>();
+    }
+
     public async void EngageBattle()
     {
         isInWild = false;
@@ -43,7 +54,8 @@ public class MonWildManager : MonoBehaviour
 
 
         //Offset the logic to another component
-        GameBattleLoader.Singleton.StartBattleWildEnemy(GameStatusManager.Singleton.enemy,monGame,this.gameObject);
+        //Important that we send the monMeshManager gameobject to be set as a child of MonManager otherwise engine will break?
+        GameBattleLoader.Singleton.StartBattleWildEnemy(GameStatusManager.Singleton.enemy,monGame,monMeshManager.gameObject);
     }
 
     public void DisengageBattle()
@@ -56,7 +68,7 @@ public class MonWildManager : MonoBehaviour
         Application.quitting += tokenCancellation.Cancel;
         taskLookForPlayer = LookForPlayer(tokenCancellation);
     }
-    public float radiusOfCheckingPlayer= 5f;
+    public float radiusOfCheckingPlayer= 20f;
     public LayerMask layerToCollide = 6;
     public int checkForPlayerFrequence = 500;
     [HideInInspector]public Task taskLookForPlayer;
