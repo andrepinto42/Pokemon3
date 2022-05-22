@@ -6,8 +6,6 @@ using System;
 
 public class MonWildManager : MonoBehaviour
 {
-    //A little bit hacky implementation
-    //This MONGAME should be linked somehow to the MonwilManager
     public MonGame monGame;
     public bool isInWild = true;
     MonMeshManager monMeshManager;
@@ -15,10 +13,6 @@ public class MonWildManager : MonoBehaviour
     const int frames = 60;
     const float interpolation = 1/(float)frames;
 
-    // void Awake()
-    // {
-    //     monMeshManager = GetComponent<MonMeshManager>();
-    // }
     void Start()
     {
         InstantiateMon();

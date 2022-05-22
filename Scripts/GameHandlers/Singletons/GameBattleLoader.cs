@@ -93,14 +93,8 @@ public class GameBattleLoader : MonoBehaviour
         
         await Task.WhenAll(t1,t2);
 
-        //Go up a little bit
-        // forwardPlayer.y = 1f;
-
-        // //Pan the camera away from the player in the direction of the enemy
-        // await pcam.MoveCamera(ePos+forwardPlayer*3,playerPos);
-
+        //Pan the camera away from the player in the direction of the enemy
        SetCameraToMiddle(middle,playerPos,newDegreeLookAtPlayer,increaseDistanceCam,pcam);        
-
 
         var t3 = TextDialogManager.Singleton.PushText("Let's fight "+ ally.MonMain.GetNameMon()+ " !!!");
         
@@ -112,13 +106,17 @@ public class GameBattleLoader : MonoBehaviour
         }
         else ally.transform.position= middle;
 
+        ally.transform.LookAt(ePos);
+        Debug.Log(ally.transform.rotation.eulerAngles);
 
         //TODO
         //add animations to look better the spawning
         var t4 =ally.InitializeMeshMon(ally.MonMain,allyParticlesSpawning);
-        ally.transform.LookAt(ePos);
+        
 
         await Task.WhenAll(t3,t4);
+
+        
         await Task.Delay(1000);
         
         //Load buttons images

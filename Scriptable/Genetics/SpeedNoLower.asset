@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: SpeedNoLower
   m_EditorClassIdentifier: 
   nameGenetic: 2
+  geneticName: Runner
   description: Very robust mon

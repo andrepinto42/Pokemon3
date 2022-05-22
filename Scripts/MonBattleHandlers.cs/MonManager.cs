@@ -48,8 +48,12 @@ public class MonManager : MonoBehaviour
         //Dont do this
         //monMeshManager = currentMon.GetMonMeshManager();   
         var monGameObject = Instantiate(currentMon.GetMonMeshManager().gameObject,this.transform.position,
-        Quaternion.Euler(0,0,0),this.transform);
+        Quaternion.identity,this.transform);
 
+        // Use local rotation to not interfere with the rotation of the parent
+        monGameObject.transform.localRotation = Quaternion.Euler(0,0,0);
+        // monGameObject.transform.rotation = Quaternion.Euler(0,0,0);
+        
         //Lets consider that x,z,y have all the same scale and store it
         float maxScale =monGameObject.transform.localScale.x;
 
@@ -72,6 +76,9 @@ public class MonManager : MonoBehaviour
         
         //Need to set the parent to the MonManager otherwise the code wont work
         monGameObject.transform.SetParent(this.transform);
+       
+
+
         monGameObject.transform.localPosition = Vector3.zero;
         
         SetupConfigMon(monGameObject,monGame);

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: DefenseNoLower
   m_EditorClassIdentifier: 
   nameGenetic: 1
+  geneticName: Harden Scales
   description: Very robust mon

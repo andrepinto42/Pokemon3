@@ -31,9 +31,6 @@ public class TurnMechanicMon : MonoBehaviour
         myEvent.objectReferenceParameter = this.gameObject;
         clip.AddEvent(myEvent);
     }
-
-    public delegate Task onAttackAnimationOver();
-    public event onAttackAnimationOver eventOnAttackAnimationOver;
     //Function called from the animation attack
     async void  AttackOver(string type)
    {
@@ -44,8 +41,11 @@ public class TurnMechanicMon : MonoBehaviour
             In case of damage this is here the damage effects particles are activated
         */
         Skill skill = GetComponentInParent<MonManager>().lastSkillUsed;
-            await skill.ApplyAnimationTrigger();
+        Debug.Log("Going to use "+skill.nameSkill);
+        
+        await skill.ApplyAnimationTrigger();
 
+        print("Current Stage + "+ turnStage);
         IncrementTurnStage();
    }
 
@@ -72,9 +72,14 @@ public class TurnMechanicMon : MonoBehaviour
        }
        else
        {
-           //Signal that the turn has ended
+           //Signal that the first Mon has finished attacking
             if (onAttackOver != null) 
                 onAttackOver();
        }
+   }
+
+   public void ResetTurnStage()
+   {
+       turnStage = 0;
    }
 }

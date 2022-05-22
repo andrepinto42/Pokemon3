@@ -24,7 +24,11 @@ public class TurnDeathMon
         //LEANTWEEN SCALES DOWNS
         LeanTween.scale(victimMonManager.gameObject.GetComponentInChildren<MonMeshManager>().gameObject,Vector3.zero,1f);
         await TextDialogManager.Singleton.PushTextAwaitKey(victimMonManager.MonMain.GetNameMon() + " has been defeated !");
-        var popUpObject = GameStatusManager.Singleton.PopUpMonButton;
+        
+        //Set the turn stage back to 0 
+        killerTurnMechanic.ResetTurnStage();
+
+        // var popUpObject = GameStatusManager.Singleton.PopUpMonButton;
 
         //Subscribe the event to be handled in the Class TurnAddLevel
         GameHUDStatusManager.Singleton.eventOnLevelGained += TurnAddLevel.AddLevelPokemon;

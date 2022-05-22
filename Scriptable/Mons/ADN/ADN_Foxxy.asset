@@ -16,11 +16,29 @@ MonoBehaviour:
   baseMaxStamina: 20
   experienceBase: 100
   nameMon: Foxxy
-  Attack: 30
-  Defense: 20
-  Speed: 5
+  baseAttackType:
+    arrayAtributtes:
+    - 1
+    - 1
+    - 1
+    - 1
+  baseDefenseType:
+    arrayAtributtes:
+    - 1
+    - 1
+    - 1
+    - 1
+  baseAttack: 30
+  baseDefense: 20
+  baseSpeed: 5
+  baseStance: 5
   monGameObjectTransform: {fileID: 4586016236329717202, guid: b06f05f5781b92d48b5d5789b6546c94, type: 3}
+  genetic: {fileID: 11400000, guid: c66e7fd53a0ee3440a076c13e52568d7, type: 2}
   typeMain: 3
+  attackGrow: 2
+  defenseGrow: 1
+  speedGrow: 1
+  healthGrow: 1
   allSkills:
   - {fileID: 11400000, guid: 864e1b29e94438443bd1a3873e0e35c9, type: 2}
   - {fileID: 11400000, guid: 75c386759129fc249a66e7f349336ac1, type: 2}

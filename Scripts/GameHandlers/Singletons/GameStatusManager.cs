@@ -98,6 +98,7 @@ public class GameStatusManager : MonoBehaviour
 		Skill skillEnemy = SkillBotManager.FindBestSkill(enemy,ally,
 		enemy.MonMain.GetSkills(),SkillBotManager.DIFFICULTY.AWARE);
 		
+		Debug.Log("Name of skill enemy" + skillEnemy.nameSkill);
 		GameTurnHandler turnHandler;
 		
 		//Checks for Swaps
@@ -124,6 +125,10 @@ public class GameStatusManager : MonoBehaviour
     {
 		TurnOffUI();
 		
+		//The MonManager doenst need to be disabled for now
+		enemy.gameObject.SetActive(true);
+		enemy.KillGameObject();
+		
 		var pcam =  GamePlayerStatusHandler.Singleton.playerGameObject.GetComponent<PlayerCameraFollow>();		
 		pcam.enabled = true;
 		await Task.Delay(3000);
@@ -131,6 +136,9 @@ public class GameStatusManager : MonoBehaviour
 	}
 	private void TurnOffUI()
     {
+		//Remove the text of the level up Stats
+		GameHUDStatusManager.Singleton.ToggleDisplay(false);
+
 		GameUILoader.Singleton.PopUserInterface();
     }
 

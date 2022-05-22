@@ -99,8 +99,8 @@ public class SkillDamage : Skill{
         if (statusStored != null)
             for (int i = 0; i < statusStored.Length; i++)
             {
-                string messageBuffSucess = SkillHandlerStatusBuff.HandleBuff(allyStored,enemyStored,statusStored[i]);
-                await TextDialogManager.Singleton.PushText(messageBuffSucess,500);
+                var data = SkillHandlerStatusBuff.HandleBuff(allyStored,enemyStored,statusStored[i]);
+                await SkillHandlerStatusBuff.PushMessage(data);
             }
         
         //Reset the static variables

@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: AttackNoLower
   m_EditorClassIdentifier: 
   nameGenetic: 0
+  geneticName: Fierce
   description: This pokemon Attack cannot be lowered

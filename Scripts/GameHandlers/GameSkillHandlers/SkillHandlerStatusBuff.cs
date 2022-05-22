@@ -1,20 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
 using System.Threading.Tasks;
 
 public class SkillHandlerStatusBuff  
 {
-    public static string HandleBuff(MonManager ally,MonManager enemy,BuffStatus buffStatus)
+    public class DataMessageWithColor
+    {
+        public string color;
+        public int indexStart;
+        public int indexEnd;
+        public DataMessageWithColor(string c,int i1,int i2)
+        {
+            color = c;
+            indexStart = i1;
+            indexEnd = i2;
+        }
+    }
+    public class DataHandlerStatusBuff{
+        public string message;
+        public DataMessageWithColor dataColor;
+        
+        internal DataHandlerStatusBuff(string m,DataMessageWithColor data1 = null)
+        {
+            message = m;
+            dataColor = data1;
+        }
+        
+    }
+    public static DataHandlerStatusBuff HandleBuff(MonManager ally,MonManager enemy,BuffStatus buffStatus)
     {
         //A little un-optimized but code looks better this way
         MonManager changingMon = (buffStatus.ally) ? ally : enemy;
 
         //Check if the mon has a genetic that can override the default behaviour.
-        string messageGenetic = GeneticBook.GeneticDecreaseStat(buffStatus,changingMon);
-        if (messageGenetic != null)
-            return messageGenetic;
+        var dataGenetic = GeneticBook.GeneticDecreaseStat(buffStatus,changingMon);
+        if (dataGenetic != null)
+            return dataGenetic;
 
         //Trigger the particle system
         if (buffStatus.ally) 
@@ -38,14 +57,24 @@ public class SkillHandlerStatusBuff
                 return MessageToDisplay(changingMon,"speed",buffStatus.increase);
 
             default:
-                return "Status not found to display";
+                return null;
         }
     }
 
-    private static string MessageToDisplay(MonManager monManager,string status,float increase)
+    private static DataHandlerStatusBuff MessageToDisplay(MonManager monManager,string status,float increase)
     {
         string increaseText = increase > 1f ? "risen" : "decreased";
         string s =  monManager.MonMain.GetNameMon() + " " + status + " has " + increaseText + " !";
-        return s;
+        return new DataHandlerStatusBuff(s);
+    }
+
+    public static async Task PushMessage(DataHandlerStatusBuff data)
+    {
+        if (data.dataColor != null)
+        {
+            await TextDialogManager.Singleton.PushText(data);        
+            return;
+        }
+        await TextDialogManager.Singleton.PushText(data);        
     }
 }

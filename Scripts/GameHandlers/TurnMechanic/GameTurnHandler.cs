@@ -52,10 +52,7 @@ public class GameTurnHandler
 
         if (killed)
         {
-            //Transfer the controll to the TurnDeathMon so it can be easilly manipulated
-            TurnDeathMon thm = new TurnDeathMon(firstMonManager,secondMonManager,firstTurnMechanic,moveCounter);
-            firstTurnMechanic.onAttackOver += thm.HandleDeath;
-            battleEnded = true;
+            HandleDeathMon(firstMonManager,secondMonManager,firstTurnMechanic);
             return;
         }
         
@@ -71,17 +68,26 @@ public class GameTurnHandler
 
         await TextDialogManager.Singleton.PushText(secondSkill,secondMonManager,firstMonManager);
         
+        Debug.Log("Here is fine" + secondAnimations.name);
+        
         bool killed = GameSkillManager.HandleSkill(secondSkill,secondMonManager,firstMonManager,secondAnimations);
+        Debug.Log("Here is fineee");
         
         if (killed)
         {
-            //Transfer the controll to the TurnDeathMon so it can be easilly manipulated
-            TurnDeathMon thm = new TurnDeathMon(secondMonManager,firstMonManager,secondTurnMechanic,moveCounter);
-            secondTurnMechanic.onAttackOver += thm.HandleDeath;
-            battleEnded = true;
+            HandleDeathMon(secondMonManager,firstMonManager,secondTurnMechanic);
             return;
         }
         
+    }
+
+    public void HandleDeathMon(MonManager m1,MonManager m2,TurnMechanicMon t1)
+    {
+            //Transfer the controll to the TurnDeathMon so it can be easilly manipulated
+            TurnDeathMon thm = new TurnDeathMon(m1,m2,t1,moveCounter);
+            t1.onAttackOver += thm.HandleDeath;
+
+            battleEnded = true;
     }
 
     public async void HandleOnTurnOver()
