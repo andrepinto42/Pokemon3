@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using System;
 
 public class SkillHandlerStatusBuff  
 {
@@ -44,12 +45,12 @@ public class SkillHandlerStatusBuff
         switch(buffStatus.effect)
         {
             case SkillBuff.Stat.ATTACK:
-                changingMon.ChangeBaseDamage(buffStatus.increase);
-                return MessageToDisplay(changingMon,"attack",buffStatus.increase);
+                changingMon.ChangeBaseDamage(buffStatus.increase,buffStatus.typeOfDamage);
+                return MessageToDisplay(changingMon,buffStatus.typeOfDamage,"attack",buffStatus.increase);
     
             case SkillBuff.Stat.DEFENSE:
-                changingMon.ChangeBaseDefense(buffStatus.increase);
-                return MessageToDisplay(changingMon,"defense",buffStatus.increase);
+                changingMon.ChangeBaseDefense(buffStatus.increase,buffStatus.typeOfDamage);
+                return MessageToDisplay(changingMon,buffStatus.typeOfDamage,"defense",buffStatus.increase);
     
             
             case SkillBuff.Stat.SPEED:
@@ -61,7 +62,30 @@ public class SkillHandlerStatusBuff
         }
     }
 
-    private static DataHandlerStatusBuff MessageToDisplay(MonManager monManager,string status,float increase)
+    private static DataHandlerStatusBuff MessageToDisplay(MonManager monManager,TypeOfDamage typeOfDamage ,string status,float increase)
+    {
+        string increaseText = increase > 1f ? "risen" : "decreased";
+        
+        //Convert the type from PIERCE to Pierce
+        char[] type = typeOfDamage.ToString().ToCharArray();
+        for (int i = 1; i < type.Length; i++)
+        {
+            type[i] = Char.ToLower( type[i]);
+        }
+
+        string s1 = monManager.MonMain.GetNameMon() + " ";
+        string typeString = new string(type);
+        int startIndex = s1.Length;
+        int endIndex = startIndex + typeString.Length;
+
+        string s2 =" " + status + " has " + increaseText + " !";
+        
+        //Store the data in this variable so it can be later read by the textDialogManager
+        var dmwc = new DataMessageWithColor(status.Equals("attack") ? "red" : "blue",startIndex,endIndex);
+        
+        return new DataHandlerStatusBuff(s1+typeString+s2,dmwc);
+    }
+     private static DataHandlerStatusBuff MessageToDisplay(MonManager monManager ,string status,float increase)
     {
         string increaseText = increase > 1f ? "risen" : "decreased";
         string s =  monManager.MonMain.GetNameMon() + " " + status + " has " + increaseText + " !";

@@ -7,10 +7,6 @@ using System.Threading.Tasks;
 [RequireComponent(typeof(GameMonStatsDisplay))]
 public class GameHandlerSwapMon : MonoBehaviour
 {
-    public GameObject PopUpSwapDisplayMon;
-    public GameObject allMonsTextDisplay;
-    public GameObject DisplayAllSkils;
-    public GameObject buttonHandlers;
     public SkillSwapMon swapSkillAlly;
     public SkillSwapMon swapSkillEnemy;
     GameMonStatsDisplay gameMonStatsDisplay;
@@ -18,22 +14,6 @@ public class GameHandlerSwapMon : MonoBehaviour
     void Awake() 
     {
         gameMonStatsDisplay = GetComponent<GameMonStatsDisplay>();    
-    }
-
-    async void Start()
-    {
-        arrMonsText = new GameObject[allMonsTextDisplay.transform.childCount];
-
-        for (int i = 0; i <allMonsTextDisplay.transform.childCount; i++)
-        {
-            arrMonsText[i] = allMonsTextDisplay.transform.GetChild(i).gameObject;
-            arrMonsText[i].SetActive(false);
-        } 
-        
-        //TODO
-        //REALLY MESSY IMPLEMENTATION 
-        await Task.Delay(500);
-		LoadMons(GameStatusManager.Singleton.allyTrainer);
     }
 
     //TODO REALLY MESSING IMPLEMENTATION
@@ -47,11 +27,13 @@ public class GameHandlerSwapMon : MonoBehaviour
         if (monEntering == monExiting)
             return;
 
+
         Debug.Log("Swapping to this mon ->" + monEntering);
-        PopUpSwapDisplayMon.SetActive(false);
-        DisplayAllSkils.SetActive(false);
-        buttonHandlers.SetActive(false);
-        
+        GameUILoader.Singleton.SwitchInHUD.SetActive(false);
+        GameUILoader.Singleton.DisplayAllSkillsInBattle.SetActive(false);
+        GameUILoader.Singleton.DisplayAllButtonsInBattle.SetActive(false);
+        GameUILoader.Singleton.DisplayStats.SetActive(false);
+                
         //Creates a new SwapAbility to be sent to the GameStatusManager
         swapSkillAlly.monExiting = monExiting.GetNameMon();
         swapSkillAlly.monEntering = monEntering.GetNameMon();
@@ -59,9 +41,6 @@ public class GameHandlerSwapMon : MonoBehaviour
         
         //Consume the players turn and return the object that is holds the logic for the turns
         var gameTurnHandler = GameStatusManager.Singleton.SendPlayerSkill_Beginning(swapSkillAlly);
-        
-        Debug.Log("Should Sleep now for a 3s");
-        await Task.Delay(3000);
         
         
         //Swap the mon and handles the mesh and more UI coordenitaion
@@ -75,6 +54,24 @@ public class GameHandlerSwapMon : MonoBehaviour
 
         //Enemy can resume their actions...
         gameTurnHandler.StartSecondMonMove();
+    }
+
+    public void LoadTextForSwitching()
+    {
+        arrMonsText = new GameObject[GameUILoader.Singleton.AllMonsSwitchinMenu.transform.childCount];
+
+        for (int i = 0; i <GameUILoader.Singleton.AllMonsSwitchinMenu.transform.childCount; i++)
+        {
+            arrMonsText[i] = GameUILoader.Singleton.AllMonsSwitchinMenu.transform.GetChild(i).gameObject;
+            Debug.Log("Set to false");
+            arrMonsText[i].SetActive(false);
+        } 
+        
+		LoadMons(GameStatusManager.Singleton.allyTrainer);
+
+        //Active the UI
+        GameUILoader.Singleton.SwitchInHUD.SetActive(true);
+        GameUILoader.Singleton.DisplayStats.SetActive(true);
     }
 
     private void HandleHoverButton(Button button,MonGame mon){
@@ -107,7 +104,7 @@ public class GameHandlerSwapMon : MonoBehaviour
 
     //Por enquanto o tamanho maximo de uma equipa é 4
     internal void LoadMons(Trainer allyTrainer)
-    {
+    {        
         var allMons = allyTrainer.allMons;
         for (int i = 0; i < allMons.Length && i<4; i++)
         {
@@ -117,6 +114,7 @@ public class GameHandlerSwapMon : MonoBehaviour
             string monName = allMons[i].GetNameMon();
             // Debug.Log(arrMonsText[i]);
             arrMonsText[i].transform.GetChild(0).GetComponent<TMP_Text>().SetText(monName);
+            Debug.Log("Name of Mon -> " + monName);
             arrMonsText[i].SetActive(true);
 
             //Assign the event on hover to each button for each corresponding Mon 

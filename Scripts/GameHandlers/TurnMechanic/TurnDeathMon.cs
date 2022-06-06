@@ -21,6 +21,7 @@ public class TurnDeathMon
         
         killerTurnMechanic.onAttackOver -= HandleDeath;
 
+        Debug.Log("Mon died!");
         //LEANTWEEN SCALES DOWNS
         LeanTween.scale(victimMonManager.gameObject.GetComponentInChildren<MonMeshManager>().gameObject,Vector3.zero,1f);
         await TextDialogManager.Singleton.PushTextAwaitKey(victimMonManager.MonMain.GetNameMon() + " has been defeated !");
@@ -37,6 +38,8 @@ public class TurnDeathMon
         
         //Activate the popUpText after the battle has ended
         GameHUDStatusManager.Singleton.SetText(killerMonManager.MonMain);
+        
+        Debug.Log("Mon ended !");
         
         victimMonManager.gameObject.SetActive(false);
         

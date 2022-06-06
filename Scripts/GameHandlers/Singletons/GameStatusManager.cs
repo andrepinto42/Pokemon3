@@ -13,9 +13,6 @@ public class GameStatusManager : MonoBehaviour
 	[Header("Buttons")]
 	public GameObject allOptionsButtons;
 	public GameObject allSkills;
-	public GameObject PopUpMonButton;
-	public GameObject PopUpSwitchInMenu;
-	[SerializeField] TextDialogManager textDialogManager;
 	GameTurnChangeMon gameTurnChangeMon;
 	public static GameStatusManager Singleton;
 	void Awake()

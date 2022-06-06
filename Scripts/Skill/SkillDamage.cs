@@ -116,7 +116,7 @@ public class SkillDamage : Skill{
     private static async Task LowerHealthBar(MonManager enemy,float damageTaken)
     {
         var manager = enemy.GetMonMeshManager();
-        float currentHP = enemy.currentHealth;
+        float currentHP = enemy.GetcurrentHealth();
         float maxHP = enemy.MonMain.maxHealth;
         if (damageTaken> currentHP)
         {

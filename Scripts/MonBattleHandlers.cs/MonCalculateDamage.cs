@@ -11,13 +11,7 @@ public class MonCalculateDamage{
     {
         float level = (2*ally.level / 5f) + 2;
         
-        //defenseBuff varies between ]0,2] normally
-        float defenseEnemy = (enemy.DefenseCurrent *  enemyManager.defenseBuff);
-
-        //attackBuff varies between ]0,2] normally
-        float attackAlly = skillDamage.damage * ally.AttackCurrent *  allyManager.attackBuff;
-        
-        float powerDamage = attackAlly / defenseEnemy  ;
+        float powerDamage = CalculatePowerDamage(skillDamage,ally,enemy,allyManager,enemyManager);
         
         float damageBase = ((level * powerDamage)/25f) +2;
         

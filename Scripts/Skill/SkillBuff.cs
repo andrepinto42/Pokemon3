@@ -10,6 +10,8 @@ public class BuffStatus{
     public bool ally;
    
     public SkillBuff.Stat effect;
+    //Set to default a buff dedicated for piercing
+    public TypeOfDamage typeOfDamage = TypeOfDamage.PIERCE;
 }
 
 [CreateAssetMenu(fileName = "Mon", menuName = "Mon/Skill/Buff", order = 1)]

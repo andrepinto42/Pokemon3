@@ -6,6 +6,9 @@ public class GameUILoader : MonoBehaviour
     public GameObject BordaButoes;
     public GameObject TextoDialogoCombate;
     public GameObject SwitchInHUD;
+    public GameObject AllMonsSwitchinMenu;
+    public GameObject DisplayAllSkillsInBattle;
+    public GameObject DisplayAllButtonsInBattle;
 
     public static GameUILoader Singleton;
     void Start()
@@ -37,5 +40,6 @@ public class GameUILoader : MonoBehaviour
     public void PushBattleStartEndingInterface()
     {
         BordaButoes.SetActive(true);
+        DisplayAllSkillsInBattle.SetActive(false);
     }
 }

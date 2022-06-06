@@ -57,7 +57,7 @@ public class SkillBotManager
 
         }
         //TODO
-        int numberTurns = (int) (userMon.currentHealth / (maxDamage* botMonManager.attackBuff) ) ;
+        int numberTurns = (int) (userMon.currentHealth / (maxDamage/*Ignore for now * botMonManager.GetattackBuff() */) ) ;
 
         for (int i = 0; i < validSkills.Count; i++)
         {
@@ -70,7 +70,7 @@ public class SkillBotManager
 
             if (buff.buffStatus.effect == SkillBuff.Stat.ATTACK && buff.buffStatus.increase > 1f)
             {
-                int numberNewTurns = 1 + (int) (userMon.currentHealth / (maxDamage* buff.buffStatus.increase* botMonManager.attackBuff ));
+                int numberNewTurns = 1 + (int) (userMon.currentHealth / (maxDamage* buff.buffStatus.increase/** botMonManager.GetattackBuff() */));
                 // Debug.Log("with buffing "+numberNewTurns + " | without " + numberTurns);
                 //Found that its worth to use Attack buff to diminish the number of turns needed
                 if (numberNewTurns < numberTurns)
@@ -106,7 +106,7 @@ public class SkillBotManager
                 continue;
 
             //If the mon doesnt have enough stamina to perform a skill then discard it
-            if (s.stamina > botMonManager.currentStamina)
+            if (s.stamina > botMonManager.GetcurrentStamina())
             {
                 continue;
             }

@@ -94,7 +94,7 @@ public class GameBattleLoader : MonoBehaviour
         await Task.WhenAll(t1,t2);
 
         //Pan the camera away from the player in the direction of the enemy
-       SetCameraToMiddle(middle,playerPos,newDegreeLookAtPlayer,increaseDistanceCam,pcam);        
+        SetCameraToMiddle(middle,playerPos,newDegreeLookAtPlayer,increaseDistanceCam,pcam);        
 
         var t3 = TextDialogManager.Singleton.PushText("Let's fight "+ ally.MonMain.GetNameMon()+ " !!!");
         
@@ -106,12 +106,19 @@ public class GameBattleLoader : MonoBehaviour
         }
         else ally.transform.position= middle;
 
+
+        /*
+        ----------------
+        Start Loading ALLY
+        ----------------
+        */
+        //Ally looks in the direction of the enemy
         ally.transform.LookAt(ePos);
-        Debug.Log(ally.transform.rotation.eulerAngles);
 
         //TODO
         //add animations to look better the spawning
         var t4 =ally.InitializeMeshMon(ally.MonMain,allyParticlesSpawning);
+        
         
 
         await Task.WhenAll(t3,t4);
@@ -122,13 +129,24 @@ public class GameBattleLoader : MonoBehaviour
         //Load buttons images
 		HandleSkillButton.InitializeButtonsSkills(gameStatusManager.allSkills,ally.MonMain);
         
-        // //Move the camera for a better cinematic view
-       SetCameraToMiddle(ally.transform.position,ePos,-60f,3f,pcam);        
+        // Move the camera for a better cinematic view
+        SetCameraToMiddle(ally.transform.position,ePos,-60f,3f,pcam);        
 
         pcam.enabled = false;
 
         await Task.Delay(1000);
-		gameStatusManager.allOptionsButtons.SetActive(true);
+		
+        //Restart the stats of the trainer mons Just for battling
+        for (int i = 0; i < allyTrainer.allMons.Length; i++)
+        {
+            var monI =allyTrainer.allMons[i];
+            if( monI == null)
+                continue;
+            
+            monI.RestartStatsEnteringBattle();
+        }
+
+        gameStatusManager.allOptionsButtons.SetActive(true);
         GameUILoader.Singleton.PushBattleStartEndingInterface();
         
         //Reset the player to its default Location

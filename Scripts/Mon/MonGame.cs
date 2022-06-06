@@ -2,8 +2,9 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "MonGame", menuName = "Mon/Mon Game", order = 1)]
 public class MonGame : ScriptableObject{
+    [Header("Atributes for Battle Only")]
     public float currentHealth;
-    [HideInInspector]public float currentStamina;
+    public float currentStamina;
     public float currentStance;
 
 
@@ -25,6 +26,24 @@ public class MonGame : ScriptableObject{
     public float AttackCurrent=30f;
     public float DefenseCurrent=20f;
 
+
+    public void RestoreStatsToNormal()
+    {
+        currentHealth = maxHealth;
+        currentStamina = maxStamina;
+        currentStance = maxStance;
+    }
+
+    public void RestartStatsEnteringBattle()
+    {
+        currentStamina = maxStamina;
+        currentStance = maxStance;
+    }
+    /*
+    -----------------------
+        GETTERS
+    -----------------------
+    */
 
     [SerializeField]private Skill[] allSkills = new Skill[4];
      public string GetNameMon(){

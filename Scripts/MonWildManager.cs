@@ -42,9 +42,7 @@ public class MonWildManager : MonoBehaviour
         monMeshManager.pivotHUD.gameObject.SetActive(true);
         
         //Change the stats of the Wild Mon Here
-        monGame.currentHealth = monGame.maxHealth;
-        monGame.currentStance = monGame.maxStance;
-        monGame.currentStamina = monGame.maxStamina;
+        monGame.RestoreStatsToNormal();
 
 
         //Offset the logic to another component

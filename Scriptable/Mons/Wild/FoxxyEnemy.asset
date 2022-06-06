@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: defc1bdbe08d42246aa22d7f15688ef0, type: 3}
   m_Name: FoxxyEnemy
   m_EditorClassIdentifier: 
-  currentHealth: 20
+  currentHealth: 100
   currentStamina: 20
   currentStance: 5
   monADN: {fileID: 11400000, guid: 4624adb7b1802004ab3812c2bdadf5c8, type: 2}
   experiencePoints: 0
-  level: 3
+  level: 40
   nickname: 
   typeSecondary: 6
-  maxHealth: 20
+  maxHealth: 100
   maxStamina: 20
   baseAttackType:
     arrayAtributtes:
