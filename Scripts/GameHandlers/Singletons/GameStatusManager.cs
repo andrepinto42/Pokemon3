@@ -10,9 +10,6 @@ public class GameStatusManager : MonoBehaviour
 	public MonManager ally;
 	public MonManager enemy;
 	
-	[Header("Buttons")]
-	public GameObject allOptionsButtons;
-	public GameObject allSkills;
 	GameTurnChangeMon gameTurnChangeMon;
 	public static GameStatusManager Singleton;
 	void Awake()
@@ -30,27 +27,27 @@ public class GameStatusManager : MonoBehaviour
     //WHEN AN ALLY ATTACKS USING THE BUTTON
     public void AllySelectsAttack()
    {
-		allOptionsButtons.SetActive(false);
-		allSkills.SetActive(true);
+		GameUILoader.Singleton.DisplayAllButtonsInBattle.SetActive(false);
+		GameUILoader.Singleton.DisplayAllSkillsInBattle.SetActive(true);
    }
 
 	public void AllyDeselectsAttack()
    {
-		allOptionsButtons.SetActive(true);
-		allSkills.SetActive(false);
+		GameUILoader.Singleton.DisplayAllButtonsInBattle.SetActive(true);
+		GameUILoader.Singleton.DisplayAllSkillsInBattle.SetActive(false);
    }
 
 	//MOST IMPORTANT FUNCTION
    public async void OnSkillButtonClicked(int i)
 	{
-		allSkills.SetActive(false);
+		GameUILoader.Singleton.DisplayAllSkillsInBattle.SetActive(false);
 		
 		//Get the skill and check if is valid
 		Skill skillAlly = ally.MonMain.GetSkills()[i];
 		bool valid = await CheckValidSkill(skillAlly);
 		if (!valid)
 		{
-			allSkills.SetActive(true);
+			GameUILoader.Singleton.DisplayAllSkillsInBattle.SetActive(true);
 			return;
 		}
 

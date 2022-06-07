@@ -47,7 +47,7 @@ public class GameHandlerSwapMon : MonoBehaviour
         await GameStatusManager.Singleton.ally.SwapMon(monEntering,GameBattleLoader.Singleton.allyParticlesSpawning);
 
         //Change all of the buttons to match the mon abilities
-		HandleSkillButton.InitializeButtonsSkills(GameStatusManager.Singleton.allSkills,monEntering);
+		HandleSkillButton.InitializeButtonsSkills(GameUILoader.Singleton.DisplayAllSkillsInBattle,monEntering);
         
         //Turn has ended so warn global variavel
         GameStatusManager.Singleton.ally.GetComponentInChildren<TurnMechanicMon>().IncrementTurnStage();

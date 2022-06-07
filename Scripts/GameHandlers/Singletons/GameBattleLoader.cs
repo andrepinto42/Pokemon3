@@ -127,7 +127,7 @@ public class GameBattleLoader : MonoBehaviour
         await Task.Delay(1000);
         
         //Load buttons images
-		HandleSkillButton.InitializeButtonsSkills(gameStatusManager.allSkills,ally.MonMain);
+		HandleSkillButton.InitializeButtonsSkills(GameUILoader.Singleton.DisplayAllSkillsInBattle,ally.MonMain);
         
         // Move the camera for a better cinematic view
         SetCameraToMiddle(ally.transform.position,ePos,-60f,3f,pcam);        
@@ -146,7 +146,7 @@ public class GameBattleLoader : MonoBehaviour
             monI.RestartStatsEnteringBattle();
         }
 
-        gameStatusManager.allOptionsButtons.SetActive(true);
+        GameUILoader.Singleton.DisplayAllButtonsInBattle.SetActive(true);
         GameUILoader.Singleton.PushBattleStartEndingInterface();
         
         //Reset the player to its default Location

@@ -38,7 +38,6 @@ public class GameTurnHandler
         firstTurnMechanic = firstManager.gameObject.GetComponentInChildren<TurnMechanicMon>();
         secondTurnMechanic = secondManager.gameObject.GetComponentInChildren<TurnMechanicMon>();
         
-        AddEndTurnMessages(GameStatusManager.Singleton.ally.MonMain.GetNameMon());
     }
 
     internal async void StartFirstMonMove()
@@ -99,22 +98,22 @@ public class GameTurnHandler
         string message = RandomMessageFinalTurn();
         await TextDialogManager.Singleton.PushText(message);
 
-        GameStatusManager.Singleton.allOptionsButtons.SetActive(true);
-        
+        GameUILoader.Singleton.DisplayAllButtonsInBattle.SetActive(true);
     }
 
+   
+    private string RandomMessageFinalTurn()
+    {
+        AddEndTurnMessages(GameStatusManager.Singleton.ally.MonMain.GetNameMon());
+
+        System.Random r = new System.Random();
+        int pos = r.Next(0,messagesEndTurn.Count);
+        return messagesEndTurn[pos];
+    }
     private void AddEndTurnMessages(string nameFirstMon)
     {
         messagesEndTurn.Add("Daaamn your " + nameFirstMon + " seems tired ");
         messagesEndTurn.Add("I think " + nameFirstMon + " wants more blood");
         messagesEndTurn.Add("I have a feeling that " + nameFirstMon + " wants to flee ");
     }
-
-    private string RandomMessageFinalTurn()
-    {
-        System.Random r = new System.Random();
-        int pos = r.Next(0,messagesEndTurn.Count);
-        return messagesEndTurn[pos];
-    }
-
 }
