@@ -7,18 +7,12 @@ using System;
 
 public class TextDialogManager : MonoBehaviour
 {
-    TMP_Text textoDialogo;
     [SerializeField] GameObject completedMessageImage;
+    [SerializeField] TMP_Text textoDialogo;
     public int delayPerCharacter = 50;
     SemaphoreSlim mySemaphoreSlim = new SemaphoreSlim(1);
-
     public static TextDialogManager Singleton; 
 
-    void Awake(){
-        textoDialogo = GetComponentInChildren<TMP_Text>();
-        if (completedMessageImage == null)
-            completedMessageImage = GetComponentInChildren<Image>().gameObject;
-    }
     void Start()
     {   
         if (Singleton == null)

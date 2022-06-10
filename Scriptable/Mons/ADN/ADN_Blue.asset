@@ -16,12 +16,31 @@ MonoBehaviour:
   baseMaxStamina: 10
   experienceBase: 100
   nameMon: Draconis
-  Attack: 10
-  Defense: 10
-  Speed: 5
+  baseAttackType:
+    arrayAtributtes:
+    - 1
+    - 1
+    - 1
+    - 1
+  baseDefenseType:
+    arrayAtributtes:
+    - 1
+    - 1
+    - 1
+    - 1
+  baseAttack: 30
+  baseDefense: 20
+  baseSpeed: 5
+  baseStance: 5
   monGameObjectTransform: {fileID: -8975111618266202766, guid: c652503c52630c74291593bcfa02e6bd, type: 3}
+  genetic: {fileID: 0}
   typeMain: 2
+  attackGrow: 2
+  defenseGrow: 1
+  speedGrow: 1
+  healthGrow: 1
   allSkills:
   - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}
   - {fileID: 0}
   - {fileID: 0}
+  imageMon: {fileID: 21300000, guid: f46bc21fdb2134c408bb110cfc4b7fba, type: 3}

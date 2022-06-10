@@ -59,7 +59,7 @@ public class GameHUDStatusManager : MonoBehaviour
         nameMon.SetText(mon.GetNameMon());
         attackText.SetText(mon.AttackCurrent.ToString());
         defenseText.SetText(mon.DefenseCurrent.ToString());
-        speedText.SetText(mon.SpeedCurrent.ToString());
+        speedText.SetText(mon.maxSpeed.ToString());
         healthText.SetText(mon.maxHealth.ToString());
         staminaText.SetText(mon.maxStamina.ToString());
         luckText.SetText("420");

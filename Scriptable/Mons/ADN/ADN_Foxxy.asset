@@ -44,3 +44,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 75c386759129fc249a66e7f349336ac1, type: 2}
   - {fileID: 0}
   - {fileID: 0}
+  imageMon: {fileID: 21300000, guid: c4343589b2a074049b7ce76d1aadd15f, type: 3}

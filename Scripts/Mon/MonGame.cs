@@ -1,11 +1,11 @@
 using UnityEngine;
-
 [CreateAssetMenu(fileName = "MonGame", menuName = "Mon/Mon Game", order = 1)]
 public class MonGame : ScriptableObject{
     [Header("Atributes for Battle Only")]
     public float currentHealth;
     public float currentStamina;
     public float currentStance;
+    public float currentSpeed;
 
 
     [Header("Atributes")]
@@ -22,9 +22,10 @@ public class MonGame : ScriptableObject{
     public MonTypesCombat baseDefenseType = new MonTypesCombat(20,1,1,1);
 
     public float maxStance=5f;
-    public float SpeedCurrent = 10f;
+    public float maxSpeed = 10f;
     public float AttackCurrent=30f;
     public float DefenseCurrent=20f;
+    
 
 
     public void RestoreStatsToNormal()
@@ -32,12 +33,17 @@ public class MonGame : ScriptableObject{
         currentHealth = maxHealth;
         currentStamina = maxStamina;
         currentStance = maxStance;
+        currentSpeed = maxSpeed;
     }
 
     public void RestartStatsEnteringBattle()
     {
+        //Health is not set to max because the pokemon can lose health from battle to battle
+
+
         currentStamina = maxStamina;
         currentStance = maxStance;
+        currentSpeed = maxSpeed;
     }
     /*
     -----------------------

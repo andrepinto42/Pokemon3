@@ -8,8 +8,8 @@ using TMPro;
 public class HandleSkillButton
 {
     private const int positionChildHabilityImage = 0;
-    private const  int positionChildHabilityText = 2;
-    private const int positionChildStaminaText = 3;
+    private const  int positionChildHabilityText = 1;
+    private const int positionChildStaminaText = 2;
 
     public static void InitializeButtonsSkills(GameObject allSkills,MonGame monMain)
     {
@@ -52,7 +52,7 @@ public class HandleSkillButton
             var text =allSkillsTransform[i].GetChild(positionChildHabilityText).GetComponent<TMP_Text>();
             text.SetText(skills[i].nameSkill);
             
-            var image = allSkillsTransform[i].GetChild(positionChildHabilityImage).GetComponent<Image>();
+            var image = allSkillsTransform[i].GetComponent<Image>();
             
             image.color = mapColor[skills[i].type];
         }

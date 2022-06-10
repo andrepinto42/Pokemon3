@@ -6,6 +6,9 @@ public class GameBattleLoader : MonoBehaviour
     public static GameBattleLoader Singleton = null;
     public ParticleSystem allyParticlesSpawning;
     public LayerMask layerToCollide;
+
+    [Header("Camera Settings")]
+    public float speedZoomInFirst = 2f;
     public float newDegreeLookAtPlayer = 80f;
     public float increaseDistanceCam = 1f;
     public float increaseHeightCam = 2f;
@@ -84,7 +87,7 @@ public class GameBattleLoader : MonoBehaviour
         var middle = (ePos + playerPos) / 2f;
         var forwardPlayer =Vector3.Normalize(ePos - playerPos);
 
-        await pcam.MoveCamera(middle,ePos);
+        await pcam.MoveCamera(middle,ePos,speedZoomInFirst);
 
         //Push dialog and at the same time move the camera around
         GameUILoader.Singleton.PushBattleBeginInterface();

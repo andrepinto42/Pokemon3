@@ -161,34 +161,27 @@ public class MonManager : MonoBehaviour
 
         return newbuff;
     }
-    public delegate void DelegateStatusChange(string value);
 
-    public  DelegateStatusChange delegateDamageChange;
     public void ChangeBaseDamage(float buff,TypeOfDamage typeOfDamage)
     {   
         float newAttack  = ApplyStanceModifier(buff);
         
         buffAttackType.arrayAtributtes[(int) typeOfDamage] *= newAttack;
         
-        delegateDamageChange?.Invoke(buffAttackType.arrayAtributtes[(int) typeOfDamage].ToString());
     }
-    public  DelegateStatusChange delegateDefenseChange;
     public void ChangeBaseDefense(float defensebuff,TypeOfDamage typeOfDamage)
     {
         float newDefense = ApplyStanceModifier(defensebuff);
         
         buffDefenseType.arrayAtributtes[(int) typeOfDamage] *= newDefense;
 
-        //Call Event to refresh the defense status
-        delegateDefenseChange?.Invoke(buffDefenseType.arrayAtributtes[(int) typeOfDamage].ToString());
     }
 
 
-    public  DelegateStatusChange delegateSpeedChange;
     public void ChangeBaseSpeed(float speedbuff)
     {
-        speedBuff *= ApplyStanceModifier(speedbuff);
-        delegateSpeedChange?.Invoke(speedBuff.ToString());
+        float newSpeedBuff = ApplyStanceModifier(speedbuff);
+        MonMain.currentSpeed *= newSpeedBuff;
     }
 
 /*
@@ -199,7 +192,7 @@ public class MonManager : MonoBehaviour
 
     public float GetCurrentSpeed()
     {
-        return MonMain.SpeedCurrent * speedBuff;
+        return MonMain.currentSpeed;
     }
     public MonMeshManager GetMonMeshManager()
     {

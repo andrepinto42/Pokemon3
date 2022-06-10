@@ -52,11 +52,11 @@ public class PlayerCameraFollow : MonoBehaviour
         return new Vector3(x,offsetY,y);
     }
 
-    public async Task MoveCamera(Vector3 v,Vector3 lookAt)
+    public async Task MoveCamera(Vector3 v,Vector3 lookAt,float speed = 1)
     {
         var start = playerMainCamera.position;
         int frames = 100;
-        float increase = 1f/(float)frames;
+        float increase = (1f/(float)frames) * speed;
         for (float i = 0f; i < 1; i+= increase)
         {
             playerMainCamera.position = Vector3.Lerp(start,v,i);

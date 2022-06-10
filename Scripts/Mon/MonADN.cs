@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 [CreateAssetMenu(fileName = "MonADN", menuName = "Mon/Mon ADN", order = 1)]
 public class MonADN : ScriptableObject{
     public float baseMaxHealth;
@@ -23,5 +23,13 @@ public class MonADN : ScriptableObject{
     public float speedGrow = 1f;
     public float healthGrow = 1f;
     public Skill[] allSkills = new Skill[4];
+
+    [Header("Extra Information")]
+    public Sprite imageMon;
+
+    public Sprite GetImage()
+    {
+        return imageMon;
+    }
     
 }

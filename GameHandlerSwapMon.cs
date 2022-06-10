@@ -113,12 +113,23 @@ public class GameHandlerSwapMon : MonoBehaviour
             
             string monName = allMons[i].GetNameMon();
             // Debug.Log(arrMonsText[i]);
-            arrMonsText[i].transform.GetChild(0).GetComponent<TMP_Text>().SetText(monName);
+            arrMonsText[i].GetComponentInChildren<TMP_Text>().SetText(monName);
             Debug.Log("Name of Mon -> " + monName);
             arrMonsText[i].SetActive(true);
 
+            //Carefull with the static child position
+            //Set the UI with the corresponding image from the mon
+            var imageMon = arrMonsText[i].transform.GetChild(1).GetChild(0).GetComponent<Image>();
+            var spriteMon = allMons[i].monADN.GetImage();
+            if (spriteMon)
+                imageMon.sprite = spriteMon; 
+
             //Assign the event on hover to each button for each corresponding Mon 
-            HandleHoverButton(arrMonsText[i].GetComponent<Button>(),allMons[i]);
+            HandleHoverButton(arrMonsText[i].GetComponentInChildren<Button>(),allMons[i]);
         }
+
+        //Set the stats of the first mon as default
+        gameMonStatsDisplay.UpdateVisualMon(allMons[0]);
+
     }
 }
