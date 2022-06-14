@@ -123,8 +123,11 @@ public class GameStatusManager : MonoBehaviour
 		enemy.gameObject.SetActive(true);
 		enemy.KillGameObject();
 		
+		GameBattleLoader.Singleton.StopRotatinCamera();
+
 		var pcam =  GamePlayerStatusHandler.Singleton.playerGameObject.GetComponent<PlayerCameraFollow>();		
 		pcam.enabled = true;
+		
 		await Task.Delay(3000);
 		ally.KillGameObject();
 	}

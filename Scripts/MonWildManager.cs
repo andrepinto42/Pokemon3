@@ -8,10 +8,12 @@ public class MonWildManager : MonoBehaviour
 {
     public MonGame monGame;
     public bool isInWild = true;
-    MonMeshManager monMeshManager;
 
     const int frames = 60;
     const float interpolation = 1/(float)frames;
+
+    MonMeshManager monMeshManager;
+    CancellationTokenSource tokenCancellation;
 
     void Start()
     {
@@ -56,17 +58,16 @@ public class MonWildManager : MonoBehaviour
         monMeshManager.pivotHUD.gameObject.SetActive(false);
         
         //Start looking for player
-        var tokenCancellation = new CancellationTokenSource();
-        Application.quitting += tokenCancellation.Cancel;
-        taskLookForPlayer = LookForPlayer(tokenCancellation);
+        tokenCancellation = new CancellationTokenSource();
+        taskLookForPlayer = LookForPlayer();
     }
     public float radiusOfCheckingPlayer= 20f;
     public LayerMask layerToCollide = 6;
     public int checkForPlayerFrequence = 500;
     [HideInInspector]public Task taskLookForPlayer;
-    public async Task LookForPlayer(CancellationTokenSource cancelToken)
+    public async Task LookForPlayer()
     {
-        while(!cancelToken.IsCancellationRequested)
+        while(!tokenCancellation.IsCancellationRequested)
         {
             bool foundPlayer =Physics.CheckSphere(transform.position, radiusOfCheckingPlayer,layerToCollide );
             
@@ -75,7 +76,6 @@ public class MonWildManager : MonoBehaviour
             
             await Task.Delay(checkForPlayerFrequence);
         }
-        Application.quitting -= cancelToken.Cancel;
         
         Debug.Log("Found player!!");
         EngageBattle();
@@ -98,5 +98,10 @@ public class MonWildManager : MonoBehaviour
             currentInterpolation +=interpolation;
             await Task.Yield();
         }
+    }
+
+    void OnDisable()
+    {
+        tokenCancellation.Cancel();
     }
 }

@@ -1,11 +1,13 @@
 using UnityEngine;
 [CreateAssetMenu(fileName = "MonGame", menuName = "Mon/Mon Game", order = 1)]
 public class MonGame : ScriptableObject{
-    [Header("Atributes for Battle Only")]
+    [Header("Stats for Battle Only")]
     public float currentHealth;
     public float currentStamina;
     public float currentStance;
     public float currentSpeed;
+    public MonTypesCombat attackTypeBuff = new MonTypesCombat(1f,1f,1f,1f);
+    public MonTypesCombat defenseTypeBuff = new MonTypesCombat(1f,1f,1f,1f);
 
 
     [Header("Atributes")]
@@ -21,8 +23,9 @@ public class MonGame : ScriptableObject{
     public MonTypesCombat baseAttackType = new MonTypesCombat(30,1,1,1);
     public MonTypesCombat baseDefenseType = new MonTypesCombat(20,1,1,1);
 
-    public float maxStance=5f;
-    public float maxSpeed = 10f;
+    //Stance varies between ]0,100] most of the times
+    public float StanceStarting=55f;
+    public float SpeedStarting = 10f;
     public float AttackCurrent=30f;
     public float DefenseCurrent=20f;
     
@@ -31,19 +34,32 @@ public class MonGame : ScriptableObject{
     public void RestoreStatsToNormal()
     {
         currentHealth = maxHealth;
-        currentStamina = maxStamina;
-        currentStance = maxStance;
-        currentSpeed = maxSpeed;
+        
+        RestoreDefault();
     }
 
     public void RestartStatsEnteringBattle()
     {
         //Health is not set to max because the pokemon can lose health from battle to battle
 
+        RestoreDefault();
+    }
 
+    private void RestoreDefault()
+    {
         currentStamina = maxStamina;
-        currentStance = maxStance;
-        currentSpeed = maxSpeed;
+        currentStance = StanceStarting;
+        currentSpeed = SpeedStarting;
+
+        for (int i = 0; i < 4; i++)
+        {
+            attackTypeBuff.arrayAtributtes[i] = 1f;
+        }
+        
+        for (int i = 0; i < 4; i++)
+        {
+            defenseTypeBuff.arrayAtributtes[i] = 1f;
+        }
     }
     /*
     -----------------------

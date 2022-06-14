@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: defc1bdbe08d42246aa22d7f15688ef0, type: 3}
-  m_Name: FoxxyAlly
+  m_Name: DragonEnemy
   m_EditorClassIdentifier: 
-  currentHealth: 71
-  currentStamina: 20
-  currentStance: 1
-  currentSpeed: 15
+  currentHealth: 10
+  currentStamina: 30
+  currentStance: 18.333334
+  currentSpeed: 10
   attackTypeBuff:
     arrayAtributtes:
     - 1
@@ -24,17 +24,17 @@ MonoBehaviour:
     - 1
   defenseTypeBuff:
     arrayAtributtes:
+    - 0.8875
     - 1
     - 1
     - 1
-    - 1
-  monADN: {fileID: 11400000, guid: 4624adb7b1802004ab3812c2bdadf5c8, type: 2}
+  monADN: {fileID: 11400000, guid: 38922fa4fa561984cabd55ff502bbe04, type: 2}
   experiencePoints: 0
-  level: 40
+  level: 10
   nickname: 
   typeSecondary: 6
-  maxHealth: 100
-  maxStamina: 20
+  maxHealth: 10
+  maxStamina: 30
   baseAttackType:
     arrayAtributtes:
     - 30
@@ -47,12 +47,12 @@ MonoBehaviour:
     - 1
     - 1
     - 1
-  StanceStarting: 1
+  StanceStarting: 55
   SpeedStarting: 10
   AttackCurrent: 30
   DefenseCurrent: 20
   allSkills:
   - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}
   - {fileID: 11400000, guid: f23d80e3547944f498e44de239dd2f72, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 75c386759129fc249a66e7f349336ac1, type: 2}
+  - {fileID: 11400000, guid: 90f65cdab85b9864cb843fb5c428581b, type: 2}

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Threading;
 using System.Threading.Tasks;
 [RequireComponent(typeof(GameStatusManager))]
 public class GameBattleLoader : MonoBehaviour
@@ -7,16 +8,21 @@ public class GameBattleLoader : MonoBehaviour
     public ParticleSystem allyParticlesSpawning;
     public LayerMask layerToCollide;
 
-    [Header("Camera Settings")]
+    [Header("Camera Settings 1 Stage")]
     public float speedZoomInFirst = 2f;
-    public float newDegreeLookAtPlayer = 80f;
+    [Header("Camera Settings 2 Stage")]
     public float increaseDistanceCam = 1f;
-    public float increaseHeightCam = 2f;
+    public float increaseHeight_2_Stage = 1f;
+    [Header("Camera Settings 3 Stage")]
+    public float increaseHeightRotating = 2f;
+    public float radiusRotating = 6f;
+    public float speedUpCameraRotating = 0.25f;
     [HideInInspector] public MonManager ally;
     [HideInInspector] public MonManager enemy;
     [HideInInspector] public Trainer allyTrainer;
 	[HideInInspector] public Trainer enemyTrainer;
     GameStatusManager gameStatusManager;
+    CancellationTokenSource cts;
     void Awake()
     {
         gameStatusManager = GetComponent<GameStatusManager>();
@@ -81,7 +87,7 @@ public class GameBattleLoader : MonoBehaviour
         pmove.StopMoving();
         pcam.canMove = false;
         
-        Vector3 ePos = enemy.transform.position;
+        Vector3 ePos = enemy.transform.position + Vector3.up*2f;
         Vector3 playerPos = p_object.transform.position;
 
         var middle = (ePos + playerPos) / 2f;
@@ -96,8 +102,19 @@ public class GameBattleLoader : MonoBehaviour
         
         await Task.WhenAll(t1,t2);
 
+
+
+
+
+        /*
+        ------------------------------------------------------------
+                2ND STAGE
+        -----------------------------------------------------------
+        */ 
+
         //Pan the camera away from the player in the direction of the enemy
-        SetCameraToMiddle(middle,playerPos,newDegreeLookAtPlayer,increaseDistanceCam,pcam);        
+        Vector3 newPlayerSetCamera = playerPos + Vector3.up*increaseHeight_2_Stage - forwardPlayer * increaseDistanceCam;
+        pcam.MoveCameraInstant(newPlayerSetCamera,ePos); 
 
         var t3 = TextDialogManager.Singleton.PushText("Let's fight "+ ally.MonMain.GetNameMon()+ " !!!");
         
@@ -126,18 +143,25 @@ public class GameBattleLoader : MonoBehaviour
 
         await Task.WhenAll(t3,t4);
 
-        
-        await Task.Delay(1000);
-        
+
+
+
+
+
+        /*
+        ------------------------------------------------------------
+                3ND STAGE
+        -----------------------------------------------------------
+        */ 
         //Load buttons images
 		HandleSkillButton.InitializeButtonsSkills(GameUILoader.Singleton.DisplayAllSkillsInBattle,ally.MonMain);
-        
-        // Move the camera for a better cinematic view
-        SetCameraToMiddle(ally.transform.position,ePos,-60f,3f,pcam);        
+      
+        cts = new CancellationTokenSource();
+        StartRotatingCamera(pcam,(ePos + ally.transform.position) / 2f); 
 
         pcam.enabled = false;
 
-        await Task.Delay(1000);
+        await Task.Yield();
 		
         //Restart the stats of the trainer mons Just for battling
         for (int i = 0; i < allyTrainer.allMons.Length; i++)
@@ -156,29 +180,40 @@ public class GameBattleLoader : MonoBehaviour
         pcam.canMove = true;
         pmove.canMove= true;
     }
-
-    private void SetCameraToMiddle(Vector3 startPoint,Vector3 endPoint,float angle,float increaseDistance,PlayerCameraFollow pcam)
+    public async void StartRotatingCamera(PlayerCameraFollow pcam,Vector3 center)
     {
-        var v0 = startPoint -endPoint;
+        // - 90º, serve para colocar a camara a começar na zona do jogador
+        float i = - Mathf.PI/2f;
 
-        float distanceMiddle = Mathf.Sqrt(v0.x * v0.x + v0.z * v0.z);
-        var angleRad=        Mathf.Acos(v0.x / distanceMiddle);
+        var vInicial = new Vector3( 
+            Mathf.Sin(i)*radiusRotating + center.x,
+            increaseHeightRotating + center.y,
+            Mathf.Cos(i)*radiusRotating + center.z);
 
-        var graus =  angleRad * Mathf.Rad2Deg;
+        await pcam.MoveCamera(vInicial,center,1f);
 
-        var newAngle = (graus - angle) * Mathf.Deg2Rad;
 
-        var newPosition = new Vector3(
-            (distanceMiddle+increaseDistance) * Mathf.Cos(newAngle),
-            v0.y+increaseHeightCam,
-            (distanceMiddle+increaseDistance) * Mathf.Sin(newAngle));
-        
-        var middle = (startPoint + endPoint) / 2f;
-        
-        pcam.MoveCameraInstant(endPoint+ newPosition,middle); 
+        while (!cts.IsCancellationRequested)
+        {
+            float x = Mathf.Sin(i)*radiusRotating + center.x;
+            float y = increaseHeightRotating + center.y;
+            float z = Mathf.Cos(i)*radiusRotating + center.z;
+            
+            i+=Time.deltaTime * speedUpCameraRotating;
+
+            var v = new Vector3(x,y,z);
+            pcam.MoveCameraInstant(v,center);
+            await Task.Yield();
+        }
     }
     private void OnDisable() 
     {
-        
+        StopRotatinCamera();
+    }
+
+    public void StopRotatinCamera()
+    {
+        cts.Cancel();
+
     }
 }

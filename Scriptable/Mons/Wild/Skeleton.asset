@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: defc1bdbe08d42246aa22d7f15688ef0, type: 3}
-  m_Name: FoxxyAlly
+  m_Name: Skeleton
   m_EditorClassIdentifier: 
-  currentHealth: 71
+  currentHealth: 100
   currentStamina: 20
-  currentStance: 1
-  currentSpeed: 15
+  currentStance: 55
+  currentSpeed: 10
   attackTypeBuff:
     arrayAtributtes:
     - 1
@@ -28,7 +28,7 @@ MonoBehaviour:
     - 1
     - 1
     - 1
-  monADN: {fileID: 11400000, guid: 4624adb7b1802004ab3812c2bdadf5c8, type: 2}
+  monADN: {fileID: 11400000, guid: 2483e10e316170a4fbf236b8af3bd0a8, type: 2}
   experiencePoints: 0
   level: 40
   nickname: 
@@ -47,7 +47,7 @@ MonoBehaviour:
     - 1
     - 1
     - 1
-  StanceStarting: 1
+  StanceStarting: 55
   SpeedStarting: 10
   AttackCurrent: 30
   DefenseCurrent: 20

@@ -32,12 +32,12 @@ public class MonCalculateDamage{
 
         //buffDefenseType varies between ]0,2] normally
         float defenseEnemy = 
-        enemy.baseDefenseType.arrayAtributtes[typeDamage] *  enemyManager.buffDefenseType.arrayAtributtes[typeDamage];
+        enemy.baseDefenseType.arrayAtributtes[typeDamage] *  enemy.defenseTypeBuff.arrayAtributtes[typeDamage];
 
         //attackBuff varies between ]0,2] normally
         float attackAlly = 
         skillDamage.damage * 
-        ally.baseAttackType.arrayAtributtes[typeDamage] * allyManager.buffAttackType.arrayAtributtes[typeDamage];
+        ally.baseAttackType.arrayAtributtes[typeDamage] * ally.attackTypeBuff.arrayAtributtes[typeDamage];
 
         return  attackAlly / defenseEnemy;
 

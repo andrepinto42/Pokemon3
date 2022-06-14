@@ -7,11 +7,6 @@ using UnityEngine;
 public class MonManager : MonoBehaviour
 {
     [SerializeField]public MonGame MonMain;
-    public MonTypesCombat buffAttackType = new MonTypesCombat(1f,1f,1f,1f);
-    public MonTypesCombat buffDefenseType = new MonTypesCombat(1f,1f,1f,1f);
-    
-    public float speedBuff =1f;
-
     [HideInInspector]public Skill lastSkillUsed = null;
     HandleAnimations handleAnimations;
     MonMeshManager monMeshManager;
@@ -95,10 +90,10 @@ public class MonManager : MonoBehaviour
         monMeshManager.UpdateStamina(MonMain.currentStamina,MonMain.maxStamina);
 
         //Reset the buff of attack and defense
-        for (int i = 0; i < buffAttackType.arrayAtributtes.Length; i++)
+        for (int i = 0; i < MonMain.attackTypeBuff.arrayAtributtes.Length; i++)
         {
-            buffAttackType.arrayAtributtes[i] = 1f;
-            buffDefenseType.arrayAtributtes[i] = 1f;
+            MonMain.attackTypeBuff.arrayAtributtes[i] = 1f;
+            MonMain.defenseTypeBuff.arrayAtributtes[i] = 1f;
         }
 
        
@@ -166,15 +161,14 @@ public class MonManager : MonoBehaviour
     {   
         float newAttack  = ApplyStanceModifier(buff);
         
-        buffAttackType.arrayAtributtes[(int) typeOfDamage] *= newAttack;
+        MonMain.attackTypeBuff.arrayAtributtes[(int) typeOfDamage] *= newAttack;
         
     }
     public void ChangeBaseDefense(float defensebuff,TypeOfDamage typeOfDamage)
     {
         float newDefense = ApplyStanceModifier(defensebuff);
         
-        buffDefenseType.arrayAtributtes[(int) typeOfDamage] *= newDefense;
-
+        MonMain.defenseTypeBuff.arrayAtributtes[(int) typeOfDamage] *= newDefense;
     }
 
 

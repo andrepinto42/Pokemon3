@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4063ff3b0c51db54fbd402ba25ec003a, type: 3}
+  m_Name: ADN_Dragon
+  m_EditorClassIdentifier: 
+  baseMaxHealth: 10
+  baseMaxStamina: 10
+  experienceBase: 100
+  nameMon: Idiota
+  baseAttackType:
+    arrayAtributtes:
+    - 1
+    - 1
+    - 1
+    - 1
+  baseDefenseType:
+    arrayAtributtes:
+    - 1
+    - 1
+    - 1
+    - 1
+  baseAttack: 30
+  baseDefense: 20
+  baseSpeed: 5
+  baseStance: 5
+  monGameObjectTransform: {fileID: 1689789663266524754, guid: 6f590bbc0707e6d47897c6ca8fe8532b, type: 3}
+  genetic: {fileID: 0}
+  typeMain: 3
+  attackGrow: 2
+  defenseGrow: 1
+  speedGrow: 1
+  healthGrow: 1
+  allSkills:
+  - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  imageMon: {fileID: 0}

@@ -8,11 +8,21 @@ public class MonMeshManager : MonoBehaviour
 {
     [HideInInspector] public MonManager monManager;
     public Transform pivotHUD;
-    public Image healthImage;
-    public Image staminaImage;
-    public TMP_Text textNameMon;
-    public TMP_Text damageHealthText;
-    public TMP_Text levelText;
+    [HideInInspector]public Image healthImage;
+    [HideInInspector]public Image staminaImage;
+    [HideInInspector]public TMP_Text textNameMon;
+    [HideInInspector]public TMP_Text damageHealthText;
+    [HideInInspector]public TMP_Text levelText;
+
+    //Carefull with the child positions in this object
+    void Awake()
+    {
+        healthImage = pivotHUD.GetChild(1).GetChild(1).GetComponent<Image>();
+        staminaImage = pivotHUD.GetChild(2).GetChild(1).GetComponent<Image>();
+        textNameMon = pivotHUD.GetChild(3).GetComponent<TMP_Text>();
+        damageHealthText = pivotHUD.GetChild(1).GetChild(2).GetComponent<TMP_Text>();
+        levelText = pivotHUD.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+    }
     void Start()
     {
         damageHealthText.transform.gameObject.SetActive(false);

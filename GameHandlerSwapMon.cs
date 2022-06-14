@@ -4,17 +4,13 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Threading.Tasks;
 
-[RequireComponent(typeof(GameMonStatsDisplay))]
 public class GameHandlerSwapMon : MonoBehaviour
 {
     public SkillSwapMon swapSkillAlly;
     public SkillSwapMon swapSkillEnemy;
-    GameMonStatsDisplay gameMonStatsDisplay;
+    [SerializeField] GameMonStatsDisplay gameMonStatsDisplay;
     GameObject[] arrMonsText;
-    void Awake() 
-    {
-        gameMonStatsDisplay = GetComponent<GameMonStatsDisplay>();    
-    }
+    
 
     //TODO REALLY MESSING IMPLEMENTATION
     public async void OnButtonClickSwapMon(int i)

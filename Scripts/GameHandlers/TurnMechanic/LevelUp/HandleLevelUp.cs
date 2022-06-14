@@ -30,7 +30,7 @@ public class HandleLevelUp
         mon.DefenseCurrent += randoArr[1];
 
         UpdateText(speedText,randoArr[2],allGains[2]);
-        mon.maxSpeed += randoArr[2];
+        mon.SpeedStarting += randoArr[2];
 
         //Stamina text por enquanto pode ser descartado
         // UpdateText(staminaText,randoArr[3]);

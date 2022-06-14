@@ -149,4 +149,5 @@ public class TextDialogManager : MonoBehaviour
             await Task.Delay(40);
         }
     }
+
 }

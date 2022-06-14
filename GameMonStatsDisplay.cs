@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class GameMonStatsDisplay : MonoBehaviour
@@ -10,30 +11,51 @@ public class GameMonStatsDisplay : MonoBehaviour
     public TMP_Text _textSpeed;
     public TMP_Text[] _textDefense ;
     public TMP_Text[] _textAttack ;
+    public Image _monImage;
  
-    void ChangeTextDisplay(string newValue,TMP_Text texto)
+    void ChangeTextDisplay(float newValue,TMP_Text texto)
     {
-        texto.SetText(newValue);
+        texto.SetText(newValue.ToString());
     }
 
+
+    void ChangeTextDisplay(float newValue,float maxValue ,TMP_Text texto)
+    {
+        texto.SetText( newValue.ToString()  + "/"+ maxValue.ToString() );
+    }
+
+    void ChangeTextMultiplier(float newValue,float maxValue ,TMP_Text texto)
+    {
+        float increase = Mathf.Round((newValue/maxValue) * 100f) / 100f;
+        if (increase != 1f)
+        {
+            string color = (increase > 1f) ? "red" : "blue"; 
+            string novoTexto = newValue +" <color=\""+ color +"\">x" + increase.ToString();
+            texto.SetText(novoTexto);
+        }
+        else
+        {
+            texto.SetText(newValue.ToString());
+        }
+        
+    }
     public void UpdateVisualMon(MonGame mon){
  
-        ChangeTextDisplay(mon.maxSpeed.ToString(),_textSpeed);
-        ChangeTextDisplay(mon.maxStance.ToString(),_textStance);
-        
-        //BUG might be here
-        ChangeTextDisplay(mon.currentHealth.ToString(),_textHealth);
-        ChangeTextDisplay(mon.currentStamina.ToString(),_textStamina);
+        ChangeTextMultiplier(mon.currentSpeed,mon.SpeedStarting,_textSpeed);
+        ChangeTextDisplay(mon.currentStance, 100f,_textStance);
+        ChangeTextDisplay(mon.currentHealth,mon.maxHealth,_textHealth);
+        ChangeTextDisplay(mon.currentStamina,mon.maxStamina,_textStamina);
         
         for (int i = 0; i < SYZE_TYPES; i++)
         {
-            ChangeTextDisplay(mon.baseAttackType.arrayAtributtes[i].ToString(),_textAttack[i]);
+            ChangeTextDisplay(mon.baseAttackType.arrayAtributtes[i],_textAttack[i]);
         }
         for (int i = 0; i < SYZE_TYPES; i++)
         {
-            ChangeTextDisplay(mon.baseDefenseType.arrayAtributtes[i].ToString(),_textDefense[i]);
+            ChangeTextDisplay(mon.baseDefenseType.arrayAtributtes[i],_textDefense[i]);
         }
-        
+
+        _monImage.sprite = mon.monADN.GetImage();
     }
 
 }

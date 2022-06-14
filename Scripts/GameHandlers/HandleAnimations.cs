@@ -8,6 +8,8 @@ public class HandleAnimations : MonoBehaviour
 {
    Animation animationMain;
     public Transform HeadTransform;
+    public float timeToDealDamageAnimation = 0.1f;
+    public float timeToDealScreamAnimation = 0.1f;
    
    [SerializeField]public  AnimationClip clipAttack;
    [SerializeField]public AnimationClip clipIdle;
@@ -21,7 +23,24 @@ public class HandleAnimations : MonoBehaviour
   
    void Awake()
    {
-       animationMain = GetComponent<Animation>();
+        animationMain = GetComponent<Animation>();
+
+        // Add to attack animation the event to trigger damage
+        AnimationEvent evt = new AnimationEvent();
+        evt.functionName = "AttackOver";
+        evt.time = timeToDealDamageAnimation;
+        evt.stringParameter = "damage";
+        evt.objectReferenceParameter = GetComponent<TurnMechanicMon>();
+        clipAttack.AddEvent(evt);
+
+        //The attack animation has to be different from the boost animation
+        AnimationEvent evt2 = new AnimationEvent();
+        evt2.functionName = "AttackOver";
+        evt2.time = timeToDealScreamAnimation;
+        evt2.stringParameter = "boost";
+        evt2.objectReferenceParameter = GetComponent<TurnMechanicMon>();
+        clipBoost.AddEvent(evt2);
+
    }
    void Start()
    {

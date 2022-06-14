@@ -68,7 +68,6 @@ public class GameTreeRandomizer : MonoBehaviour
         //Generate random Roll
         int roll = random.Next(0,totalChange);
 
-        Debug.Log("Rolled a" + roll+ "and total Change"  +totalChange);
         int currentRoll = 0;
         for (int i = 0; i < mats.Length; i++)
         {
@@ -79,7 +78,6 @@ public class GameTreeRandomizer : MonoBehaviour
             //maximum roll goes to 15, so this way is ensured that the roll will always be smaller than the last roll
             if (roll <= currentRoll)
             {
-                Debug.Log("Choosing " + mats[i].mat);
                 return mats[i].mat;
             }
         }
