@@ -48,11 +48,11 @@ public class GameMonStatsDisplay : MonoBehaviour
         
         for (int i = 0; i < SYZE_TYPES; i++)
         {
-            ChangeTextDisplay(mon.baseAttackType.arrayAtributtes[i],_textAttack[i]);
+            ChangeTextDisplay(mon.currentAttackType.arrayAtributtes[i],_textAttack[i]);
         }
         for (int i = 0; i < SYZE_TYPES; i++)
         {
-            ChangeTextDisplay(mon.baseDefenseType.arrayAtributtes[i],_textDefense[i]);
+            ChangeTextDisplay(mon.currentDefenseType.arrayAtributtes[i],_textDefense[i]);
         }
 
         _monImage.sprite = mon.monADN.GetImage();

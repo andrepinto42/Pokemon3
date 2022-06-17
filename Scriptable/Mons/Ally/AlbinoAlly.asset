@@ -13,14 +13,27 @@ MonoBehaviour:
   m_Name: AlbinoAlly
   m_EditorClassIdentifier: 
   currentHealth: 100
-  currentStamina: 20
-  currentStance: 50
+  currentStamina: 10
+  currentStance: 18.333334
+  currentSpeed: 10
+  attackTypeBuff:
+    arrayAtributtes:
+    - 1.9375
+    - 1
+    - 1
+    - 1
+  defenseTypeBuff:
+    arrayAtributtes:
+    - 1
+    - 1
+    - 1
+    - 1
   monADN: {fileID: 11400000, guid: 266e4ce5369dca9418a695780c476b8b, type: 2}
-  experiencePoints: 2641
-  level: 34
+  experiencePoints: 386
+  level: 31
   nickname: 
   typeSecondary: 6
-  maxHealth: 100
+  maxHealth: 142
   maxStamina: 20
   baseAttackType:
     arrayAtributtes:
@@ -34,10 +47,10 @@ MonoBehaviour:
     - 1
     - 1
     - 1
-  maxStance: 50
-  SpeedCurrent: 39
-  AttackCurrent: 50
-  DefenseCurrent: 35
+  StanceStarting: 55
+  SpeedStarting: 26
+  AttackCurrent: 64
+  DefenseCurrent: 49
   allSkills:
   - {fileID: 11400000, guid: 1fc349222d0268445b5d3d7f6fe21fcb, type: 2}
   - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}

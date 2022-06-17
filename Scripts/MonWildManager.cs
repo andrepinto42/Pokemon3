@@ -72,7 +72,15 @@ public class MonWildManager : MonoBehaviour
             bool foundPlayer =Physics.CheckSphere(transform.position, radiusOfCheckingPlayer,layerToCollide );
             
             if (foundPlayer)
-                break;
+            {
+                if (! GameBattleLoader.Singleton.isBattling)
+                    break;
+                else
+                {
+                    //TODO
+                    //Do something if he is in battle and some wild pokemon wants to Join
+                }
+            }
             
             await Task.Delay(checkForPlayerFrequence);
         }

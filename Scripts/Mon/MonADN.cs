@@ -2,26 +2,22 @@ using UnityEngine;
 using UnityEngine.UI;
 [CreateAssetMenu(fileName = "MonADN", menuName = "Mon/Mon ADN", order = 1)]
 public class MonADN : ScriptableObject{
-    public float baseMaxHealth;
-    public float baseMaxStamina;
+   
     [Tooltip("Experience value between 50 and 150.")]
     public int experienceBase = 100;
     public string nameMon;
     [Header("Characteristics")]
-    public MonTypesCombat baseAttackType = new MonTypesCombat(1,1,1,1);
-    public MonTypesCombat baseDefenseType = new MonTypesCombat(1,1,1,1);
-    public float baseAttack=30f;
-    public float baseDefense=20f;
-    public float baseSpeed = 5f;
-    public float baseStance = 5f;
+    //https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_base_stats_(Generation_VIII-present)
+    public int baseSpeed = 45/2;
+    public int baseStance = 20;
+    public int baseMaxHealth= 45/2;
+    public int baseMaxStamina = 10;
+    public MonTypesCombat baseAttackType = new MonTypesCombat(25,49/2,65/2,65/2);
+    public MonTypesCombat baseDefenseType = new MonTypesCombat(49/2,49/2,80/2,80/2);
     public MonMeshManager monGameObjectTransform;
     public Genetic genetic;
     
     public MonTypes.Type typeMain ;
-    public float attackGrow = 2f;
-    public float defenseGrow = 1f;
-    public float speedGrow = 1f;
-    public float healthGrow = 1f;
     public Skill[] allSkills = new Skill[4];
 
     [Header("Extra Information")]

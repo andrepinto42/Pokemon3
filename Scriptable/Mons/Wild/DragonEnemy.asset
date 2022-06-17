@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: defc1bdbe08d42246aa22d7f15688ef0, type: 3}
   m_Name: DragonEnemy
   m_EditorClassIdentifier: 
-  currentHealth: 10
+  currentHealth: 0
   currentStamina: 30
-  currentStance: 18.333334
+  currentStance: 55
   currentSpeed: 10
   attackTypeBuff:
     arrayAtributtes:
@@ -24,13 +24,13 @@ MonoBehaviour:
     - 1
   defenseTypeBuff:
     arrayAtributtes:
-    - 0.8875
+    - 1
     - 1
     - 1
     - 1
   monADN: {fileID: 11400000, guid: 38922fa4fa561984cabd55ff502bbe04, type: 2}
   experiencePoints: 0
-  level: 10
+  level: 100
   nickname: 
   typeSecondary: 6
   maxHealth: 10

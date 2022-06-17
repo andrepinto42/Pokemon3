@@ -7,19 +7,19 @@ using System;
 public class GameHUDStatusManager : MonoBehaviour
 {
     public TMP_Text nameMon;
-    public TMP_Text attackText;
-    public TMP_Text defenseText;
+    public TMP_Text[] attackText;
+    public TMP_Text[] defenseText;
     public TMP_Text speedText;
     public TMP_Text healthText;
     public TMP_Text staminaText;
-    public TMP_Text luckText;
+    //Stance doenst grow for now
+    public TMP_Text stanceText;
     public TMP_Text levelText;
     public TMP_Text neededExperience;
     public Image xpBar;
 
     public static GameHUDStatusManager Singleton;
-    TMP_Text[] allAtributes = new TMP_Text[9];
-    TMP_Text[] allGains = new TMP_Text[6];//SO existem 6 atributos para serem modificados
+    TMP_Text[] allAtributes = new TMP_Text[15];
     private MonGame currentMon = null;
     public delegate void OnLevelGained(Image xpBar,TMP_Text xpNeededText,MonGame mon);
     public event OnLevelGained eventOnLevelGained;
@@ -32,19 +32,20 @@ public class GameHUDStatusManager : MonoBehaviour
 
         allAtributes[0] = nameMon;
         allAtributes[1] = levelText;
-        allAtributes[2] = attackText;
-        allAtributes[3] = defenseText;
-        allAtributes[4] = speedText;
-        allAtributes[5] = healthText;
-        allAtributes[6] = staminaText;
-        allAtributes[7] = luckText;
-        allAtributes[8] = neededExperience;
-        
-        for (int i = 0; i < allAtributes.Length -3; i++)
+        for (int i = 0; i < 4; i++)
         {
-            allGains[i] = allAtributes[i+2].transform.GetChild(0).GetComponent<TMP_Text>();
-            allGains[i].transform.gameObject.SetActive(false);   
+            allAtributes[i+2] = attackText[i];
         }
+        for (int i = 0; i < 4; i++)
+        {
+            allAtributes[i+6] = defenseText[i];
+        }
+
+        allAtributes[10] = speedText;
+        allAtributes[11] = healthText;
+        allAtributes[12] = staminaText;
+        allAtributes[13] = stanceText;
+        allAtributes[14] = neededExperience;
         
         ToggleDisplay(false);
     }
@@ -56,14 +57,23 @@ public class GameHUDStatusManager : MonoBehaviour
         //Start displaying the elements one by one
         ToggleDisplay(true);
 
+
+        for (int i = 0; i < 4; i++)
+        {
+            attackText[i].SetText( mon.currentAttackType.arrayAtributtes[i].ToString());
+        }
+        
+        for (int i = 0; i < 4; i++)
+        {
+            defenseText[i].SetText( mon.currentDefenseType.arrayAtributtes[i].ToString());
+        }
         nameMon.SetText(mon.GetNameMon());
-        attackText.SetText(mon.AttackCurrent.ToString());
-        defenseText.SetText(mon.DefenseCurrent.ToString());
         speedText.SetText(mon.SpeedStarting.ToString());
         healthText.SetText(mon.maxHealth.ToString());
         staminaText.SetText(mon.maxStamina.ToString());
-        luckText.SetText("420");
+        stanceText.SetText(mon.StanceStarting.ToString());
         levelText.SetText(mon.level.ToString());
+
         var xpNeeded =TurnAddLevel.GetNextLevelNeededExperience(mon);
         neededExperience.SetText( ( xpNeeded - mon.experiencePoints ).ToString());
         xpBar.fillAmount = mon.experiencePoints / xpNeeded ;
@@ -72,7 +82,8 @@ public class GameHUDStatusManager : MonoBehaviour
     public void ToggleDisplay(bool isDisplaying)
     {
         nameMon.gameObject.transform.parent.gameObject.SetActive(isDisplaying);
-        attackText.gameObject.transform.parent.gameObject.SetActive(isDisplaying);
+        
+        // attackText.gameObject.transform.parent.gameObject.SetActive(isDisplaying);
         
         if (!isDisplaying)
         {
@@ -108,10 +119,61 @@ public class GameHUDStatusManager : MonoBehaviour
     }
 
     public async Task  UpdateDisplayLevelUpMon(MonGame mon)
-    {
+    {   
+        var monADN = mon.monADN;
 
-        await HandleLevelUp.Handle(mon,levelText,attackText,defenseText,speedText,healthText,staminaText,allGains);
+        for (int i = 0; i < 4; i++)
+        {
+            mon.currentAttackType.arrayAtributtes[i] = GetStat(mon.level,(int) monADN.baseAttackType.arrayAtributtes[i]);
+            UpdateText(attackText[i],(int) mon.currentAttackType.arrayAtributtes[i]);
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            mon.currentDefenseType.arrayAtributtes[i] = GetStat(mon.level,(int) monADN.baseDefenseType.arrayAtributtes[i]);
+            UpdateText(defenseText[i],(int) mon.currentDefenseType.arrayAtributtes[i]);
+        }
+        
+        mon.SpeedStarting = GetStat(mon.level,monADN.baseSpeed);
+        UpdateText(speedText,(int) mon.SpeedStarting);
+        
+        mon.maxHealth = GetStatHealth(mon.level,monADN.baseMaxHealth);
+        UpdateText(healthText,(int) mon.maxHealth);
+        
+        mon.level += 1;
+        UpdateText(levelText,mon.level);
+
+
+        mon.GetMonMeshManager().levelText.SetText(mon.level.ToString());
+        
+        await TextDialogManager.Singleton.PushTextAwaitKey("Your " + mon.GetNameMon() + " reached level " + mon.level + "!");
     }
 
-   
+
+    private static void UpdateText(TMP_Text text,int currentStat)
+    {
+        if (currentStat <= 0)
+            return;
+    
+        text.SetText(currentStat.ToString());        
+        text.color = Color.green;
+    }
+
+
+    private static int GetStat(int level,int baseStat)
+    {
+        //Current level cap is 100
+        float percent = level/100f;
+
+        return (int) ( (baseStat * 4) * percent ) + 5;
+    }
+
+    private static int GetStatHealth(int level,int baseStat)
+    {
+        //Current level cap is 100
+        float percent = level/100f;
+
+        return (int) ( (baseStat * 4) * percent ) + 10 + level;
+    }
+
 }

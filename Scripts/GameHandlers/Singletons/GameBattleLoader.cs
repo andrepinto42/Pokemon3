@@ -7,6 +7,7 @@ public class GameBattleLoader : MonoBehaviour
     public static GameBattleLoader Singleton = null;
     public ParticleSystem allyParticlesSpawning;
     public LayerMask layerToCollide;
+    [HideInInspector]public bool isBattling = false;
 
     [Header("Camera Settings 1 Stage")]
     public float speedZoomInFirst = 2f;
@@ -36,6 +37,9 @@ public class GameBattleLoader : MonoBehaviour
 
     public void StartBattleWildEnemy(MonManager enemy1,MonGame monGame,GameObject monGameObject)
     {
+
+        isBattling = true;
+
         //Load into the enemy1 MonManager so it can handle it's health and UI
         enemy1.LoadNewMon(monGame,monGameObject);
 
@@ -112,6 +116,16 @@ public class GameBattleLoader : MonoBehaviour
         -----------------------------------------------------------
         */ 
 
+        //Restart the stats of the trainer mons Just for battling
+        for (int i = 0; i < allyTrainer.allMons.Length; i++)
+        {
+            var monI =allyTrainer.allMons[i];
+            if( monI == null)
+                continue;
+            
+            monI.RestartStatsEnteringBattle();
+        }
+
         //Pan the camera away from the player in the direction of the enemy
         Vector3 newPlayerSetCamera = playerPos + Vector3.up*increaseHeight_2_Stage - forwardPlayer * increaseDistanceCam;
         pcam.MoveCameraInstant(newPlayerSetCamera,ePos); 
@@ -162,16 +176,6 @@ public class GameBattleLoader : MonoBehaviour
         pcam.enabled = false;
 
         await Task.Yield();
-		
-        //Restart the stats of the trainer mons Just for battling
-        for (int i = 0; i < allyTrainer.allMons.Length; i++)
-        {
-            var monI =allyTrainer.allMons[i];
-            if( monI == null)
-                continue;
-            
-            monI.RestartStatsEnteringBattle();
-        }
 
         GameUILoader.Singleton.DisplayAllButtonsInBattle.SetActive(true);
         GameUILoader.Singleton.PushBattleStartEndingInterface();

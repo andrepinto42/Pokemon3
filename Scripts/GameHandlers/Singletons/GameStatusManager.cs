@@ -129,6 +129,8 @@ public class GameStatusManager : MonoBehaviour
 		pcam.enabled = true;
 		
 		await Task.Delay(3000);
+
+		GameBattleLoader.Singleton.isBattling = false;
 		ally.KillGameObject();
 	}
 	private void TurnOffUI()
