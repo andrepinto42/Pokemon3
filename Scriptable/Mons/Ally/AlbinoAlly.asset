@@ -15,7 +15,7 @@ MonoBehaviour:
   currentHealth: 100
   currentStamina: 10
   currentStance: 18.333334
-  currentSpeed: 10
+  currentSpeed: 13
   attackTypeBuff:
     arrayAtributtes:
     - 1.9375
@@ -29,28 +29,26 @@ MonoBehaviour:
     - 1
     - 1
   monADN: {fileID: 11400000, guid: 266e4ce5369dca9418a695780c476b8b, type: 2}
-  experiencePoints: 386
-  level: 31
+  experiencePoints: 2920
+  level: 45
   nickname: 
   typeSecondary: 6
-  maxHealth: 142
+  maxHealth: 71
   maxStamina: 20
-  baseAttackType:
+  currentAttackType:
     arrayAtributtes:
-    - 30
-    - 1
-    - 1
-    - 1
-  baseDefenseType:
+    - 6
+    - 6
+    - 6
+    - 6
+  currentDefenseType:
     arrayAtributtes:
-    - 20
-    - 1
-    - 1
-    - 1
+    - 6
+    - 6
+    - 6
+    - 6
   StanceStarting: 55
-  SpeedStarting: 26
-  AttackCurrent: 64
-  DefenseCurrent: 49
+  SpeedStarting: 13
   allSkills:
   - {fileID: 11400000, guid: 1fc349222d0268445b5d3d7f6fe21fcb, type: 2}
   - {fileID: 11400000, guid: f9e124a8937ff2a4591a56981be44183, type: 2}

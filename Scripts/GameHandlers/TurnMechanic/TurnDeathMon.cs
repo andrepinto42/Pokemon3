@@ -39,7 +39,6 @@ public class TurnDeathMon
         //Activate the popUpText after the battle has ended
         GameHUDStatusManager.Singleton.SetText(killerMonManager.MonMain);
         
-        Debug.Log("Mon ended !");
         
         victimMonManager.gameObject.SetActive(false);
         

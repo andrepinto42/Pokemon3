@@ -9,7 +9,7 @@ public class GameUILoader : MonoBehaviour
     public GameObject AllMonsSwitchinMenu;
     public GameObject DisplayAllSkillsInBattle;
     public GameObject DisplayAllButtonsInBattle;
-
+    public GameObject DisplayStatsAfterLevelUpMon;
     public static GameUILoader Singleton;
     void Start()
     {
@@ -27,7 +27,7 @@ public class GameUILoader : MonoBehaviour
         BordaButoes.SetActive(false);
         TextoDialogoCombate.SetActive(false);
         SwitchInHUD.SetActive(false);
-        
+        DisplayStatsAfterLevelUpMon.SetActive(false);
     }
 
     //TODO
@@ -41,5 +41,14 @@ public class GameUILoader : MonoBehaviour
     {
         BordaButoes.SetActive(true);
         DisplayAllSkillsInBattle.SetActive(false);
+    }
+
+    //If you want to hide then bool is false
+    public void EnableDisplayStatsAfterMonLevelUp(bool value)
+    {
+        DisplayStatsAfterLevelUpMon.SetActive(value);
+        TextoDialogoCombate.SetActive(value);
+        
+        BordaButoes.SetActive(!value);
     }
 }

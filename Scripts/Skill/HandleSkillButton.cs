@@ -7,9 +7,8 @@ using TMPro;
 
 public class HandleSkillButton
 {
-    private const int positionChildHabilityImage = 0;
-    private const  int positionChildHabilityText = 1;
-    private const int positionChildStaminaText = 2;
+    private const  int positionChildHabilityText = 5;
+    private const int positionChildStaminaText = 4;
 
     public static void InitializeButtonsSkills(GameObject allSkills,MonGame monMain)
     {
@@ -52,9 +51,15 @@ public class HandleSkillButton
             var text =allSkillsTransform[i].GetChild(positionChildHabilityText).GetComponent<TMP_Text>();
             text.SetText(skills[i].nameSkill);
             
-            var image = allSkillsTransform[i].GetComponent<Image>();
+            var imageBackground = allSkillsTransform[i].GetChild(1).GetComponent<Image>();
+            var imageBolinha = allSkillsTransform[i].GetChild(3).GetComponent<Image>();
+            var imageBackgroundPrincipal = allSkillsTransform[i].GetChild(0).GetComponent<Image>();
+
             
-            image.color = mapColor[skills[i].type];
+            imageBackground.color = mapColor[skills[i].type];
+            imageBolinha.color = mapColor[skills[i].type];
+
+            imageBackgroundPrincipal.color = mapColor[skills[i].type].Multiply(new Color32(150,150,150,255));
         }
 
         //Set stamina Text
@@ -64,11 +69,17 @@ public class HandleSkillButton
             if (skills[i] == null)
                 continue;
             
-            var text = allSkillsTransform[i].GetChild(positionChildStaminaText).GetComponent<TMP_Text>();
+            var imageBackground = allSkillsTransform[i].GetChild(positionChildStaminaText).GetComponent<Image>();
+            var text = allSkillsTransform[i].GetChild(positionChildStaminaText).GetComponentInChildren<TMP_Text>();
+
             int value = (int) skills[i].stamina;
 
-            //Red if consumes Stamina, blue if it charges stamina
-            text.color = value >0 ? Color.red :  Color.blue;
+            //Red if consumes Stamina, blue if it charges stamina, grey if it neither consumes nor gains stamina
+            if (value == 0)
+                imageBackground.color = Color.grey;
+            else
+                imageBackground.color = value >0 ? Color.red :  Color.blue;
+
 
             text.SetText(Math.Abs(value).ToString());
         }

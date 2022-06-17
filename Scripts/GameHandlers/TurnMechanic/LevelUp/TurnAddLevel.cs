@@ -16,7 +16,6 @@ public class TurnAddLevel
         int XP_Needed = GetNextLevelNeededExperience(mon);
         int XP_Current = mon.experiencePoints;
         float TICKSFLOAT = (float) TICKS;
-        Debug.Log("XP CURRENT -> " + XP_Current + " needed " + XP_Needed + " gained " + XP_Gained);
     
         //Delay is about 1s to load an entire xp Bar
     
@@ -59,13 +58,15 @@ public class TurnAddLevel
             {
                 //Add the leftoverXP
                 mon.experiencePoints = XP_Gained + leftoverXp+ XP_Current;
+
+                //Wait for the user to confirm that he has seen the stats of the mon
+                var needForLevelUp = GetNextLevelNeededExperience(mon) - mon.experiencePoints;
+                await TextDialogManager.Singleton.PushTextAwaitKey("Still need "+needForLevelUp + " Experience");
             }
         }
         XP_Gained =0;
         GameHUDStatusManager.Singleton.eventOnLevelGained -= AddLevelPokemon;
         
-        //Waiting just one second so the information can be processed by the user
-        await Task.Delay(1000);
 
         //After the Mon gains XP send the next Mon or end the battle
         GameStatusManager.Singleton.SendNextMon(mon);

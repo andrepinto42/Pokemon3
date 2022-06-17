@@ -46,8 +46,8 @@ public class GameHUDStatusManager : MonoBehaviour
         allAtributes[12] = staminaText;
         allAtributes[13] = stanceText;
         allAtributes[14] = neededExperience;
-        
-        ToggleDisplay(false);
+
+        ScaleDown();
     }
     public void SetText(MonGame mon)
     {
@@ -81,20 +81,23 @@ public class GameHUDStatusManager : MonoBehaviour
 
     public void ToggleDisplay(bool isDisplaying)
     {
-        nameMon.gameObject.transform.parent.gameObject.SetActive(isDisplaying);
-        
-        // attackText.gameObject.transform.parent.gameObject.SetActive(isDisplaying);
-        
+        GameUILoader.Singleton.EnableDisplayStatsAfterMonLevelUp(isDisplaying);
+
         if (!isDisplaying)
         {
-            foreach (var item in allAtributes)
-            {
-                LeanTween.scale(item.gameObject,Vector3.zero,1);
-            }
+            ScaleDown();
             return;
         }
         
         NextPopUp();
+    }
+
+    private void ScaleDown()
+    {
+        foreach (var item in allAtributes)
+            {
+                LeanTween.scale(item.gameObject,Vector3.zero,1);
+            }
     }
 
 
